@@ -7,6 +7,7 @@ import { FeatureSection } from "../../components/home/FeatureSection";
 import { ReviewSection } from "../../components/home/ReviewSection";
 import { ContactSection } from "../../components/home/ContactSection";
 import { Footer } from "../../components/layout/Footer";
+import "../../styles/style.css"
 export function Home() {
     return (
         <>

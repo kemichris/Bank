@@ -1,0 +1,10 @@
+* {
+    margin: 0;
+    font-family: "Roboto";
+    overflow-x: hidden;
+     box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
+}
