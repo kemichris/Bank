@@ -24,7 +24,8 @@ export function Navbar() {
                     text="Open Account"
                     to="/register"
                     style={{
-                        background: "linear-gradient(to right, #0CA1E5, #e5e7eb, #0CA1E5)"
+                        background: "linear-gradient(to right, #0184C7, #e5e7eb, #0184C7)",
+                        color: "#111827"
                     }}
                 />
 

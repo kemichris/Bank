@@ -11,7 +11,7 @@ export function HeroSection() {
     return (
         <div className="hero-section">
             <h1>Neon Bank</h1>
-            <p>We do banking differently. We believe that people come first,
+            <p className="hero-description">We do banking differently. We believe that people come first,
                 and that everyone deserves a great experience every step of the way.
             </p>
             <div className="hero-buttons">
@@ -19,33 +19,54 @@ export function HeroSection() {
                     icon={<RiUserAddFill />}
                     text="Open Account Today"
                     to="/register"
+                    style={{
+                        backgroundColor: "#0184C7",
+                        color: "#e5e7eb"
+                    }}
                 />
                 <Button
                     icon={<FiLogIn />}
-                    text="Login"
+                    text="Login to Banking"
                     to="/login"
+                    style={{
+                        backgroundColor: "transparent",
+                        color: "#e5e7eb",
+                        border: "1px solid #e5e7eb"
+                    }}
                 />
             </div>
             <div className="hero-cards">
                 <HeroCard
-                    text1="ROUTING #"
-                    text2="251480576"
+                    cardTexts={[
+                        { text: "ROUTING #" },
+                        { text: "251480576" }
+                    ]}
                     icon={<CiBank />}
-
+                    style={{
+                        backgroundColor: "#0184C7"
+                    }}
                 />
                 <HeroCard
-                    text1="BRANCH HOURS"
-                    text2="Mon-Fri: 9AM-5PM"
-                    text2="Sat: 9AM-1PM"
+                    cardTexts={[
+                        { text: "BRANCH HOURS" },
+                        { text: "Mon-Fri: 9AM-5PM" },
+                        { text: "Sat: 9AM-1PM" }
+                    ]}
                     icon={<MdOutlineAccessTimeFilled />}
-
+                    style={{
+                        backgroundColor:"#12B8A6"
+                    }}
                 />
                 <HeroCard
-                    text1="24/7 SUPPORT"
-                    text2="1-800-BANKING"
-                    text2="Always here to help"
+                cardTexts={[
+                        { text: "24/7 SUPPORT" },
+                        { text: "1-800-BANKING" },
+                        { text: "Always here to help" }
+                    ]}
                     icon={<IoCall />}
-
+                    style={{
+                        backgroundColor:"#9334EA"
+                    }}
                 />
             </div>
         </div>

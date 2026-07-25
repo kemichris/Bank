@@ -1,12 +1,14 @@
-export function HeroCard({text1, text2, text3, icon}) {
+export function HeroCard({cardTexts, icon, style}) {
     return (
-        <div className="hero-card">
+        <div className="hero-card" style={style}>
             <div className="hero-card-text">
-                <p>{text1}</p>
-                <p>{text2}</p>
-                <p>{text3}</p>
+                {cardTexts.map((cardText, index) => (
+                    <p key={index + 1}>{cardText.text}</p>
+                ))}
             </div>
-            {icon}
+            <div className="hero-card-icon">
+                {icon}
+            </div>
         </div>
     )
 }

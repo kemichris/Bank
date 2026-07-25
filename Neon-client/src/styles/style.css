@@ -3,38 +3,39 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1rem;
+    padding: 0.5rem 3rem;
     background-color: #111827;
     position: fixed;
     width: 100%;
+    z-index: 1;
 }
 
 .logo {
-    width: 8rem;
+    width: 6rem;
     height: auto;
 }
 
 .nav-bar ul {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     align-items: center;
 }
 
 .nav-bar ul a {
     color: #e5e7eb;;
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     display: flex;
-    padding: 1rem;
+    padding: 0.8rem;
     border-radius: 1rem;
     align-items: center;
     transition: 0.4s ease-in-out;
 }
 
 .nav-bar ul a:hover {
-    background-color:#e5e7eb;
-    color: #0CA1E5;
+    background-color: #e5e7eb;
+    color: #0184C7;
 }
 
 .nav-right {
@@ -45,13 +46,13 @@
 
 .theme-btn {
     padding: 1rem 0.7rem;
-    font-size: 1.7rem;
+    font-size: 1.2rem;
     border-radius: 1.5rem;
     border: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(42, 52, 67, 0.5);
+    background-color: rgb(255 255 255 / 0.1);
     color: #e5e7eb;
 }
 
@@ -61,15 +62,15 @@
 
 .theme-btn:hover svg {
     transform: rotate(180deg);
-   
+
 }
 
 .nav-login {
-    color: #0CA1E5;
-    font-size: 1.2rem;
+    color: #0184C7;
+    font-size: 1rem;
     font-weight: 500;
     text-decoration: none;
-    padding: 1rem;
+    padding: 0.8rem;
     border-radius: 1rem;
     transition: 0.4s ease-in-out;
 }
@@ -82,12 +83,17 @@
 .btn {
     display: inline-flex;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
     gap: 0.5rem;
     text-decoration: none;
-    padding: 1rem;
-    border-radius: 0.5rem;
-   
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.8rem;
+    transition: transform 0.3s;
+}
+
+.btn:hover {
+    transform: scale(.9); 
 }
 
 .nav-btn-icon {
@@ -106,4 +112,90 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+/* =============== HERO SECTION ==================*/
+.hero-section {
+    margin-top: 3rem;
+    padding: 15rem 6rem 2rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5)), url("../assets/images/hero.jpg");
+    background-size: cover;
+}
+
+.hero-section h1,
+.hero-description {
+    color: #fff;
+    margin-bottom: 2.5rem;
+    max-width: 42rem;
+}
+
+.hero-section h1 {
+    font-size: 3.8rem;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    line-height: 1.625;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.hero-cards {
+    display: grid;
+    gap: 1rem;
+    margin-top: 6rem;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.hero-card {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s;
+}
+
+.hero-card:hover {
+    transform: scale(.95); 
+}
+
+.hero-card-text p {
+    color: #fff;
+}
+
+.hero-card-text :nth-child(1) {
+    font-size: 0.9rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+}
+
+.hero-card-text :nth-child(2) {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    margin: .5rem 0;
+}
+
+.hero-card-text :nth-child(3) {
+    font-size: 0.8rem;
+    line-height: 1.25rem;
+}
+
+.hero-card-icon {
+    padding: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255 255 255 / 0.1);
+    border-radius: 0.75rem;
+}
+
+.hero-card-icon svg {
+    font-size: 1.25rem;
+    color: #fff;
 }
