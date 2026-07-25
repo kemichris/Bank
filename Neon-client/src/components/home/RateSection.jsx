@@ -14,46 +14,62 @@ import { RateCard } from "./RateCard";
 export function RateSection() {
     return (
         <div className="rate-section">
-            <SectionHeader icon={<RiExchangeFundsFill />} title="Neon Bank Rates" />
+            <SectionHeader icon={<RiExchangeFundsFill />} title="Neon Bank Rates" style={{
+                backgroundColor: "#bae6fd",
+                borderColor: "#70accb",
+                color: "#111827"
+            }} />
             <h2>Neon Member Care</h2>
-            <p>Discover competitive rates designed to help your money grow faster</p>
+            <p className="rate-section-p">Discover competitive rates designed to help your money grow faster</p>
 
             <div className="rate-cards">
                 <RateCard
-                    rateIcon={<FaPiggyBank />} 
-                    rate="3.75%" 
-                    rateReturn="APY" 
-                    rateName="HIGH YIELD SAVINGS" 
-                    rateInfo="High Yield Savings Rate" 
-                    badgeIcon={<FaStar />} 
+                    rateIcon={<FaPiggyBank />}
+                    rate="3.75%"
+                    rateReturn="APY"
+                    rateName="HIGH YIELD SAVINGS"
+                    rateInfo="High Yield Savings Rate"
+                    badgeIcon={<FaStar />}
                     badgeName="FEATURED"
+                    style={{
+                        backgroundColor: "#C8EBFE"
+                    }}
                 />
                 <RateCard
-                    rateIcon={<GiSevenPointedStar />} 
-                    rate="3.65%" 
-                    rateReturn="APY" 
-                    rateName="18 MONTH CERTIFICATE" 
-                    rateInfo="Neon Certificate Rates" 
-                    badgeIcon={<FaCoins />} 
+                    rateIcon={<GiSevenPointedStar />}
+                    rate="3.65%"
+                    rateReturn="APY"
+                    rateName="18 MONTH CERTIFICATE"
+                    rateInfo="Neon Certificate Rates"
+                    badgeIcon={<FaCoins />}
                     badgeName="SAVINGS"
+                    style={{
+                        backgroundColor: "#1C3F43"
+                    }}
                 />
                 <RateCard
-                    rateIcon={<FaCreditCard />} 
-                    rate="4.00%" 
-                    rateReturn="APR" 
-                    rateName="CREDIT CARDS" 
-                    rateInfo="Neon Credit Card Rates" 
-                    badgeIcon={<FaCreditCard />} 
+                    rateIcon={<FaCreditCard />}
+                    rate="4.00%"
+                    rateReturn="APR"
+                    rateName="CREDIT CARDS"
+                    rateInfo="Neon Credit Card Rates"
+                    badgeIcon={<FaCreditCard />}
                     badgeName="CREDIT"
+                    style={{
+                        backgroundColor: "#3E2462"
+                    }}
                 />
                 <RateCard
-                    rateIcon={<GiReceiveMoney />} 
-                    rate="15.39%" 
-                    rateReturn="APR" 
-                    rateName="LOANS" 
-                    rateInfo="Neon Standard Loan Rates" 
-                    badgeIcon={<GiReceiveMoney />} 
+                    rateIcon={<GiReceiveMoney />}
+                    rate="15.39%"
+                    rateReturn="APR"
+                    rateName="LOANS"
+                    rateInfo="Neon Standard Loan Rates"
+                    badgeIcon={<GiReceiveMoney />}
                     badgeName="MORTGAGE"
+                    style={{
+                        backgroundColor: "#592F27"
+                    }}
                 />
             </div>
 
