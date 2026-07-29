@@ -45,7 +45,7 @@ const cardSchema = new mongoose.Schema(
         // Card network
         brand: {
             type: String,
-            enum: ['Visa', 'Mastercard', 'Verve'],
+            enum: ['Visa', 'Mastercard', 'Amex'],
             required: true
         },
 
