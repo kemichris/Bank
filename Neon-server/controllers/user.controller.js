@@ -24,11 +24,11 @@ export const changePassword = async (req, res, next) => {
         const userId = req.user._id; 
         const { currentPassword, newPassword } = req.body;
 
-        const result = await userService.changePassword(userId, currentPassword, newPassword);
+        await userService.changePassword(userId, currentPassword, newPassword);
 
         return res.status(200).json({
             success: true,
-            message: result.message
+            message: 'Password changed successfully.'
         });
 
     } catch (error) {

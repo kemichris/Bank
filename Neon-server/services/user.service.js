@@ -34,6 +34,4 @@ export const changePassword = async (userId, currentPassword, newPassword) => {
     user.password = newPassword;
     user.passwordChangedAt = Date.now();
     await user.save();
-
-    return { message: 'Password changed successfully.' };
 };

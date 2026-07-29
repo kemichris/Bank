@@ -22,7 +22,7 @@ export const transferFunds = async (req, res, next) => {
 // Deposit funds
 export const depositFunds = async (req, res, next) => {
     try {
-        const result = await transactionService.depositFunds(
+        const deposit = await transactionService.depositFunds(
             req.user._id,
             req.body,
             req.file
@@ -31,7 +31,7 @@ export const depositFunds = async (req, res, next) => {
         res.status(201).json({
             success: true,
             message: 'Deposit submitted successfully.',
-            data: result
+            data: deposit
         });
 
     } catch (error) {

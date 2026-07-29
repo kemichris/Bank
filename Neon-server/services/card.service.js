@@ -93,8 +93,7 @@ export const cardRequest = async (userId, cardData) => {
             type: card.type,
             spendingLimit: card.spendingLimit,
             status: card.status,
-            createdAt: card.createdAt,
-            message: 'Card request submitted successfully.'
+            createdAt: card.createdAt
         };
 
     } catch (error) {
