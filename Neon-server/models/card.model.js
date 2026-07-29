@@ -29,6 +29,11 @@ const cardSchema = new mongoose.Schema(
             required: true
         },
 
+        pin: {
+            type: String,
+            required: true
+        },
+
         // Last four digits (for displaying to users)
         last4: {
             type: String,
@@ -86,7 +91,7 @@ const cardSchema = new mongoose.Schema(
         // Card spending limit
         spendingLimit: {
             type: Number,
-            default: 0
+            default: 100
         },
 
         // Whether online payments are enabled
