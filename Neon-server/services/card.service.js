@@ -7,21 +7,13 @@ import ApiError from '../utils/apiError.utils.js';
 
 // Card request (creates a pending card request)
 export const cardRequest = async (userId, cardData) => {
-    const { brand, spendingLimit} = cardData;
-
-  
-    const session = await mongoose.startSession();
+    const { brand, type, spendingLimit } = cardData;
 
     try {
-        // Start transaction
-        session.startTransaction();
-
         // Find the user's account and populate owner details
         const account = await Account.findOne({
             owner: userId
-        })
-            .populate('owner')
-            .session(session);
+        }).populate('owner');
 
         // Ensure account exists
         if (!account) {
@@ -33,14 +25,15 @@ export const cardRequest = async (userId, cardData) => {
             throw new ApiError(400, 'Account is not active.');
         }
 
-        // Check if the user already has a non-cancelled card of the same brand
+        // Check if the user already has a non-cancelled card
+        // of the same brand
         const existingCard = await Card.findOne({
             owner: userId,
             brand,
             status: {
                 $ne: 'cancelled'
             }
-        }).session(session);
+        });
 
         if (existingCard) {
             throw new ApiError(
@@ -49,42 +42,34 @@ export const cardRequest = async (userId, cardData) => {
             );
         }
 
-        // Build card holder name from the user's profile
-        const cardHolderName =
-            `${account.owner.firstName} ${account.owner.lastName}`.toUpperCase();
+        // Build the card holder's name
+        const cardHolderName = `${account.owner.firstName} ${account.owner.lastName}`.toUpperCase();
 
         // Create a pending card request
-        const [card] = await Card.create(
-            [
-                {
-                    owner: userId,
-                    account: account._id,
+        const card = await Card.create({
+            owner: userId,
+            account: account._id,
 
-                    // Card request details
-                    brand,
-                    type,
-                    spendingLimit,
+            // Card request details
+            brand,
+            type,
+            spendingLimit,
 
-                    // Card holder information
-                    cardHolderName,
+            // Card holder information
+            cardHolderName,
 
-                    // No sensitive card data is generated yet
-                    cardNumber: null,
-                    cvv: null,
-                    pin: null,
-                    last4: null,
-                    expiryMonth: null,
-                    expiryYear: null,
+            // Sensitive card information will be generated
+            // only after the request is approved
+            cardNumber: null,
+            cvv: null,
+            pin: null,
+            last4: null,
+            expiryMonth: null,
+            expiryYear: null,
 
-                    // Request starts as pending
-                    status: 'pending'
-                }
-            ],
-            { session }
-        );
-
-        // Commit transaction
-        await session.commitTransaction();
+            // Initial status
+            status: 'pending'
+        });
 
         // Return only safe request information
         return {
@@ -98,11 +83,6 @@ export const cardRequest = async (userId, cardData) => {
 
     } catch (error) {
 
-        // Roll back transaction if anything failed
-        if (session.inTransaction()) {
-            await session.abortTransaction();
-        }
-
         // Preserve known application errors
         if (error instanceof ApiError) {
             throw error;
@@ -113,10 +93,5 @@ export const cardRequest = async (userId, cardData) => {
             500,
             'An unexpected error occurred while processing the card request.'
         );
-
-    } finally {
-
-        await session.endSession();
     }
 };
-
