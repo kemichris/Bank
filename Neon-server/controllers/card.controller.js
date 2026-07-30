@@ -1,5 +1,5 @@
 import { success } from 'zod'
-import * as cardService from '../services/card.service'
+import * as cardService from '../services/card.service.js'
 
 // Card request
 export const cardRequest = async (req, res, next) => {

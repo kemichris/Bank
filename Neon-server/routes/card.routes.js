@@ -5,7 +5,7 @@ import { cardRequestSchema } from '../validators/card.validator.js';
 import { cardRequest, approveCardRequest, blockCard, unblockCard } from '../controllers/card.controller.js';
 
 
-const router = express.Router
+const router = express.Router()
 
 // Card request
 router.post('/request', protect, authorize('user'), validate(cardRequestSchema), cardRequest);
