@@ -57,3 +57,17 @@ export const generateExpiryDate = (yearsValid = 4) => {
         expiryYear
     };
 };
+
+// Check card expiration 
+export const isCardExpired = (expiryMonth, expiryYear) => {
+    const now = new Date();
+
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+
+    return (
+        expiryYear < currentYear ||
+        (expiryYear === currentYear &&
+            expiryMonth < currentMonth)
+    );
+};

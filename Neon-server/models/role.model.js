@@ -1,10 +1,13 @@
 import mongoose from "mongoose"
+import { trim } from "zod";
 
 const roleSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
         unique: true,
+        trim: true,
+        lowercase: true,
         enum: ['user', 'admin', 'manager', 'superadmin']
     },
     description: {
@@ -12,7 +15,8 @@ const roleSchema = new mongoose.Schema({
     },
     permissions: [
         {
-            type: String
+            type: String,
+            trim: true
         }
     ]
 },
@@ -21,6 +25,6 @@ const roleSchema = new mongoose.Schema({
     }
 );
 
-const roleModel = mongoose.model('Role', roleSchema);
+const Role = mongoose.model('Role', roleSchema);
 
-export default roleModel;
+export default Role;

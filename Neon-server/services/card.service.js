@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import Account from '../models/account.model.js';
 import Card from '../models/card.model.js';
 
-import { generateCardNumber, generateCVV, generateExpiryDate } from '../utils/card.utils.js';
+import { generateCardNumber, generateCVV, generateExpiryDate, isCardExpired } from '../utils/card.utils.js';
 import { encrypt } from '../utils/encryption.utils.js';
 import { hashPassword } from '../utils/password.utils.js';
 import ApiError from '../utils/apiError.utils.js';
@@ -99,7 +99,6 @@ export const cardRequest = async (userId, cardData) => {
     }
 };
 
-
 // Approve card request
 export const approveCardRequest = async (cardId) => {
     const session = await mongoose.startSession();
@@ -111,7 +110,7 @@ export const approveCardRequest = async (cardId) => {
         if (!card) {
             throw new ApiError(
                 404,
-                'Card request not found.'
+                'Card not found.'
             );
         }
 
@@ -172,4 +171,48 @@ export const approveCardRequest = async (cardId) => {
     } finally {
         await session.endSession();
     }
+}
+
+// Block card
+
+export const blockCard = async (cardId) => {
+    try {
+        const card = await Card.findById(cardId);
+        if (!card) {
+            throw new ApiError(404, 'Card not found')
+        }
+
+        if (card !== 'active') {
+            throw new ApiError(400, 'Only active cards can be blocked')
+        }
+
+        if (isCardExpired(card.expiryMonth, card.expiryYear)) {
+            throw new ApiError(
+                400,
+                'Expired cards cannot be blocked.'
+            );
+        }
+
+        card.status = 'bloced';
+        await card.save()
+
+        return {
+            cardId: card._id,
+            status: card.status,
+            blockedAt: card.updatedAt
+        };
+
+
+    } catch (error) {
+        if (error instanceof ApiError) {
+            throw error;
+        }
+
+        // Convert unknown errors into a generic server error
+        throw new ApiError(
+            500,
+            'An unexpected error occurred while processing the card request.'
+        );
+    }
+
 }
