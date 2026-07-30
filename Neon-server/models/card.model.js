@@ -116,6 +116,15 @@ const cardSchema = new mongoose.Schema(
         isFrozen: {
             type: Boolean,
             default: false
+        },
+        blockedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            default: null
+        },
+        blockedAt: {
+            type: Date,
+            default: null
         }
     },
     {

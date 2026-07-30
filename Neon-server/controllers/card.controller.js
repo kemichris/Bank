@@ -22,11 +22,11 @@ export const cardRequest = async (req, res, next) => {
 // approve card request
 export const approveCardRequest = async (req, res, next) => {
     try {
-        const { cardId } = req.params;
+        const { id } = req.params;
 
         const cardApproved = await cardService.approveCardRequest(
-            cardId,
-            req.user.id
+            id,
+            req.user._id
         );
 
         res.status(200).json({
@@ -43,17 +43,38 @@ export const approveCardRequest = async (req, res, next) => {
 // block card 
 export const blockCard = async (req, res, next) => {
      try {
-        const { cardId } = req.params;
+        const { id } = req.params;
 
         const blockedCard = await cardService.blockCard(
-            cardId,
-            req.user.id
+            id,
+            req.user._id
         );
 
         res.status(200).json({
             success: true,
              message: 'Card blocked successfully.',
-            data: blockCard
+            data: blockedCard
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+// block card 
+export const unblockCard = async (req, res, next) => {
+     try {
+        const { id } = req.params;
+
+        const unblockedCard = await cardService.unblockCard(
+            id,
+            req.user._id
+        );
+
+        res.status(200).json({
+            success: true,
+             message: 'Card unblocked successfully.',
+            data: unblockedCard
         });
 
     } catch (error) {

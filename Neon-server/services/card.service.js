@@ -174,7 +174,7 @@ export const approveCardRequest = async (cardId) => {
 }
 
 // Block card
-export const blockCard = async (cardId) => {
+export const blockCard = async (cardId, currentUser) => {
     try {
         const card = await Card.findById(cardId);
         if (!card) {
@@ -193,6 +193,9 @@ export const blockCard = async (cardId) => {
         }
 
         card.status = 'blocked';
+        card.blockedBy = currentUser.id;
+        card.blockedAt = new Date();
+
         await card.save()
 
         return {
@@ -216,3 +219,97 @@ export const blockCard = async (cardId) => {
 
 }
 
+// Unblock card
+export const unblockCard = async (cardId, currentUser) => {
+    try {
+        const card = await Card.findById(cardId).populate({
+        path: 'blockedBy',
+        populate: {
+            path: 'role'
+        }
+    });
+
+        if (!card) {
+            throw new ApiError(404, 'Card not found.');
+        }
+
+        // Only blocked cards can be unblocked
+        if (card.status !== 'blocked') {
+            throw new ApiError(400, 'Only blocked cards can be unblocked.');
+        }
+
+        // Prevent reactivating expired cards
+        if (isCardExpired(card.expiryMonth, card.expiryYear)) {
+            throw new ApiError(400,'Expired cards cannot be unblocked.');
+        }
+
+        // Determine who blocked the card
+        const blockedByUser = await User.findById(card.blockedBy);
+
+        if (!blockedByUser) {
+            throw new ApiError(
+                404,
+                'Unable to determine who blocked this card.'
+            );
+        }
+
+        const blockerRole = blockedByUser.role.name;
+
+        const isAdmin =
+            ['admin', 'manager', 'superadmin'].includes(
+                currentUser.role.name
+            );
+
+        const isCardOwner =
+            card.owner.toString() === currentUser.id;
+
+        // If an administrator blocked it,
+        // only another administrator may unblock it.
+        if (
+            blockerRole !== 'user' &&
+            !isAdmin
+        ) {
+            throw new ApiError(
+                403,
+                'This card was blocked by the bank and cannot be unblocked by the card holder.'
+            );
+        }
+
+        // If the owner blocked it,
+        // only that owner or an administrator may unblock it.
+        if (
+            blockerRole === 'user' &&
+            !isAdmin &&
+            !isCardOwner
+        ) {
+            throw new ApiError(
+                403,
+                'You are not authorized to unblock this card.'
+            );
+        }
+
+        // Restore the card
+        card.status = 'active';
+        card.blockedBy = null;
+        card.blockedAt = null;
+
+        await card.save();
+
+        return {
+            cardId: card._id,
+            status: card.status,
+            unblockedAt: card.updatedAt
+        };
+
+    } catch (error) {
+
+        if (error instanceof ApiError) {
+            throw error;
+        }
+
+        throw new ApiError(
+            500,
+            'An unexpected error occurred while unblocking the card.'
+        );
+    }
+};
