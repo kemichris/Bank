@@ -193,7 +193,7 @@ export const blockCard = async (cardId, currentUser) => {
         }
 
         card.status = 'blocked';
-        card.blockedBy = currentUser.id;
+        card.blockedBy = currentUser._id;
         card.blockedAt = new Date();
 
         await card.save()
