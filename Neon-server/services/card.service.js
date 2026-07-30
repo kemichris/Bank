@@ -85,7 +85,7 @@ export const cardRequest = async (userId, cardData) => {
         };
 
     } catch (error) {
-
+        console.error('Card request error:', error);
         // Preserve known application errors
         if (error instanceof ApiError) {
             throw error;
@@ -158,6 +158,8 @@ export const approveCardRequest = async (cardId) => {
         if (session.inTransaction()) {
             await session.abortTransaction();
         }
+
+        console.log(error)
 
         if (error instanceof ApiError) {
             throw error;
@@ -335,7 +337,7 @@ export const cancelCard = async (cardId) => {
                 'Card has already been cancelled.'
             );
         }
-        
+
         card.status = 'cancelled';
         card.blockedBy = null;
         card.blockedAt = null;

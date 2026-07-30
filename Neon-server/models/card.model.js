@@ -19,25 +19,25 @@ const cardSchema = new mongoose.Schema(
         // Card number (encrypted or tokenized in production)
         cardNumber: {
             type: String,
-            required: true,
-            unique: true
+            unique: true,
+            default: null
         },
 
         // Encrypted CVV
         cvv: {
             type: String,
-            required: true
+            default: null
         },
 
         pin: {
             type: String,
-            required: true
+            default: null
         },
 
         // Last four digits (for displaying to users)
         last4: {
             type: String,
-            required: true
+            default: null
         },
 
         // Card holder name
@@ -64,7 +64,7 @@ const cardSchema = new mongoose.Schema(
         // Expiry month
         expiryMonth: {
             type: Number,
-            required: true,
+            default: null,
             min: 1,
             max: 12
         },
@@ -72,7 +72,7 @@ const cardSchema = new mongoose.Schema(
         // Expiry year
         expiryYear: {
             type: Number,
-            required: true
+            default: null
         },
 
         // Card status

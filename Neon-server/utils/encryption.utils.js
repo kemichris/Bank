@@ -22,7 +22,7 @@ export const encrypt = (text) => {
         'hex'
     );
 
-    encrypte += cipher.final('hex');
+    encrypted += cipher.final('hex');
 
     return `${iv.toString('hex')}:${encrypted}`;
 };
