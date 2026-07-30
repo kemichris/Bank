@@ -2,7 +2,7 @@ import express from 'express'
 import {protect, authorize} from '../middlewares/auth.middleware.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import { cardRequestSchema } from '../validators/card.validator.js';
-import { cardRequest, approveCardRequest } from '../controllers/card.controller.js';
+import { cardRequest, approveCardRequest, blockCard } from '../controllers/card.controller.js';
 
 const router = express.Router
 
@@ -10,6 +10,9 @@ const router = express.Router
 router.post('/request', protect, authorize('user'), validate(cardRequestSchema), cardRequest);
 
 // approve card request
-router.patch('/approve/:id', protect, authorize('admin', 'manager', 'superadmin'), approveCardRequest)
+router.patch('/approve/:id', protect, authorize('admin', 'manager', 'superadmin'), approveCardRequest);
+
+// block card
+router.patch('/block/:id', protect, authorize('user', 'admin', 'manager', 'superadmin'), blockCard);
 
 export default router;

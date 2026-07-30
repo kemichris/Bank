@@ -24,7 +24,7 @@ export const approveCardRequest = async (req, res, next) => {
     try {
         const { cardId } = req.params;
 
-        const cardApproved = await approveCardRequestService(
+        const cardApproved = await cardService.approveCardRequest(
             cardId,
             req.user.id
         );
@@ -40,3 +40,23 @@ export const approveCardRequest = async (req, res, next) => {
     }
 };
 
+// block card 
+export const blockCard = async (req, res, next) => {
+     try {
+        const { cardId } = req.params;
+
+        const blockedCard = await cardService.blockCard(
+            cardId,
+            req.user.id
+        );
+
+        res.status(200).json({
+            success: true,
+             message: 'Card blocked successfully.',
+            data: blockCard
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}

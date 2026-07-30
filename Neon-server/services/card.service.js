@@ -174,7 +174,6 @@ export const approveCardRequest = async (cardId) => {
 }
 
 // Block card
-
 export const blockCard = async (cardId) => {
     try {
         const card = await Card.findById(cardId);
@@ -182,7 +181,7 @@ export const blockCard = async (cardId) => {
             throw new ApiError(404, 'Card not found')
         }
 
-        if (card !== 'active') {
+        if (card.status !== 'active') {
             throw new ApiError(400, 'Only active cards can be blocked')
         }
 
@@ -193,7 +192,7 @@ export const blockCard = async (cardId) => {
             );
         }
 
-        card.status = 'bloced';
+        card.status = 'blocked';
         await card.save()
 
         return {
@@ -211,8 +210,9 @@ export const blockCard = async (cardId) => {
         // Convert unknown errors into a generic server error
         throw new ApiError(
             500,
-            'An unexpected error occurred while processing the card request.'
+            'An unexpected error occurred while blocking the card.'
         );
     }
 
 }
+
