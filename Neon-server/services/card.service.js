@@ -223,11 +223,11 @@ export const blockCard = async (cardId, currentUser) => {
 export const unblockCard = async (cardId, currentUser) => {
     try {
         const card = await Card.findById(cardId).populate({
-        path: 'blockedBy',
-        populate: {
-            path: 'role'
-        }
-    });
+            path: 'blockedBy',
+            populate: {
+                path: 'role'
+            }
+        });
 
         if (!card) {
             throw new ApiError(404, 'Card not found.');
@@ -240,11 +240,11 @@ export const unblockCard = async (cardId, currentUser) => {
 
         // Prevent reactivating expired cards
         if (isCardExpired(card.expiryMonth, card.expiryYear)) {
-            throw new ApiError(400,'Expired cards cannot be unblocked.');
+            throw new ApiError(400, 'Expired cards cannot be unblocked.');
         }
 
         // Determine who blocked the card
-        const blockedByUser = await User.findById(card.blockedBy);
+        const blockedByUser = card.blockedBy;
 
         if (!blockedByUser) {
             throw new ApiError(
@@ -313,3 +313,50 @@ export const unblockCard = async (cardId, currentUser) => {
         );
     }
 };
+
+// Cancel card
+export const cancelCard = async (cardId) => {
+    try {
+        const card = await Card.findById(cardId);
+        if (!card) {
+            throw new ApiError(404, 'Card not found')
+        }
+
+        if (card.status === 'pending') {
+            throw new ApiError(
+                400,
+                'Pending card requests cannot be cancelled.'
+            );
+        }
+
+        if (card.status === 'cancelled') {
+            throw new ApiError(
+                400,
+                'Card has already been cancelled.'
+            );
+        }
+        
+        card.status = 'cancelled';
+        card.blockedBy = null;
+        card.blockedAt = null;
+
+        await card.save()
+
+        return {
+            cardId: card._id,
+            status: card.status,
+            cancelledAt: card.updatedAt
+        }
+
+    } catch (error) {
+        if (error instanceof ApiError) {
+            throw error;
+        }
+
+        // Convert unknown errors into a generic server error
+        throw new ApiError(
+            500,
+            'An unexpected error occurred while cancelling the card.'
+        );
+    }
+}

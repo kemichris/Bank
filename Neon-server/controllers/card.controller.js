@@ -23,7 +23,6 @@ export const cardRequest = async (req, res, next) => {
 export const approveCardRequest = async (req, res, next) => {
     try {
         const { id } = req.params;
-
         const cardApproved = await cardService.approveCardRequest(
             id,
             req.user._id
@@ -42,9 +41,8 @@ export const approveCardRequest = async (req, res, next) => {
 
 // block card 
 export const blockCard = async (req, res, next) => {
-     try {
+    try {
         const { id } = req.params;
-
         const blockedCard = await cardService.blockCard(
             id,
             req.user._id
@@ -52,7 +50,7 @@ export const blockCard = async (req, res, next) => {
 
         res.status(200).json({
             success: true,
-             message: 'Card blocked successfully.',
+            message: 'Card blocked successfully.',
             data: blockedCard
         });
 
@@ -63,9 +61,8 @@ export const blockCard = async (req, res, next) => {
 
 // block card 
 export const unblockCard = async (req, res, next) => {
-     try {
+    try {
         const { id } = req.params;
-
         const unblockedCard = await cardService.unblockCard(
             id,
             req.user._id
@@ -73,11 +70,31 @@ export const unblockCard = async (req, res, next) => {
 
         res.status(200).json({
             success: true,
-             message: 'Card unblocked successfully.',
+            message: 'Card unblocked successfully.',
             data: unblockedCard
         });
 
     } catch (error) {
         next(error);
+    }
+}
+
+// Cancel Card 
+export const cancelCard = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const cancelledCard = await cardService.cancelCard(
+            id,
+            req.user
+        );
+
+        res.status(200).json({
+            success: true,
+            message: 'Card cancelled successfully',
+            data: cancelledCard
+        })
+
+    } catch (error) {
+        next(error)
     }
 }
