@@ -12,7 +12,13 @@ import { ServiceCard } from "./ServiceCard";
 export function ServiceSection() {
     return (
         <div className="service-section">
-            <SectionHeader icon={<BiSolidDish />} title="Our Services" />
+            <SectionHeader icon={<BiSolidDish />} title="Our Services"
+                style={{
+                    background: "rgb(255 255 255 / 0.2)",
+                    border: "1px solid rgb(255 255 255 / 0.2)",
+                    color: "#fff"
+                }}
+            />
             <h2>How Can We Help You Today?</h2>
             <p className="service-p">Comprehensive banking solutions tailored to your needs</p>
             <div className="service-cards">

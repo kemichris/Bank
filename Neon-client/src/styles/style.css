@@ -307,8 +307,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5rem 2rem;
-    background: linear-gradient(to right, #3D91C8, #bae6fd, #1B7DB7, #113957);
+    padding: 5rem 10rem;
+    background: linear-gradient(to right, #3D91C8, #1B7DB7, #113957);
 }
 
 .service-section h2 {
@@ -326,6 +326,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin-top: 3rem;
+    overflow-x: visible;
 }
 
 .service-card {
@@ -333,28 +334,46 @@
     flex-direction: column;
     align-items: center;
     padding: 2rem;
-    background: rgb(255 255 255 / 0.2);
+    background: transparent;
+    border: 1px solid rgb(255 255 255 / 0.2);
     border-radius: 1rem;
     gap: 1rem;
+    transition: transform 0.3s ease;
+}
 
+.service-card:hover {
+    transform: translateY(-6px);
+}
+
+.service-card:hover .service-icon {
+    transform: rotate(10deg);
 }
 
 .service-icon {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 1rem;
     background: rgb(255 255 255 / 0.2);
     border: 1px solid rgb(255 255 255 / 0.2);
+    transition: transform 0.4s ease;
 }
 
 .service-icon svg {
     font-size: 2rem;
     color: #fff;
+    
 }
 
 .service-card h3, .service-card p {
     color: #fff;
     text-align: center;
+}
+
+/* =============== CALL TO ACTION SECTION ==================*/
+.call-to-action-section {
+    display: flex;
+    
+    padding: 5rem 10rem;
 }
