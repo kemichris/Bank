@@ -2,7 +2,7 @@
     margin: 0;
     font-family: "Roboto";
     overflow-x: hidden;
-     box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 button {
@@ -11,4 +11,8 @@ button {
 
 h2 {
     font-size: 3rem;
+}
+
+p {
+    line-height: 1.5;
 }

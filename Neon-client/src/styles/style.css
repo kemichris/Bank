@@ -623,3 +623,78 @@
 .contact-card p {
     font-size: 0.8rem;
 }
+
+
+/* =============== FOOTER SECTION ==================*/
+.footer {
+    background-color: #111827;
+    padding: 3rem 8rem;
+}
+
+.main-footer-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem
+}
+
+.company-info p {
+    color: #fff;
+    margin: 1rem 0 1.2rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    color: #fff;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: #0184C7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-links h4 {
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links ul {
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+    transition: 0.5s ease-in-out;
+}
+
+.footer-links li::before {
+    content: ">";
+    color: #0184C7;
+    margin-right: 0.5rem;
+}
+
+.footer-links ul a {
+    text-decoration:  none;
+    color: #e5e7eb;
+}
+
+.footer-links li:hover {
+    margin-left: 0.5rem;
+}
+
+.bottom-footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    margin-top: 3rem;
+    border-top: 1px solid #0184C7;
+}
+
+.bottom-footer p {
+    font-size: 0.7rem;
+    color: #e5e7eb;
+}
