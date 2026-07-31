@@ -13,7 +13,7 @@ export function Footer() {
         <footer>
             <div className="main-footer-content">
                 <div className="company-info">
-                    <img src={Logo} alt="" />
+                    <img className="footer-logo" src={Logo} alt="" />
                     <p>Building financial strength together with personalized banking solutions
                         for every member. Your trusted partner in financial growth.
                     </p>
