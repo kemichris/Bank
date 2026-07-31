@@ -10,7 +10,7 @@ export function ReviewCard({imgIcon, review, userName, bankingType}) {
                 <FaStar />
                 <FaStar />
             </div>
-            <blockquote>"{review}"</blockquote>
+            <blockquote className="review">"{review}"</blockquote>
             <div className="reviewer">
                 <div className="img-icon">
                     {imgIcon}
