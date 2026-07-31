@@ -305,6 +305,8 @@ export const unblockCard = async (cardId, currentUser) => {
 
     } catch (error) {
 
+        console.log(error)
+
         if (error instanceof ApiError) {
             throw error;
         }

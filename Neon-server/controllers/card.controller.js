@@ -59,13 +59,13 @@ export const blockCard = async (req, res, next) => {
     }
 }
 
-// block card 
+// unblock card 
 export const unblockCard = async (req, res, next) => {
     try {
         const { id } = req.params;
         const unblockedCard = await cardService.unblockCard(
             id,
-            req.user._id
+            req.user
         );
 
         res.status(200).json({
