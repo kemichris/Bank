@@ -23,7 +23,7 @@
 }
 
 .nav-bar ul a {
-    color: #e5e7eb;;
+    color: #e5e7eb;
     text-decoration: none;
     font-size: 1rem;
     font-weight: 500;
@@ -206,7 +206,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5rem 1rem;
+    padding: 5rem 2rem;
     background-color: #1E2836;
 }
 
@@ -229,7 +229,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     margin-top: 3rem;
-    overflow: visible;
+    overflow-x: visible;
 }
 
 .rate-card {
@@ -302,3 +302,59 @@
     margin-top: 3rem;
 }
  
+/* =============== SERVICES SECTION ==================*/
+.service-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem 2rem;
+    background: linear-gradient(to right, #3D91C8, #bae6fd, #1B7DB7, #113957);
+}
+
+.service-section h2 {
+    color: #fff;
+    margin: 1rem 0;
+}
+
+.service-p {
+    color: #e5e7eb;
+    font-size: 1.2rem;
+}
+
+.service-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background: rgb(255 255 255 / 0.2);
+    border-radius: 1rem;
+    gap: 1rem;
+
+}
+
+.service-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 0.2);
+    border: 1px solid rgb(255 255 255 / 0.2);
+}
+
+.service-icon svg {
+    font-size: 2rem;
+    color: #fff;
+}
+
+.service-card h3, .service-card p {
+    color: #fff;
+    text-align: center;
+}

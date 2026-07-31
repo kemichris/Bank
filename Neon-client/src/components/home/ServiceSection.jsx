@@ -14,7 +14,7 @@ export function ServiceSection() {
         <div className="service-section">
             <SectionHeader icon={<BiSolidDish />} title="Our Services" />
             <h2>How Can We Help You Today?</h2>
-            <p>Comprehensive banking solutions tailored to your needs</p>
+            <p className="service-p">Comprehensive banking solutions tailored to your needs</p>
             <div className="service-cards">
                 <ServiceCard
                     icon={<CiBank />}
