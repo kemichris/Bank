@@ -1,0 +1,102 @@
+/* =============== RATES SECTION ==================*/
+.rate-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem 2rem;
+    background-color: #1E2836;
+}
+
+.rate-section h2 {
+    background: linear-gradient(to right, #0184C7, #e5e7eb, #0184C7);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 1rem 0;
+}
+
+.rate-section-p {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    color: #e5e7eb;
+}
+
+.rate-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+    overflow-x: visible;
+}
+
+.rate-card {
+    padding: 2rem 3rem;
+    background-color: #bae6fd;
+    border: 1px solid transparent;
+    border-radius: 0.8rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.rate-card:hover {
+    transform: translateY(-6px);
+    border-color: #0184C7;
+    box-shadow: 0 10px 20px rgba(1, 132, 199, 0.25);
+}
+
+.rate-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+.rate-icon svg {
+    font-size: 1.5rem;
+    color: #0184C7;
+
+}
+
+.rate-card-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rate-card-details h4 {
+    font-size: 2rem;
+}
+
+.rate-card-details p:nth-of-type(1),
+.rate-card-details p:nth-of-type(2) {
+    font-size: 0.8rem;
+}
+
+.rate-card-details p:nth-of-type(2) {
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+.rate-card-details small {
+    margin-bottom: 1rem;
+    font-size: 0.7rem;
+}
+
+.rate-card-details p:nth-of-type(3),
+.rate-info {
+    padding: 0.5rem;
+    border-radius: 1rem;
+    color: #e5e7eb;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.rate-info {
+    background-color: #1E2836;
+    border: 1px solid #bae6fd;
+    margin-top: 3rem;
+}

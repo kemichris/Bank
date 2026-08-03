@@ -1,0 +1,68 @@
+/* =============== REVIEW SECTION ==================*/
+.review-section {
+    padding: 3rem 8rem;
+    background: linear-gradient(to right, #3D91C8, #1B7DB7, #113957);
+}
+
+.review-section h2 {
+    color: #fff;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.review-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.review-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.2rem 0.8rem;
+    border-radius: 1rem;
+    background: transparent;
+    border: 1px solid rgb(255 255 255 / 0.2);
+}
+
+.rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rating svg {
+    font-size: 1.2rem;
+    color: yellow;
+}
+
+.review {
+    color: #fff;
+    text-align: center;
+}
+
+.reviewer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.reviewer .img-icon {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e5e7eb;
+    border-radius: 50%;
+    font-size: 1.2rem;
+}
+
+.reviewer-details p,
+.reviewer-details small {
+    color: #fff;
+}
