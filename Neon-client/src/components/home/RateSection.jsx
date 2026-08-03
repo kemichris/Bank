@@ -32,7 +32,7 @@ export function RateSection() {
                     badgeIcon={<FaStar />}
                     badgeName="FEATURED"
                     style={{
-                        backgroundColor: "#C8EBFE"
+                        backgroundColor: "#0184C7"
                     }}
                 />
                 <RateCard
