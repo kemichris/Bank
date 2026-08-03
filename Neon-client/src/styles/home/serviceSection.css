@@ -67,3 +67,24 @@
     color: #fff;
     text-align: center;
 }
+
+@media (max-width: 900px) {
+    .service-section {
+        padding: 3rem 2rem;
+    }
+
+    .service-p {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .service-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .service-cards {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
