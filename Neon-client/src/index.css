@@ -1,8 +1,17 @@
 * {
     margin: 0;
     font-family: "Roboto";
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    overflow-x: hidden;
 }
 
 button {
