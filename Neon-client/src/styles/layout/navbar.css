@@ -175,11 +175,11 @@
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
-
     transition:
         transform 0.35s ease,
         opacity 0.35s ease,
         visibility 0.35s ease;
+        z-index: 2;
 }
 
 .mobile-menu ul {
