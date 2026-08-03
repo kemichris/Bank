@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { RiUserAddFill } from "react-icons/ri";
 import { FiLogIn } from "react-icons/fi";
 import { CiBank } from "react-icons/ci";
@@ -8,6 +9,30 @@ import { Button } from "../common/Button"
 import { HeroCard } from "./HeroCard";
 
 export function HeroSection() {
+    const heroCardsRef = useRef(null);
+
+    useEffect(() => {
+        const container = heroCardsRef.current;
+        if (!container || window.innerWidth > 900) return;
+
+        const intervalId = window.setInterval(() => {
+            const cards = Array.from(container.children);
+            if (!cards.length) return;
+
+            const gap = parseFloat(getComputedStyle(container).gap) || 16;
+            const cardWidth = cards[0].getBoundingClientRect().width + gap;
+            const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+            if (container.scrollLeft >= maxScrollLeft - 1) {
+                container.scrollTo({ left: 0, behavior: "smooth" });
+            } else {
+                container.scrollBy({ left: cardWidth, behavior: "smooth" });
+            }
+        }, 5000);
+
+        return () => window.clearInterval(intervalId);
+    }, []);
+
     return (
         <div className="hero-section">
             <h1>Neon Bank</h1>
@@ -35,7 +60,7 @@ export function HeroSection() {
                     }}
                 />
             </div>
-            <div className="hero-cards">
+            <div className="hero-cards" ref={heroCardsRef}>
                 <HeroCard
                     cardTexts={[
                         { text: "ROUTING #" },
