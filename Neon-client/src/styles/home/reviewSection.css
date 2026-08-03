@@ -35,7 +35,7 @@
 }
 
 .rating svg {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: yellow;
 }
 
@@ -65,4 +65,26 @@
 .reviewer-details p,
 .reviewer-details small {
     color: #fff;
+}
+
+@media (max-width: 900px) {
+    .review-section {
+        padding: 3rem 2rem;
+    }
+
+    .review {
+        font-size: .8rem;
+    }
+}
+
+@media (max-width: 700px) {
+    .review-cards {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .reviewer .img-icon {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
+    }
 }
