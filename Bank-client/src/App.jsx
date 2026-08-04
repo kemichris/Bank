@@ -4,6 +4,7 @@ import { About } from './pages/public/About';
 import { PersonalBanking } from './pages/public/PersonalBanking';
 import { BusinessBanking } from './pages/public/BusinessBanking';
 import { Loans } from './pages/public/Loans';
+import { Contact } from './pages/public/Contact';
 
 import ScrollToTop from './components/common/ScrollToTop';
 import "./styles/style.css"
@@ -17,6 +18,7 @@ function App() {
         <Route path="/personal-banking" element={<PersonalBanking />} />
         <Route path="/business-banking" element={<BusinessBanking />} />
         <Route path="/loans" element={<Loans />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </>
   )

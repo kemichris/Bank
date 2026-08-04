@@ -5,7 +5,7 @@ import { ServiceSection } from "../../components/home/ServiceSection";
 import { CallToActionSection } from "../../components/home/CallToActionSection";
 import { FeatureSection } from "../../components/home/FeatureSection";
 import { ReviewSection } from "../../components/home/ReviewSection";
-import { ContactSection } from "../../components/home/ContactSection";
+import { ContactDetailSection } from "../../components/contact/ContactDetailSection";
 import { Footer } from "../../components/layout/Footer";
 
 export function Home() {
@@ -19,7 +19,7 @@ export function Home() {
             <CallToActionSection />
             <FeatureSection />
             <ReviewSection />
-            <ContactSection />
+            <ContactDetailSection />
             <Footer />
         </>
     )

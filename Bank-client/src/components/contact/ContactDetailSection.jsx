@@ -5,8 +5,9 @@ import { FaLocationDot } from "react-icons/fa6";
 
 import { ContactCard } from "./ContactCard"
 
+import "../../styles/contact/contactDetailSection.css"
 
-export function ContactSection() {
+export function ContactDetailSection() {
     const contactDetails = [
         {
             contactIcon: <MdOutlineAccessTimeFilled />,
