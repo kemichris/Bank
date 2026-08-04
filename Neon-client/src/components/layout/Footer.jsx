@@ -66,7 +66,7 @@ export function Footer() {
 
             </div>
             <div className="bottom-footer">
-                <p>© {new Date().getFullYear()} Nexavaultnv. All rights reserved.</p>
+                <p>© {new Date().getFullYear()} Columbia Merchant. All rights reserved.</p>
                 <p><FaShieldAlt /> FDIC Insured.  <FaLock /> 256-bit SSL</p>
             </div>
         </footer>

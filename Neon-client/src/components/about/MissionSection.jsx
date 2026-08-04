@@ -6,7 +6,7 @@ export function MissionSection() {
             <div className="mission-content">
                 <h2>Our Mission</h2>
                 <p>
-                    At Neon, our mission is to revolutionize the banking experience by putting people first. 
+                    At Columbia Merchant, our mission is to revolutionize the banking experience by putting people first. 
                     We strive to provide innovative financial solutions that empower our customers 
                     to achieve their goals and dreams. Our commitment to transparency, accessibility, 
                     and exceptional service drives us to create a banking environment 

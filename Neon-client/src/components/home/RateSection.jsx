@@ -14,12 +14,12 @@ import { RateCard } from "./RateCard";
 export function RateSection() {
     return (
         <div className="rate-section">
-            <SectionHeader icon={<RiExchangeFundsFill />} title="Neon Bank Rates" style={{
+            <SectionHeader icon={<RiExchangeFundsFill />} title="Columbia Merchant Bank Rates" style={{
                 backgroundColor: "#bae6fd",
                 borderColor: "#70accb",
                 color: "#111827"
             }} />
-            <h2>Neon Member Care</h2>
+            <h2>Member Care</h2>
             <p className="rate-section-p">Discover competitive rates designed to help your money grow faster</p>
 
             <div className="rate-cards">
@@ -40,7 +40,7 @@ export function RateSection() {
                     rate="3.65%"
                     rateReturn="APY"
                     rateName="18 MONTH CERTIFICATE"
-                    rateInfo="Neon Certificate Rates"
+                    rateInfo="Columbia Merchant Certificate Rates"
                     badgeIcon={<FaCoins />}
                     badgeName="SAVINGS"
                     style={{
@@ -52,7 +52,7 @@ export function RateSection() {
                     rate="4.00%"
                     rateReturn="APR"
                     rateName="CREDIT CARDS"
-                    rateInfo="Neon Credit Card Rates"
+                    rateInfo="Columbia Merchant Credit Card Rates"
                     badgeIcon={<FaCreditCard />}
                     badgeName="CREDIT"
                     style={{
@@ -64,7 +64,7 @@ export function RateSection() {
                     rate="15.39%"
                     rateReturn="APR"
                     rateName="LOANS"
-                    rateInfo="Neon Standard Loan Rates"
+                    rateInfo="Columbia Merchant Standard Loan Rates"
                     badgeIcon={<GiReceiveMoney />}
                     badgeName="MORTGAGE"
                     style={{

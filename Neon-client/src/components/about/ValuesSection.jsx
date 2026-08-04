@@ -30,7 +30,7 @@ export function ValuesSection() {
             details: "We are committed to providing exceptional customer service, ensuring that our customers feel valued and supported."
         }
     ];
-    
+
     return (
         <div className="values-section">
             <h2>Our Values</h2>

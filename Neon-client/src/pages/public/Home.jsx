@@ -11,7 +11,7 @@ import { Footer } from "../../components/layout/Footer";
 export function Home() {
     return (
         <>
-            <title>Neon | Home</title>
+            <title>Columbia Merchant | Home</title>
             <Navbar />
             <HeroSection />
             <RateSection />

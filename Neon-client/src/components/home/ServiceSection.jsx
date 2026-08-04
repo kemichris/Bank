@@ -49,7 +49,7 @@ export function ServiceSection() {
                 />
                 <ServiceCard
                     icon={<FaInfoCircle />}
-                    serviceName="About Neon Bank"
+                    serviceName="About Columbia Merchant Bank"
                     details="Learn more about our commitment to exceptional banking services and community support."
                 />
             </div>

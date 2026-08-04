@@ -3,22 +3,25 @@ import { FaInfoCircle } from "react-icons/fa";
 import {Navbar} from "../../components/layout/Navbar";
 import {PageHeader} from "../../components/layout/PageHeader";
 import {MissionSection} from "../../components/about/MissionSection";
-
+import {ValuesSection} from "../../components/about/ValuesSection";
+import {StatsSection} from "../../components/about/StatsSection";
 import {Footer} from "../../components/layout/Footer";
 
 
 export function About() {
     return (
         <>
-            <title>Neon | About</title>
+            <title>Columbia Merchant | About</title>
             <Navbar />
             <PageHeader
                 icon={<FaInfoCircle />}
                 header="Our Story"
-                title="Learn More About Neon"
-                description="Discover our mission, values, and the team behind Neon."
+                title="Learn More About Columbia Merchant"
+                description="Discover our mission, values, and the team behind Columbia Merchant."
             />
             <MissionSection />
+            <ValuesSection />
+            <StatsSection />
             <Footer />
         </>
     )
