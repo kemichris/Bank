@@ -3,6 +3,8 @@ import { IoCall } from "react-icons/io5";
 
 import { Button } from "../common/Button"
 
+import "../../styles/layout/pageCta.css";
+
 export function PageCta() {
     return (
         <div className="page-cta">

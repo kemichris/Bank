@@ -7,6 +7,8 @@ import { FaLock } from "react-icons/fa";
 import { FooterLinks } from "./FooterLinks";
 import Logo from "../../assets/images/cm-logo.png";
 
+import "../../styles/layout/footer.css";
+
 export function Footer() {
     const footerDetails = [
         {

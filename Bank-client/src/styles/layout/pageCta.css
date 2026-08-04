@@ -1,0 +1,23 @@
+.page-cta {
+    background-color: #e5e7eb;
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.page-cta h2 {
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.page-cta p {
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}

@@ -16,6 +16,8 @@ import { MobileMenu } from "./MobileMenu";
 
 import Logo from "../../assets/images/cm-logo.png";
 
+import "../../styles/layout/navbar.css";
+
 export function Navbar() {
     const [activeMenu, setActiveMenu] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
