@@ -1,0 +1,24 @@
+.stats-section {
+    background-color: #0269A1;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.stats-cards h3 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
