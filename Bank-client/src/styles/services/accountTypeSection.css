@@ -1,0 +1,122 @@
+/* ========================================
+   Account Type Section
+   ======================================== */
+
+/* CSS Custom Properties for theme consistency */
+:root {
+    --color-bg-section: #111827;
+    --color-bg-card: #1F2937;
+    --color-border-card: #374151;
+    --color-accent-blue: #0184C7;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #9CA3AF;
+    --color-icon-text: #111827;
+    --radius-card: 1rem;
+    --radius-icon: 1rem;
+    --spacing-section-padding-y: 3rem;
+    --spacing-section-padding-x: 5rem;
+    --spacing-description-gap: 2rem;
+    --spacing-card-padding-y: 2rem;
+    --spacing-card-padding-x: 1.5rem;
+    --spacing-icon-padding: 1rem;
+    --spacing-icon-gap: 1.5rem;
+}
+
+.account-type-section {
+  padding: 3rem 5rem;
+    background-color: #111827;
+}
+
+.account-type-description {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.account-type-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.account-type-card {
+    background-color: #1F2937;
+    padding: 2rem 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid #374151;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.account-type-card:hover,
+.account-type-card:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(1, 132, 199, 0.15);
+}
+
+.account-type-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: linear-gradient(to right, rgb(1, 132, 199), rgb(229, 231, 235), rgb(1, 132, 199));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #111827;
+    margin-bottom: 1.5rem;
+}
+
+.account-type-icon svg {
+    font-size: 1.5rem;
+}
+
+.account-type-card h3 {
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+}
+
+.type-card-description {
+    color: #9CA3AF;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.account-type-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.account-type-details li {
+    color: #e5e7eb;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.account-type-details li::before {
+    content: "✓";
+    color: #0184C7;
+    font-size: 0.875rem;
+}
+
+
+
+@media (max-width: 900px) {
+    .account-type-section {
+        padding: 3rem 2rem;
+    }
+
+    .account-type-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .account-type-cards {
+        grid-template-columns: 1fr;
+    }
+}

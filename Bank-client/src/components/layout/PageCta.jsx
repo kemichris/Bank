@@ -22,7 +22,7 @@ export function PageCta() {
                 />
                 <Button
                     icon={<IoCall />}
-                    text="Login to Banking"
+                    text="Contact Us"
                     to="/contact"
                     style={{
                         backgroundColor: "#1F2937",

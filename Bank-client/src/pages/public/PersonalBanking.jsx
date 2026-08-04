@@ -10,6 +10,7 @@ import {PageCta} from "../../components/layout/PageCta";
 import {Footer} from "../../components/layout/Footer";
 import { FaUser } from "react-icons/fa";
 
+import { PersonalAccount } from "../../components/services/PersonalAccount";
 
 
 export function PersonalBanking() {
@@ -49,6 +50,7 @@ export function PersonalBanking() {
                 title="Experience the Future of Personal Banking"
                 description="Discover our innovative personal banking solutions designed to simplify your financial life."
             />
+            <PersonalAccount />
             <SectionGuide
                 guideHeader={serviceGuideData.guideHeader}
                 guideDescription={serviceGuideData.guideDescription}
