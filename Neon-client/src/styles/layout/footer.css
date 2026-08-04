@@ -37,6 +37,7 @@
 
 .footer-links ul {
     padding: 0;
+    list-style: none;
 }
 
 .footer-links li {
@@ -70,4 +71,16 @@
 .bottom-footer p {
     font-size: 0.7rem;
     color: #e5e7eb;
+}
+
+@media (max-width: 1000px) {
+    .footer {
+        padding: 3rem 2rem;
+    }
+}
+
+@media (max-width: 800px) {
+    .main-footer-content {
+    grid-template-columns: repeat(1, 1fr);
+}
 }

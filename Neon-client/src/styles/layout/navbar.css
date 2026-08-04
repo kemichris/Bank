@@ -256,6 +256,13 @@
     color: #e5e7eb;
     text-decoration: none;
     transition: 0.4s ease-in-out;
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.mobile-menu a svg {
+    color: #0184C7;
 }
 
 .mobile-bottom {
@@ -263,6 +270,15 @@
     padding-top: 1.5rem;
     border-top: 1px solid #0184C7;
 }
+
+.mobile-theme-switch-btn svg {
+    transition: transform 0.4s ease;
+}
+
+.mobile-theme-switch-btn:hover svg {
+    transform: rotate(180deg);
+}
+
 
 @media (max-width: 900px) {
 
