@@ -3,6 +3,7 @@ import { Home } from './pages/public/Home';
 import { About } from './pages/public/About';
 import { PersonalBanking } from './pages/public/PersonalBanking';
 import { BusinessBanking } from './pages/public/BusinessBanking';
+import { Loans } from './pages/public/Loans';
 import "./styles/style.css"
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/personal-banking" element={<PersonalBanking />} />
       <Route path="/business-banking" element={<BusinessBanking />} />
+      <Route path="/loans" element={<Loans />} />
     </Routes>
   )
 }
