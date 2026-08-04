@@ -150,6 +150,16 @@
     z-index: 2;
 }
 
+.dropdown a {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.dropdown a svg {
+    color: #0184C7;
+}
+
 .dropdown.active {
     opacity: 1;
     visibility: visible;
