@@ -5,6 +5,7 @@ import {PageHeader} from "../../components/layout/PageHeader";
 import {MissionSection} from "../../components/about/MissionSection";
 import {ValuesSection} from "../../components/about/ValuesSection";
 import {StatsSection} from "../../components/about/StatsSection";
+import {PageCta} from "../../components/layout/PageCta";
 import {Footer} from "../../components/layout/Footer";
 
 
@@ -22,6 +23,7 @@ export function About() {
             <MissionSection />
             <ValuesSection />
             <StatsSection />
+            <PageCta />
             <Footer />
         </>
     )
