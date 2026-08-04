@@ -1,3 +1,4 @@
+/* HOME STYLES */
 @import "./home/callToActionSection.css";
 @import "./home/contactSection.css";
 @import "./home/featureSection.css";
@@ -7,3 +8,6 @@
 @import "./home/serviceSection.css";
 @import "./layout/footer.css";
 @import "./layout/navbar.css";
+
+/* ABOUT STYLES */
+@import "./about/missionSection.css";

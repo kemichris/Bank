@@ -1,0 +1,41 @@
+.mission-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem 2rem;
+    background-color: #111827;
+}
+
+.mission-content h2 {
+    text-align: left;
+    margin-bottom: 1rem;
+    color: #fff;
+    font-size: 2.5rem;
+}
+
+.mission-content p {
+    color: #e5e7eb;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.mission-section img {
+    width: 50%;
+    height: auto;
+    border-radius: 1rem;
+}
+
+@media (max-width: 900px) {
+    .mission-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mission-content h2 {
+        font-size: 2rem;
+    }
+
+    .mission-section img {
+        width: 100%;
+    }
+}

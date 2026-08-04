@@ -18,7 +18,7 @@ export function MissionSection() {
                     the best possible experience for our customers.
                 </p>
             </div>
-            <img src={missionImage} alt="Our Mission" style={{ width: '100%', height: 'auto' }} />
+            <img src={missionImage} alt="Our Mission"/>
         </div>
     );
 }
