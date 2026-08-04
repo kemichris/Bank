@@ -12,7 +12,7 @@ import { FaUser } from "react-icons/fa";
 import { IoBriefcaseSharp } from "react-icons/io5";
 import { FaHandshake } from "react-icons/fa";
 import { FaCreditCard } from "react-icons/fa";
-import { FaHandHoldingDollar } from "react-icons/fa6";
+// import { FaHandHoldingDollar } from "react-icons/fa6";
 
 export function MobileMenu({ open, onClose }) {
     const [servicesOpen, setServicesOpen] = useState(false);
@@ -63,15 +63,15 @@ export function MobileMenu({ open, onClose }) {
                             Loans & Credit
                         </Link>
 
-                        <Link to="/cards" onClick={onClose}>
+                        <Link to="/login" onClick={onClose}>
                             <FaCreditCard />
                             Cards
                         </Link>
 
-                        <Link to="/grants" onClick={onClose}>
+                        {/* <Link to="/grants" onClick={onClose}>
                             <FaHandHoldingDollar />
                             Grants & Aid
-                        </Link>
+                        </Link> */}
                     </div>
                 </li>
 

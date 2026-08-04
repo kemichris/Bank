@@ -15,26 +15,26 @@ export function Footer() {
             linkHeader: "Quick Links",
             links: [
                 { text: "About Us", to: "/about" },
-                { text: "Services", to: "/services" },
-                { text: "Grant & Aid", to: "/grant" },
+                { text: "Login", to: "/login" },
+                // { text: "Grant & Aid", to: "/grant" },
                 { text: "Contact", to: "/contact" }
             ]
         },
         {
             linkHeader: "Services",
             links: [
-                { text: "Personal Banking", to: "/about" },
-                { text: "Business Banking", to: "/services" },
-                { text: "Loans and Credit", to: "/grant" },
-                { text: "Cards", to: "/contact" }
+                { text: "Personal Banking", to: "/personal-banking" },
+                { text: "Business Banking", to: "/business-banking" },
+                { text: "Loans and Credit", to: "/loans" },
+                { text: "Cards", to: "/login" }
             ]
         },
         {
             linkHeader: "Data Policies",
             links: [
-                { text: "Privacy Policy", to: "/about" },
-                { text: "Terms of Service", to: "/services" },
-                { text: "Accessibility", to: "/grant" }
+                { text: "Privacy Policy", to: "/privacy" },
+                { text: "Terms of Service", to: "/terms" },
+                { text: "Accessibility", to: "/accessibility" }
             ]
         }
 

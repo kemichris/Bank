@@ -9,7 +9,7 @@ import { FaUser } from "react-icons/fa";
 import { IoBriefcaseSharp } from "react-icons/io5";
 import { FaHandshake } from "react-icons/fa";
 import { FaCreditCard } from "react-icons/fa";
-import { FaHandHoldingDollar } from "react-icons/fa6";
+// import { FaHandHoldingDollar } from "react-icons/fa6";
 
 import { Button } from "../common/Button";
 import { MobileMenu } from "./MobileMenu";
@@ -59,9 +59,9 @@ export function Navbar() {
 
                             <Link to="/loans"><FaHandshake /> Loans & Credit</Link>
 
-                            <Link to="/cards"><FaCreditCard /> Cards</Link>
+                            <Link to="/login"><FaCreditCard /> Cards</Link>
 
-                            <Link to="/grants"><FaHandHoldingDollar /> Grants & Aid</Link>
+                            {/* <Link to="/grants"><FaHandHoldingDollar /> Grants & Aid</Link> */}
                         </div>
                     </li>
 
