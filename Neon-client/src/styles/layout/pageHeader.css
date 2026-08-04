@@ -1,0 +1,58 @@
+.page-header {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), url("../../assets/images/header.jpg");
+    background-size: cover;
+    background-position: center;
+    margin-top: 3rem;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-icon {
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    gap: 0.5rem;
+    background: rgb(255 255 255 / 0.2);
+    border: 1px solid rgb(255 255 255 / 0.2);
+    color: #fff;
+}
+
+.page-icon h3 {
+    font-size: 1rem;
+}
+
+.page-header h1 {
+    color: #fff;
+    font-size: 3.5rem;
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.page-header p {
+    color: #e5e7eb;
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.page-icon svg {
+    font-size: 1.3rem;
+}
+
+@media (max-width: 700px) {
+    .page-header {
+        padding: 4rem 2rem;
+    }
+
+    .page-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .page-header p {
+        font-size: 1rem;
+    }
+}
+
