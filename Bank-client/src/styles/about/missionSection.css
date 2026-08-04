@@ -8,9 +8,6 @@
 
 .mission-content h2 {
     text-align: left;
-    margin-bottom: 1rem;
-    color: #fff;
-    font-size: 2.5rem;
 }
 
 .mission-content p {
@@ -29,10 +26,6 @@
     .mission-section {
         flex-direction: column;
         align-items: flex-start;
-    }
-
-    .mission-content h2 {
-        font-size: 2rem;
     }
 
     .mission-section img {

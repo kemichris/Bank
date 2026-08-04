@@ -1,7 +1,7 @@
 export function ValuesCard({icon, valueName, details}) {
     return (
-        <div className="values-card">
-            <div className="values-icon">
+        <div className="value-card">
+            <div className="value-icon">
                 {icon}
             </div>
             <h3>{valueName}</h3>

@@ -32,12 +32,13 @@ export function ValuesSection() {
     ];
 
     return (
-        <div className="values-section">
+        <div className="value-section">
             <h2>Our Values</h2>
-            <p>These values shape our culture, influence our decisions, and drive us to deliver exceptional
+            <p className="value-description">
+                These values shape our culture, influence our decisions, and drive us to deliver exceptional
                 experiences for our customers.
             </p>
-            <div className="values-cards">
+            <div className="value-cards">
                 {values.map((value, index) => (
                     <ValuesCard
                         key={index}

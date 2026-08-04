@@ -3,10 +3,12 @@ import { FaInfoCircle } from "react-icons/fa";
 import {Navbar} from "../../components/layout/Navbar";
 import {PageHeader} from "../../components/layout/PageHeader";
 import {MissionSection} from "../../components/about/MissionSection";
-import {ValuesSection} from "../../components/about/ValuesSection";
+import {ValuesSection} from "../../components/about/ValueSection";
 import {StatsSection} from "../../components/about/StatsSection";
 import {PageCta} from "../../components/layout/PageCta";
 import {Footer} from "../../components/layout/Footer";
+
+import "../../styles/about/about.css";
 
 
 export function About() {
