@@ -116,6 +116,12 @@
 }
 
 @media (max-width: 500px) {
+
+    .feature-icon,
+    .contact-icon {
+        padding: .8rem;
+    }
+
     .column:first-child .feature-image:first-child {
         height: 120px;
     }

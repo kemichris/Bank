@@ -24,3 +24,26 @@
 .contact-card p {
     font-size: 0.8rem;
 }
+
+@media (max-width:900px) {
+    .contact-section {
+        padding: 3rem 2rem;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width:500px) {
+    .contact-section {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .contact-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-card p {
+        text-align: center;
+    }
+}
