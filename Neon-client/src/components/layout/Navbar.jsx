@@ -14,7 +14,7 @@ import { FaHandHoldingDollar } from "react-icons/fa6";
 import { Button } from "../common/Button";
 import { MobileMenu } from "./MobileMenu";
 
-import Logo from "../../assets/images/neon-logo.png";
+import Logo from "../../assets/images/cm-logo.png";
 
 export function Navbar() {
     const [activeMenu, setActiveMenu] = useState(null);

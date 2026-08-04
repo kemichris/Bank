@@ -5,7 +5,7 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaShieldAlt } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FooterLinks } from "./FooterLinks";
-import Logo from "../../assets/images/neon-logo.png";
+import Logo from "../../assets/images/cm-logo.png";
 
 export function Footer() {
     const footerDetails = [

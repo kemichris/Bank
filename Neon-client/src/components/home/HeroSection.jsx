@@ -35,7 +35,7 @@ export function HeroSection() {
 
     return (
         <div className="hero-section">
-            <h1>Neon Bank</h1>
+            <h1>Columbia Merchant Bank</h1>
             <p className="hero-description">We do banking differently. We believe that people come first,
                 and that everyone deserves a great experience every step of the way.
             </p>
