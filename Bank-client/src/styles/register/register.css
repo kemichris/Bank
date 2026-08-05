@@ -115,6 +115,23 @@
     color: red;
 }
 
+.auth-redirect {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.auth-redirect p {
+    font-size: .8rem;
+    color: #6c798f;
+}
+
+.auth-redirect a {
+    color: #5fa8ff;
+    text-decoration: none;
+    font-size: .9rem;
+}
+
 @media (max-width: 700px) {
     .register-card {
         width: 100%;
