@@ -1,5 +1,12 @@
 import { useState } from "react";
 
+import {
+    personalSchema,
+    contactSchema,
+    accountSchema,
+    securitySchema,
+} from '../../validators/register.schema';
+
 import { RegisterLayout } from "../../components/register/RegisterLayout";
 import { PersonalStep } from "../../components/register/PersonalStep";
 import { ContactStep } from "../../components/register/ContactStep";
@@ -24,7 +31,6 @@ export function Register() {
         country: "",
 
         // Step 3
-        currency: "",
         accountType: "",
         transactionPin: "",
 
@@ -34,10 +40,13 @@ export function Register() {
         acceptTerms: false,
     });
 
+    const [errors, setErrors] = useState({});
+
     const TOTAL_STEPS = 4;
 
     const nextStep = () => {
-        if (step < TOTAL_STEPS) {
+        if (!validateStep()) return;
+        if (step < TOTAL_STEPS ) {
             setStep(prev => prev + 1);
         }
     };
@@ -57,6 +66,39 @@ export function Register() {
         }));
     };
 
+    const validateStep = () => {
+        let result;
+
+        switch (step) {
+            case 1:
+                result = personalSchema.safeParse(formData);
+                break;
+
+            case 2:
+                result = contactSchema.safeParse(formData);
+                break;
+
+            case 3:
+                result = accountSchema.safeParse(formData);
+                break;
+
+            case 4:
+                result = securitySchema.safeParse(formData);
+                break;
+
+            default:
+                return false;
+        }
+
+        if (!result.success) {
+            setErrors(result.error.flatten().fieldErrors);
+            return false;
+        }
+
+        setErrors({});
+        return true;
+    };
+
     const renderStep = () => {
         switch (step) {
             case 1:
@@ -65,6 +107,7 @@ export function Register() {
                         formData={formData}
                         handleChange={handleChange}
                         nextStep={nextStep}
+                        errors={errors}
                     />
                 );
 
@@ -75,6 +118,7 @@ export function Register() {
                         handleChange={handleChange}
                         nextStep={nextStep}
                         previousStep={previousStep}
+                        errors={errors}
                     />
                 );
 
@@ -85,6 +129,7 @@ export function Register() {
                         handleChange={handleChange}
                         nextStep={nextStep}
                         previousStep={previousStep}
+                        errors={errors}
                     />
                 );
 
@@ -94,6 +139,7 @@ export function Register() {
                         formData={formData}
                         handleChange={handleChange}
                         previousStep={previousStep}
+                        errors={errors}
                     />
                 );
 
