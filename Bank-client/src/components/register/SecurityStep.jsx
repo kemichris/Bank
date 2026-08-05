@@ -1,6 +1,6 @@
 import { RiShieldCheckFill } from "react-icons/ri";
 
-export function SecurityStep({ formData, handleChange, previousStep, errors }) {
+export function SecurityStep({ formData, handleChange, previousStep, errors, loading }) {
     return (
         <>
             <div className="icon">
@@ -62,8 +62,8 @@ export function SecurityStep({ formData, handleChange, previousStep, errors }) {
                     Previous
                 </button>
 
-                <button type="submit" className="next-btn">
-                    Create Account
+                <button type="submit" className="next-btn" disabled={loading}>
+                    {loading ? 'Creating Account...' : 'Create Account'}
                 </button>
             </div>
         </>

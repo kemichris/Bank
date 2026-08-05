@@ -28,11 +28,6 @@ export const accountSchema = new mongoose.Schema(
             default: 0,
             min: 0
         },
-        currency: {
-            type: String,
-            enum: ["USD", "EUR", "GBP", "NGN"],
-            default: "USD"
-        },
         status: {
             type: String,
             enum: ["active", "inactive", "frozen", "closed"],

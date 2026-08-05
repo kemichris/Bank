@@ -21,6 +21,10 @@ export const personalSchema = z.object({
         .trim()
         .min(3, 'Username must be at least 3 characters')
         .max(20, 'Username cannot exceed 20 characters'),
+
+    dateOfBirth: z
+    .string()
+    .date('Please select a valid date'),
 });
 
 export const contactSchema = z.object({

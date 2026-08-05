@@ -68,6 +68,20 @@ export function PersonalStep({ formData, handleChange, nextStep, errors }) {
                     <small className="error">{errors.username[0]}</small>
                 )}
             </div>
+             <div>
+                <label>Date of Birth *</label>
+
+                <input
+                    type="date"
+                    name="dateOfBirth"
+                    value={formData.dateOfBirth}
+                    onChange={handleChange}
+                />
+                
+                {errors.dateOfBirth && (
+                    <small className="error">{errors.dateOfBirth[0]}</small>
+                )}
+            </div>
 
             <button className="next-btn" type="button" onClick={nextStep}>
                 Next

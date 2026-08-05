@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 
 import {
@@ -6,6 +7,8 @@ import {
     accountSchema,
     securitySchema,
 } from '../../validators/register.schema';
+
+import { register } from '../../services/auth.service';
 
 import { RegisterLayout } from "../../components/register/RegisterLayout";
 import { PersonalStep } from "../../components/register/PersonalStep";
@@ -16,6 +19,7 @@ import { SecurityStep } from "../../components/register/SecurityStep";
 import "../../styles/register/register.css"
 
 export function Register() {
+    const navigate = useNavigate();
     const [step, setStep] = useState(1);
 
     const [formData, setFormData] = useState({
@@ -24,6 +28,7 @@ export function Register() {
         lastName: "",
         middleName: "",
         username: "",
+        dateOfBirth: "",
 
         // Step 2
         email: "",
@@ -42,11 +47,13 @@ export function Register() {
 
     const [errors, setErrors] = useState({});
 
+    const [loading, setLoading] = useState(false);
+
     const TOTAL_STEPS = 4;
 
     const nextStep = () => {
         if (!validateStep()) return;
-        if (step < TOTAL_STEPS ) {
+        if (step < TOTAL_STEPS) {
             setStep(prev => prev + 1);
         }
     };
@@ -140,6 +147,8 @@ export function Register() {
                         handleChange={handleChange}
                         previousStep={previousStep}
                         errors={errors}
+                        loading={loading}
+
                     />
                 );
 
@@ -151,10 +160,30 @@ export function Register() {
     const handleSubmit = async e => {
         e.preventDefault();
 
-        console.log(formData);
+        if (!validateStep()) return;
+        setLoading(true)
 
-        // Later:
-        // await register(formData);
+        try {
+            const res = await register(formData);
+
+            console.log(res);
+
+            // We'll replace this later with a toast
+            alert('Registration successful!');
+            setTimeout(() => {
+                navigate('/login');
+            }, 5000);
+        } catch (error) {
+            console.log(error);
+
+            console.log(error.response?.data);
+
+            alert(
+                error.response?.data?.message || 'Something went wrong.'
+            );
+        } finally {
+            setLoading(false)
+        }
     };
 
     return (

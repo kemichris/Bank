@@ -14,6 +14,11 @@ export const userSchema = new mongoose.Schema(
             type: String,
             default: null
         },
+        username: {
+            type: String,
+            require: true,
+            unique: true
+        },
         email: {
             type: String,
             required: true,
@@ -34,10 +39,19 @@ export const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        transactionPin: {
+            type: String,
+            default: null
+        },
         role: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Role',
             required: true
+        },
+        country: {
+            type: String,
+            required: true,
+            trim: true
         },
         status: {
             type: String,

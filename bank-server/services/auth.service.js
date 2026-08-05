@@ -14,12 +14,15 @@ export const register = async (userData) => {
     const {
         firstName,
         lastName,
+        middleName,
+        username,
         email,
+        transactionPin,
         phoneNumber,
         dateOfBirth,
+        country,
         password,
-        accountType,
-        currency
+        accountType
     } = userData;
 
     const [existingEmail, existingPhone] = await Promise.all([
@@ -46,6 +49,9 @@ export const register = async (userData) => {
     // Hash password
     const hashedPassword = await hashPassword(password);
 
+    // Hash pin
+    const hashedPin = await hashPassword(transactionPin)
+
     // Start MongoDB session
     const session = await mongoose.startSession();
 
@@ -56,10 +62,15 @@ export const register = async (userData) => {
         const user = new User({
             firstName,
             lastName,
+            middleName,
+            username,
             email,
             phoneNumber,
             dateOfBirth,
+            country,
             password: hashedPassword,
+            transactionPin: hashedPin,
+            accountType,
             role: userRole._id
         });
 
@@ -73,8 +84,7 @@ export const register = async (userData) => {
             owner: user._id,
             accountName: accountName,
             accountNumber,
-            accountType: accountType,
-            currency: currency
+            accountType: accountType
         });
 
         await account.save({ session });
@@ -94,8 +104,7 @@ export const register = async (userData) => {
                 accountNumber: account.accountNumber,
                 accountName: account.accountName,
                 accountType: account.accountType,
-                balance: fromSmallestUnit(account.balance),
-                currency: account.currency
+                balance: fromSmallestUnit(account.balance)
             }
         };
 
