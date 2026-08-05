@@ -23,7 +23,7 @@ export function ContactDetailSection() {
         {
             contactIcon: <MdEmail />,
             contactTitle: "Email Support",
-            contactDetails: ["Response within 24hrs", "support@nexavaultnv.live"]
+            contactDetails: ["Response within 24hrs", "support@Columbia Merchant Bank.live"]
         },
         {
             contactIcon: <FaLocationDot />,

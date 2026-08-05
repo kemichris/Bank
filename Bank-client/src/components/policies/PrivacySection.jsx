@@ -15,7 +15,7 @@ export function PrivacySection() {
                 <div className="policy-section">
                     <h2>1. Information We Collect</h2>
                     <p>
-                        Nexavaultnv collects information to provide better services to our
+                        Columbia Merchant Bank collects information to provide better services to our
                         customers. We collect information in the following ways:
                     </p>
 
@@ -181,7 +181,7 @@ export function PrivacySection() {
                         <strong>Privacy Officer</strong>
                     </p>
 
-                    <p>Email: support@nexavaultnv.live</p>
+                    <p>Email: support@Columbia Merchant Bank.live</p>
                     <p>Phone: 1-800-BANKING</p>
                     <p>
                         Address: 123 Banking Street, Financial District, New York, NY 10001

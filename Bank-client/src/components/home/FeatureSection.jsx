@@ -22,7 +22,7 @@ export function FeatureSection() {
                     }}
                 />
                 <h2>Building Strength Together</h2>
-                <p className="feature-p">Nexavaultnv is a full-service credit union built on the foundation of
+                <p className="feature-p">Columbia Merchant Bank is a full-service credit union built on the foundation of
                     providing our members with every step of their financial journey.
                     We're committed to helping our members achieve their financial
                     goals through personalized service and competitive rates.
