@@ -34,7 +34,6 @@ export function Footer() {
             links: [
                 { text: "Privacy Policy", to: "/privacy" },
                 { text: "Terms of Service", to: "/terms" },
-                { text: "Accessibility", to: "/accessibility" }
             ]
         }
 
