@@ -1,0 +1,38 @@
+.privacy-section {
+    padding: 3rem 5rem;
+    background-color: #111827;
+}
+
+.privacy-section-container {
+    background-color: #1F2937;
+    padding: 3rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.policy-section h2 {
+    text-align: start;
+    font-size: 1.5rem;
+}
+
+.policy-section ul {
+    padding: 0;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    .privacy-section {
+    padding: 3rem 2rem;
+    }
+
+    .privacy-section-container {
+        padding: 1.5rem;
+        gap: 2rem;
+    }
+
+    .policy-section h2 {
+        font-size: 1.3rem;
+    }
+}
