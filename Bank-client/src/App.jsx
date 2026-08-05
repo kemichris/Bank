@@ -8,6 +8,7 @@ import { Contact } from './pages/public/Contact';
 import { PrivacyPolicy } from './pages/public/PrivacyPolicy';
 import { Terms } from './pages/public/Terms';
 import { Register } from './pages/public/Register';
+import { Login } from './pages/public/Login';
 
 import ScrollToTop from './components/common/ScrollToTop';
 import "./styles/style.css"
@@ -25,6 +26,7 @@ function App() {
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   )

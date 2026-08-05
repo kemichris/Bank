@@ -6,7 +6,7 @@ import {
     contactSchema,
     accountSchema,
     securitySchema,
-} from '../../validators/register.schema';
+} from '../../validators/auth.schema';
 
 import { register } from '../../services/auth.service';
 
@@ -70,6 +70,11 @@ export function Register() {
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value,
+        }));
+
+        setErrors(prev => ({
+            ...prev,
+            [name]: undefined,
         }));
     };
 
