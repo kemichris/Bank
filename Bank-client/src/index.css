@@ -1,34 +1,53 @@
-* {
-    margin: 0;
-    font-family: "Roboto";
-    box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0184C7;
+
+  --color-surface-1: #111827; /* Header & Sidebar */
+  --color-surface-2: #1F2937; /* Cards */
+
+  --color-background: #0F172A;
+
+  --color-text: #E5E7EB;
+  --color-text-muted: #9CA3AF;
+
+  --color-border: #374151;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+@layer base {
+    * {
+        font-family: "Roboto", sans-serif;
+        box-sizing: border-box;
+        margin: 0;
+    }
 
+    html {
+        scroll-behavior: smooth;
+    }
 
-body {
-    overflow-x: hidden;
-}
+    body {
+        overflow-x: hidden;
+        
+    }
 
-button {
-    cursor: pointer;
-}
+    button {
+        cursor: pointer;
+    }
 
-h2 {
-    font-size: 2.5rem;
-    text-align: center;
-}
-
-p {
-    line-height: 1.5;
-    font-size: 1rem;
-}
-
-@media (max-width: 900px) {
     h2 {
-        font-size: 2rem;
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    p {
+        line-height: 1.5;
+        font-size: 1rem;
+    }
+
+    @media (max-width: 900px) {
+        h2 {
+            font-size: 2rem;
+        }
     }
 }
+

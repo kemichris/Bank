@@ -10,8 +10,8 @@ export const userRoutes = [
                     element: <Dashboard />,
                 },
                 // {
-                //     path: '/about',
-                //     element: <About />,
+                //     path: '/dashboard/transactions',
+                //     element: <Dashboard />,
                 // },
             ]
     }
