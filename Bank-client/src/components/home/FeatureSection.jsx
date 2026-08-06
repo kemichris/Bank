@@ -4,10 +4,10 @@ import { IoIosPeople } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 import { SectionHeader } from "../ui/SectionHeader";
 import { FeatureCard } from "./FeatureCard";
-import featureImg1 from "../../assets/images/feature-img1.avif"
-import featureImg2 from "../../assets/images/feature-img2.avif"
-import featureImg3 from "../../assets/images/feature-img3.avif"
-import featureImg4 from "../../assets/images/feature-img4.avif"
+import featureImg1 from "../../assets/feature-img1.avif"
+import featureImg2 from "../../assets/feature-img2.avif"
+import featureImg3 from "../../assets/feature-img3.avif"
+import featureImg4 from "../../assets/feature-img4.avif"
 
 export function FeatureSection() {
     return (

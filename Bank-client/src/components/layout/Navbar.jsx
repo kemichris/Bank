@@ -14,7 +14,7 @@ import { FaCreditCard } from "react-icons/fa";
 import { Button } from "../common/Button";
 import { MobileMenu } from "./MobileMenu";
 
-import Logo from "../../assets/images/cm-logo.png";
+import Logo from "../../assets/cm-logo.png";
 
 import "../../styles/layout/navbar.css";
 

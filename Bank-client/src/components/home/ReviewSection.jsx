@@ -1,6 +1,5 @@
 
 import { FaUser } from "react-icons/fa";
-
 import { ReviewCard } from "./ReviewCard";
 
 export function ReviewSection() {

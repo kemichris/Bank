@@ -3,7 +3,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { SectionHeader } from "../ui/SectionHeader"
 import { Button } from "../common/Button"
 
-import ActionImage from "../../assets/images/action-img.jpg"
+import ActionImage from "../../assets/action-img.jpg"
 
 export function CallToActionSection() {
     return (

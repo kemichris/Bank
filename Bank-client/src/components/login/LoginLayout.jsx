@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import Logo from '../../assets/images/cm-logo.png';
+import Logo from '../../assets/cm-logo.png';
 
 import "../../styles/login/loginLayout.css"
 export function LoginLayout({

@@ -5,7 +5,7 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaShieldAlt } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FooterLinks } from "./FooterLinks";
-import Logo from "../../assets/images/cm-logo.png";
+import Logo from "../../assets/cm-logo.png";
 
 import "../../styles/layout/footer.css";
 

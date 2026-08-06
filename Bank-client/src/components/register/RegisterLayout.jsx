@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { ProgressBar } from './ProgressBar';
 
-import Logo from "../../assets/images/cm-logo.png"
+import Logo from "../../assets/cm-logo.png"
 
 export function RegisterLayout({ children, step }) {
     return (
