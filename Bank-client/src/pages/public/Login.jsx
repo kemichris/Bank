@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { LoginLayout } from '../../components/login/LoginLayout';
 import { loginSchema } from '../../validators/auth.schema';
@@ -6,6 +7,8 @@ import { loginSchema } from '../../validators/auth.schema';
 import { login } from '../../services/auth.service';
 
 export function Login() {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -44,28 +47,31 @@ export function Login() {
     const handleSubmit = async e => {
         e.preventDefault();
         if (!validateForm()) return;
-        setLoading(true)
+        setLoading(true);
 
         try {
             const res = await login(formData);
+            console.log(res)
 
-            console.log(res);
+            const token = res?.token || res?.data?.accessToken;
+            const role = res?.role || res?.data?.role || 'user';
 
-            // We'll replace this later with a toast
+            if (token) {
+                localStorage.setItem('token', token);
+                localStorage.setItem('role', role);
+            }
+
             alert('login successful!');
-            // setTimeout(() => {
-            //     navigate('/login');
-            // }, 5000);
+            navigate('/dashboard');
         } catch (error) {
             console.log(error);
-
             console.log(error.response?.data);
 
             alert(
                 error.response?.data?.message || 'Something went wrong.'
             );
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 
