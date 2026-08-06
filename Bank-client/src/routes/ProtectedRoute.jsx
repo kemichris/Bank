@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 export function ProtectedRoute({ allowedRoles = [] }) {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    const role = typeof window !== 'undefined' ? (localStorage.getItem('role') || 'user') : 'user';
+    const role = typeof window !== 'undefined' ? (localStorage.getItem('role')) : null;
 
     if (!token) {
         return <Navigate to="/login" replace />;

@@ -1,3 +1,5 @@
+import { PublicLayout } from '../pages/layout/PublicLayout';
+
 import { Home } from '../pages/public/Home';
 import { About } from '../pages/public/About';
 import { PersonalBanking } from '../pages/public/PersonalBanking';
@@ -11,43 +13,48 @@ import { Login } from '../pages/public/Login';
 
 export const publicRoutes = [
     {
-        path: '/',
-        element: <Home />,
-    },
-    {
-        path: '/about',
-        element: <About />,
-    },
-    {
-        path: '/personal-banking',
-        element: <PersonalBanking />,
-    },
-    {
-        path: '/business-banking',
-        element: <BusinessBanking />,
-    },
-    {
-        path: '/loans',
-        element: <Loans />,
-    },
-    {
-        path: '/contact',
-        element: <Contact />,
-    },
-    {
-        path: '/privacy',
-        element: <PrivacyPolicy />,
-    },
-    {
-        path: '/terms',
-        element: <Terms />,
+        path: '/login',
+        element: <Login />,
     },
     {
         path: '/register',
         element: <Register />,
     },
     {
-        path: '/login',
-        element: <Login />,
+        element: <PublicLayout />,
+        children: [
+            {
+                path: '/',
+                element: <Home />,
+            },
+            {
+                path: '/about',
+                element: <About />,
+            },
+            {
+                path: '/personal-banking',
+                element: <PersonalBanking />,
+            },
+            {
+                path: '/business-banking',
+                element: <BusinessBanking />,
+            },
+            {
+                path: '/loans',
+                element: <Loans />,
+            },
+            {
+                path: '/contact',
+                element: <Contact />,
+            },
+            {
+                path: '/privacy',
+                element: <PrivacyPolicy />,
+            },
+            {
+                path: '/terms',
+                element: <Terms />,
+            },
+        ],
     },
 ];

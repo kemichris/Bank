@@ -1,16 +1,16 @@
 import { PiPhoneCallFill } from "react-icons/pi";
 
-import { Navbar } from "../../components/layout/Navbar"
+
 import { PageHeader } from "../../components/layout/PageHeader"
 import { ContactFormSection } from "../../components/contact/ContactFormSection";
 import { ContactDetailSection } from "../../components/contact/ContactDetailSection";
-import { Footer } from "../../components/layout/Footer"
+
 
 export function Contact() {
     return (
         <>
             <title>Columbia Merchant | Contact</title>
-            <Navbar />
+            
             <PageHeader
                 icon={<PiPhoneCallFill />}
                 header="Get In Touch"
@@ -19,7 +19,7 @@ export function Contact() {
             />
             <ContactFormSection />
             <ContactDetailSection />
-            <Footer />
+            
         </>
     )
 }

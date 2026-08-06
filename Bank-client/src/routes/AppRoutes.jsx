@@ -5,7 +5,6 @@ import { userRoutes } from './user.routes';
 import { adminRoutes } from './admin.routes';
 import { ProtectedRoute } from './ProtectedRoute';
 
-import "../styles/style.css";
 
 export default function AppRoutes() {
     return useRoutes([

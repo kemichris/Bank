@@ -53,8 +53,8 @@ export function Login() {
             const res = await login(formData);
             console.log(res)
 
-            const token = res?.token || res?.data?.accessToken;
-            const role = res?.role || res?.data?.role || 'user';
+            const token =  res?.data?.accessToken;
+            const role = res?.data.user.role;
 
             if (token) {
                 localStorage.setItem('token', token);
