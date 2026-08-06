@@ -7,6 +7,11 @@
     align-items: center;
 }
 
+.login-container h2{
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
 .login-container img {
     width: 10rem;
     height: auto;

@@ -7,6 +7,11 @@
     align-items: center;
 }
 
+.register-container h2{
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
 .register-container img {
     width: 10rem;
     height: auto;
@@ -14,6 +19,8 @@
 
 .reg-p {
     text-align: center;
+    color: #6c798f;
+    margin-bottom: 2rem;
 }
 
 .register-card {
