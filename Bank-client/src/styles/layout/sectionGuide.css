@@ -3,8 +3,14 @@
     padding: 3rem 2rem;
 }
 
+.section-guide h2 {
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
 .guide-description {
     text-align: center;
+    color: #e5e7eb;
 }
 
 .section-guide-cards {
@@ -44,6 +50,7 @@
 
 .section-guide-card p {
     text-align: center;
+    color: #e5e7eb;
 }
 
 @media (max-width: 800px) {

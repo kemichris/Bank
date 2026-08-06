@@ -1,17 +1,9 @@
-h2 {
+.mission-section h2, .stats-section h2  {
     margin-bottom: 1rem;
     color: #fff;
-    font-size: 2.5rem;
 }
 
-p {
+.mission-section p, .stats-section p {
     color: #e5e7eb;
     margin-bottom: 1rem;
-    font-size: 1rem;
-}
-
-@media (max-width: 900px) {
-    h2 {
-        font-size: 2rem;
-    }
 }
