@@ -1,4 +1,5 @@
 import missionImage from "../../assets/images/about-mission.jpg"; 
+import "../../styles/about/missionSection.css"
 
 export function MissionSection() {
     return (

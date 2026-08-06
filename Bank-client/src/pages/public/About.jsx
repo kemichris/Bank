@@ -7,7 +7,8 @@ import { StatsSection } from "../../components/about/StatsSection";
 import { PageCta } from "../../components/layout/PageCta";
 
 import "../../styles/about/about.css";
-
+import "../../styles/about/missionSection.css"
+import "../../styles/about/statsSection.css"
 
 export function About() {
     

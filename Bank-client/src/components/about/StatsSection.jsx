@@ -1,4 +1,3 @@
-
 export function StatsSection() {
     return (
         <div className="stats-section">
