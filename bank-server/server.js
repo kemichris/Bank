@@ -33,7 +33,7 @@ socket.on('error', (error) => {
     console.log('❌ SMTP TCP error:', error.message);
 });
 
-socket.connect(465, 'mail.columbmerchant.live');
+socket.connect(465, 'server407.web-hosting.com');
 
 // Start the server
 app.listen(PORT, () => {
