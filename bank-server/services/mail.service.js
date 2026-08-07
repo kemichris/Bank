@@ -1,5 +1,5 @@
 import transporter from '../config/mailer.js';
-import ApiError from '../utils/apiError.utils';
+import ApiError from '../utils/apiError.utils.js';
 
 
 // send otp for email verificaton 
