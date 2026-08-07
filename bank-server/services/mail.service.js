@@ -15,7 +15,7 @@ export const sendOtpEmail = async (email, name, otp) => {
 
           <p>Your verification code is:</p>
 
-          <h1 style="color:#1e88e5">${code}</h1>
+          <h1 style="color:#1e88e5">${otp}</h1>
 
           <p>This code expires in 10 minutes.</p>
         </div>

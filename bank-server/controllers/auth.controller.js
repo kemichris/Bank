@@ -6,7 +6,7 @@ export const register = async (req, res, next) => {
 
         return res.status(201).json({
             success: true,
-            message: "Registration successful.",
+            message:'Registration successful. Please verify your email.',
             data: registration
         });
 

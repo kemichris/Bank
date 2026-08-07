@@ -177,7 +177,7 @@ export function Register() {
       setTimeout(() => {
         navigate("/verify-email", {
           state: {
-            email: res.email,
+            email: res.data.email,
           },
         });
       }, 3000);

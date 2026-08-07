@@ -105,7 +105,6 @@ export const register = async (userData) => {
             .catch((err) => { console.error('Email failed:', err); });
 
         return {
-            message: 'Registration successful. Please verify your email.',
             email: user.email
         };
 
