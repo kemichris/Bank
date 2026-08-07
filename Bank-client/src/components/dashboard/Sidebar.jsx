@@ -2,11 +2,9 @@
 import { sidebarData } from "./sidebarData";
 import { SidebarItem } from "./SidebarItem";
 
-
 import Logo from "../../assets/cm-logo.png";
 
-export function Sidebar({ sidebarOpen }) {
-
+export function Sidebar({ sidebarOpen, setSidebarOpen }) {
     return (
         <aside
             className={`
@@ -43,7 +41,7 @@ export function Sidebar({ sidebarOpen }) {
                     <p className="text-xs text-text-muted mb-4">{section.title}</p>
 
                     {section.links.map((link) => (
-                        <SidebarItem key={link.path} link={link} />
+                        <SidebarItem key={link.path} link={link} setSidebarOpen={setSidebarOpen} />
                     ))}
                 </div>
             ))}
