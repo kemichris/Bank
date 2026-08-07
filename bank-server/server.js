@@ -13,28 +13,6 @@ const PORT = process.env.PORT
 await connectDB();
 await seedRoles();
 
-import net from 'node:net';
-
-const socket = new net.Socket();
-
-socket.setTimeout(10000);
-
-socket.on('connect', () => {
-    console.log('✅ TCP connection to SMTP server established');
-    socket.destroy();
-});
-
-socket.on('timeout', () => {
-    console.log('❌ TCP connection to SMTP server timed out');
-    socket.destroy();
-});
-
-socket.on('error', (error) => {
-    console.log('❌ SMTP TCP error:', error.message);
-});
-
-socket.connect(465, 'server407.web-hosting.com');
-
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
