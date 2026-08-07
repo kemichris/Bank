@@ -6,7 +6,7 @@ import { UsePagination } from "./UsePagination";
 export function Table({
     columns,
     data,
-    pageSize = 5,
+    pageSize = 10,
     onRowClick
 }) {
     const {

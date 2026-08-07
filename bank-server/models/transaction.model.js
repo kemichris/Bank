@@ -36,12 +36,6 @@ const transactionSchema = new mongoose.Schema(
             min: 1
         },
 
-        currency: {
-            type: String,
-            enum: ['USD', 'EUR', 'GBP', 'NGN'],
-            required: true
-        },
-
         type: {
             type: String,
             enum: ['transfer', 'deposit', 'withdrawal'],
