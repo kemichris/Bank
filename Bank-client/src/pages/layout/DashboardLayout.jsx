@@ -5,12 +5,9 @@ import { Header } from '../../components/dashboard/Header';
 export function DashboardLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
-
-        <div>
-            <Sidebar 
-                sidebarOpen={sidebarOpen}
-            />
-            <main className='h-full bg-surface-2 '>
+        <div className="min-h-screen bg-surface-1">
+            <Sidebar sidebarOpen={sidebarOpen} />
+            <main>
                 <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
                 <Outlet />

@@ -14,11 +14,12 @@ export function Sidebar({ sidebarOpen }) {
               bg-surface-1 
                 fixed 
                 left-0 
-                top-20 
+                top-20
                 h-screen 
                 overflow-y-auto
                 px-4
-                py-8 
+                py-8
+                pb-20
                 z-20
                 scrollbar-thumb-sky-700
                 border-r

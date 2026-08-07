@@ -15,7 +15,9 @@ export function Header({ sidebarOpen, setSidebarOpen }) {
             items-center
             justify-between 
             fixed
+            z-30
             right-0
+            top-0
             w-full
             max-w-screen
             py-4

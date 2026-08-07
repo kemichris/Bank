@@ -2,10 +2,11 @@
 
 @theme {
   --color-primary: #0184C7; /* blue*/
+  --color-primary-1: #10A4E9;
   --color-primary-2: #0184C7; /*light blue*/
-  --color-primary-3: #22C55E; /*light blue*/
-  --color-primary-4: #EF4444; /*light blue*/
-  --color-primary-5: #EC4799; /*light blue*/
+  --color-primary-3: #22C55E; 
+  --color-primary-4: #EF4444;
+  --color-primary-5: #EC4799; 
 
   --color-surface-1: #111827; /* Header & Sidebar */
   --color-surface-2: #1F2937; /* Cards */
@@ -60,4 +61,3 @@
         }
     }
 }
-
