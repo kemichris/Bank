@@ -7,6 +7,7 @@ export function Table({
     columns,
     data,
     pageSize = 5,
+    onRowClick
 }) {
     const {
         currentPage,
@@ -34,6 +35,7 @@ export function Table({
                     <TableBody
                         columns={columns}
                         data={paginatedData}
+                        onRowClick={onRowClick}
                     />
 
                 </table>

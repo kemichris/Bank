@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Table } from "../common/Table"
+import { TransactionModal } from "./TransactionModal";
 
 const transactionColumns = [
     {
@@ -27,11 +29,17 @@ const transactionColumns = [
 ];
 
 export function TransactionTable({transactions}) {
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
     return (
         <div>
             <Table
                 columns={transactionColumns}
                 data={transactions}
+                onRowClick={setSelectedTransaction}
+            />
+            <TransactionModal
+                transaction={selectedTransaction}
+                onClose={() => setSelectedTransaction(null)}
             />
         </div>
     )

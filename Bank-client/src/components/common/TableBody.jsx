@@ -1,6 +1,7 @@
 export function TableBody({
     data,
     columns,
+    onRowClick
 }) {
     if (!data.length) {
         return (
@@ -22,7 +23,12 @@ export function TableBody({
             {data.map((row) => (
                 <tr
                     key={row.id}
-                    className="transition-colors hover:bg-surface-2"
+                    onClick={() => onRowClick?.(row)}
+                    className={`
+                        hover:bg-surface-2
+                        transition-colors
+                        ${onRowClick ? 'cursor-pointer' : ''}
+                    `}
                 >
                     {columns.map((column) => (
                         <td
