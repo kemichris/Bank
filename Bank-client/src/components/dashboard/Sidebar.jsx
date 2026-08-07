@@ -16,8 +16,13 @@ export function Sidebar({ sidebarOpen }) {
                 left-0 
                 top-20 
                 h-screen 
-                overflow-y-auto  px-4 py-8" custom-scrollbar
-                z-20 
+                overflow-y-auto
+                px-4
+                py-8 
+                z-20
+                scrollbar-thumb-sky-700
+                border-r
+                border-border
                 transition-transform 
                 duration-300
                 ${sidebarOpen

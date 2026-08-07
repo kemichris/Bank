@@ -10,7 +10,7 @@ export function DashboardLayout() {
             <Sidebar 
                 sidebarOpen={sidebarOpen}
             />
-            <main>
+            <main className='h-full bg-surface-2 '>
                 <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
                 <Outlet />

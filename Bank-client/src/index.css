@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0184C7;
+  --color-primary: #0184C7; /* blue*/
+  --color-primary-2: #0184C7; /*light blue*/
+  --color-primary-3: #22C55E; /*light blue*/
+  --color-primary-4: #EF4444; /*light blue*/
+  --color-primary-5: #EC4799; /*light blue*/
 
   --color-surface-1: #111827; /* Header & Sidebar */
   --color-surface-2: #1F2937; /* Cards */
@@ -12,6 +16,12 @@
   --color-text-muted: #9CA3AF;
 
   --color-border: #374151;
+
+  --gradient-main: linear-gradient(
+    to right,
+    #01F2937,
+    #111827
+  );
 }
 
 @layer base {
