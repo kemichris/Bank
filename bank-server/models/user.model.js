@@ -81,7 +81,14 @@ export const userSchema = new mongoose.Schema(
         passwordResetExpires: {
             type: Date,
             default: null
-        }
+        },
+        emailVerified: {
+            type: Boolean,
+            default: false
+        },
+        emailVerificationCode: String,
+        emailVerificationExpires: Date,
+        emailVerificationLastSent: Date,
     },
     {
         timestamps: true,

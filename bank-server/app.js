@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/api/health", (req, res) => {
     res.status(200).json({
         success: true,
-        message: "NeonBank API is running"
+        message: "Bank API is running"
     });
 });
 

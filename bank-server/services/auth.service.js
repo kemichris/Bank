@@ -8,6 +8,8 @@ import { hashPassword, comparePassword } from '../utils/password.utils.js';
 import { generateAccountNumber } from '../utils/account.utils.js';
 import { fromSmallestUnit } from '../utils/money.utils.js';
 import { generateAccessToken } from '../utils/jwt.utils.js';
+import generateCode from '../utils/generateCode.utils.js';
+import { sendOtpEmail } from './mail.service.js';
 
 // user registration service
 export const register = async (userData) => {
@@ -52,6 +54,9 @@ export const register = async (userData) => {
     // Hash pin
     const hashedPin = await hashPassword(transactionPin)
 
+    // Generate 6-digit verification code
+    const verificationCode = generateCode();
+
     // Start MongoDB session
     const session = await mongoose.startSession();
 
@@ -71,7 +76,11 @@ export const register = async (userData) => {
             password: hashedPassword,
             transactionPin: hashedPin,
             accountType,
-            role: userRole._id
+            role: userRole._id,
+            emailVerified: false,
+            emailVerificationCode: verificationCode,
+            emailVerificationExpires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+            emailVerificationLastSent: new Date() // track when code was sent
         });
 
         await user.save({ session });
@@ -92,20 +101,12 @@ export const register = async (userData) => {
         // Save everything
         await session.commitTransaction();
 
+        sendOtpEmail(user.email, user.firstName, verificationCode)
+            .catch((err) => { console.error('Email failed:', err); });
 
         return {
-            user: {
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email
-            },
-            account: {
-                accountNumber: account.accountNumber,
-                accountName: account.accountName,
-                accountType: account.accountType,
-                balance: fromSmallestUnit(account.balance)
-            }
+            message: 'Registration successful. Please verify your email.',
+            email: user.email
         };
 
     } catch (error) {

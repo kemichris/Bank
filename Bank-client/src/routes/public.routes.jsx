@@ -10,6 +10,7 @@ import { PrivacyPolicy } from '../pages/public/PrivacyPolicy';
 import { Terms } from '../pages/public/Terms';
 import { Register } from '../pages/public/Register';
 import { Login } from '../pages/public/Login';
+import { VerifyEmail } from '../pages/public/VerifyEmail';
 
 export const publicRoutes = [
     {
@@ -19,6 +20,10 @@ export const publicRoutes = [
     {
         path: '/register',
         element: <Register />,
+    },
+    {
+        path: '/verify-email',
+        element: <VerifyEmail />,
     },
     {
         element: <PublicLayout />,

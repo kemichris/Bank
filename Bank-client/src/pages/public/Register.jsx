@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import {
-    personalSchema,
-    contactSchema,
-    accountSchema,
-    securitySchema,
-} from '../../validators/auth.schema';
+  personalSchema,
+  contactSchema,
+  accountSchema,
+  securitySchema,
+} from "../../validators/auth.schema";
 
-import { register } from '../../services/auth.service';
+import { register } from "../../services/auth.service";
 
 import { RegisterLayout } from "../../components/register/RegisterLayout";
 import { PersonalStep } from "../../components/register/PersonalStep";
@@ -16,190 +16,188 @@ import { ContactStep } from "../../components/register/ContactStep";
 import { AccountStep } from "../../components/register/AccountStep";
 import { SecurityStep } from "../../components/register/SecurityStep";
 
-import "../../styles/register/register.css"
+import "../../styles/register/register.css";
 
 export function Register() {
-    const navigate = useNavigate();
-    const [step, setStep] = useState(1);
+  const navigate = useNavigate();
+  const [step, setStep] = useState(1);
 
-    const [formData, setFormData] = useState({
-        // Step 1
-        firstName: "",
-        lastName: "",
-        middleName: "",
-        username: "",
-        dateOfBirth: "",
+  const [formData, setFormData] = useState({
+    // Step 1
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    username: "",
+    dateOfBirth: "",
 
-        // Step 2
-        email: "",
-        phoneNumber: "",
-        country: "",
+    // Step 2
+    email: "",
+    phoneNumber: "",
+    country: "",
 
-        // Step 3
-        accountType: "",
-        transactionPin: "",
+    // Step 3
+    accountType: "",
+    transactionPin: "",
 
-        // Step 4
-        password: "",
-        confirmPassword: "",
-        acceptTerms: false,
-    });
+    // Step 4
+    password: "",
+    confirmPassword: "",
+    acceptTerms: false,
+  });
 
-    const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    const TOTAL_STEPS = 4;
+  const TOTAL_STEPS = 4;
 
-    const nextStep = () => {
-        if (!validateStep()) return;
-        if (step < TOTAL_STEPS) {
-            setStep(prev => prev + 1);
-        }
-    };
+  const nextStep = () => {
+    if (!validateStep()) return;
+    if (step < TOTAL_STEPS) {
+      setStep((prev) => prev + 1);
+    }
+  };
 
-    const previousStep = () => {
-        if (step > 1) {
-            setStep(prev => prev - 1);
-        }
-    };
+  const previousStep = () => {
+    if (step > 1) {
+      setStep((prev) => prev - 1);
+    }
+  };
 
-    const handleChange = e => {
-        const { name, value, type, checked } = e.target;
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
 
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value,
-        }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
 
-        setErrors(prev => ({
-            ...prev,
-            [name]: undefined,
-        }));
-    };
+    setErrors((prev) => ({
+      ...prev,
+      [name]: undefined,
+    }));
+  };
 
-    const validateStep = () => {
-        let result;
+  const validateStep = () => {
+    let result;
 
-        switch (step) {
-            case 1:
-                result = personalSchema.safeParse(formData);
-                break;
+    switch (step) {
+      case 1:
+        result = personalSchema.safeParse(formData);
+        break;
 
-            case 2:
-                result = contactSchema.safeParse(formData);
-                break;
+      case 2:
+        result = contactSchema.safeParse(formData);
+        break;
 
-            case 3:
-                result = accountSchema.safeParse(formData);
-                break;
+      case 3:
+        result = accountSchema.safeParse(formData);
+        break;
 
-            case 4:
-                result = securitySchema.safeParse(formData);
-                break;
+      case 4:
+        result = securitySchema.safeParse(formData);
+        break;
 
-            default:
-                return false;
-        }
+      default:
+        return false;
+    }
 
-        if (!result.success) {
-            setErrors(result.error.flatten().fieldErrors);
-            return false;
-        }
+    if (!result.success) {
+      setErrors(result.error.flatten().fieldErrors);
+      return false;
+    }
 
-        setErrors({});
-        return true;
-    };
+    setErrors({});
+    return true;
+  };
 
-    const renderStep = () => {
-        switch (step) {
-            case 1:
-                return (
-                    <PersonalStep
-                        formData={formData}
-                        handleChange={handleChange}
-                        nextStep={nextStep}
-                        errors={errors}
-                    />
-                );
+  const renderStep = () => {
+    switch (step) {
+      case 1:
+        return (
+          <PersonalStep
+            formData={formData}
+            handleChange={handleChange}
+            nextStep={nextStep}
+            errors={errors}
+          />
+        );
 
-            case 2:
-                return (
-                    <ContactStep
-                        formData={formData}
-                        handleChange={handleChange}
-                        nextStep={nextStep}
-                        previousStep={previousStep}
-                        errors={errors}
-                    />
-                );
+      case 2:
+        return (
+          <ContactStep
+            formData={formData}
+            handleChange={handleChange}
+            nextStep={nextStep}
+            previousStep={previousStep}
+            errors={errors}
+          />
+        );
 
-            case 3:
-                return (
-                    <AccountStep
-                        formData={formData}
-                        handleChange={handleChange}
-                        nextStep={nextStep}
-                        previousStep={previousStep}
-                        errors={errors}
-                    />
-                );
+      case 3:
+        return (
+          <AccountStep
+            formData={formData}
+            handleChange={handleChange}
+            nextStep={nextStep}
+            previousStep={previousStep}
+            errors={errors}
+          />
+        );
 
-            case 4:
-                return (
-                    <SecurityStep
-                        formData={formData}
-                        handleChange={handleChange}
-                        previousStep={previousStep}
-                        errors={errors}
-                        loading={loading}
+      case 4:
+        return (
+          <SecurityStep
+            formData={formData}
+            handleChange={handleChange}
+            previousStep={previousStep}
+            errors={errors}
+            loading={loading}
+          />
+        );
 
-                    />
-                );
+      default:
+        return null;
+    }
+  };
 
-            default:
-                return null;
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSubmit = async e => {
-        e.preventDefault();
+    if (!validateStep()) return;
+    setLoading(true);
 
-        if (!validateStep()) return;
-        setLoading(true)
+    try {
+      const res = await register(formData);
 
-        try {
-            const res = await register(formData);
+      console.log(res);
 
-            console.log(res);
+      // We'll replace this later with a toast
+      alert(res.message);
+      setTimeout(() => {
+        navigate("/verify-email", {
+          state: {
+            email: res.email,
+          },
+        });
+      }, 3000);
+    } catch (error) {
+      console.log(error);
 
-            // We'll replace this later with a toast
-            alert('Registration successful!');
-            setTimeout(() => {
-                navigate('/login');
-            }, 5000);
-        } catch (error) {
-            console.log(error);
+      console.log(error.response?.data);
 
-            console.log(error.response?.data);
+      alert(error.response?.data?.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            alert(
-                error.response?.data?.message || 'Something went wrong.'
-            );
-        } finally {
-            setLoading(false)
-        }
-    };
-
-    return (
-
-        <>
-            <title>Columbia Merchant | Register</title>
-            <RegisterLayout step={step}>
-                <form onSubmit={handleSubmit}>
-                    {renderStep()}
-                </form>
-            </RegisterLayout>
-        </>
-    )
+  return (
+    <>
+      <title>Columbia Merchant | Register</title>
+      <RegisterLayout step={step}>
+        <form onSubmit={handleSubmit}>{renderStep()}</form>
+      </RegisterLayout>
+    </>
+  );
 }
