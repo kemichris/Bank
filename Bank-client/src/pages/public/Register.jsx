@@ -177,11 +177,7 @@ export function Register() {
         toast.success(res.message);
 
         setTimeout(() => {
-        navigate("/verify-email", {
-          state: {
-            email: res.data.email,
-          },
-        });
+        navigate(`/verify-email?email=${encodeURIComponent(res.data.email)}`);
       }, 3000);
       } else {
         toast.error(res.message);

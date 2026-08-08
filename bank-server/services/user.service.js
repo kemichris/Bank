@@ -94,7 +94,7 @@ export const verifyEmail = async (emailData) => {
     }
 };
 
-// ─── RESEND EMAIL VERIFICATION CODE ────────────────────────────
+// RESEND EMAIL VERIFICATION CODE 
 export const resendVerificationCode = async (email) => {
     try {
         if (!email) {
@@ -155,4 +155,15 @@ export const resendVerificationCode = async (email) => {
             'Failed to resend verification code.'
         );
     }
+};
+
+// Check email verification status 
+export const getEmailVerificationStatus = async (email) => {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        throw new ApiError(404, 'User not found');
+    }
+
+    return user.emailVerified;
 };

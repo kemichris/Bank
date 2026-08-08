@@ -1,21 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+
+import { } from '../services/auth.service';
 import { OtpInput } from "../../components/emailverification/OtpInput";
 import {
     verifyEmail,
     resendVerificationCode,
+    getEmailVerificationStatus
 } from "../../services/auth.service";
 
 export function VerifyEmail() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+
+    const email = searchParams.get('email');
+
+    useEffect(() => {
+        if (!email) {
+            navigate('/login', { replace: true });
+            return;
+        }
+
+        const checkVerificationStatus = async () => {
+            try {
+                const res = await getEmailVerificationStatus(email);
+
+                if (res.data.emailVerified) {
+                    navigate('/login', { replace: true });
+                }
+            } catch (error) {
+                console.error(
+                    error.response?.data || error
+                );
+            }
+        };
+
+        checkVerificationStatus();
+    }, [email, navigate]);
+
     const [code, setCode] = useState(["", "", "", "", "", ""]);
     const [loading, setLoading] = useState(false);
 
-    const location = useLocation();
 
-    const email = location.state?.email;
 
     const handleSubmit = async (event) => {
         event.preventDefault();

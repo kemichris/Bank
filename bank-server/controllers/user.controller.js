@@ -63,3 +63,21 @@ export const resendVerificationCode = async (req, res, next) => {
         next(error);
     }
 };
+
+export const getEmailVerificationStatus = async (req, res, next) => {
+    try {
+        const emailVerified =
+            await userService.getEmailVerificationStatus(
+                req.query.email
+            );
+
+        res.status(200).json({
+            success: true,
+            data: {
+                emailVerified
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
+};

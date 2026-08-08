@@ -23,3 +23,14 @@ export const resendVerificationCode = async email => {
     return data;
 };
 
+export const getEmailVerificationStatus = async email => {
+    const { data } = await api.get(
+        '/auth/email-verification-status',
+        {
+            params: { email }
+        }
+    );
+
+    return data;
+};
+
