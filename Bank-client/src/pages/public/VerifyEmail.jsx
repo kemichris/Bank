@@ -24,7 +24,7 @@ export function VerifyEmail() {
     const verificationCode = code.join('');
 
     try {
-        const res = await verifyEmail('/auth/verify-email', {
+        const res = await verifyEmail({
             email,
             verificationCode
         });
