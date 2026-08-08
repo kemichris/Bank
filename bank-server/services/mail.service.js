@@ -1,37 +1,47 @@
-import transporter from '../config/mailer.js';
+import { Resend } from 'resend';
 import ApiError from '../utils/apiError.utils.js';
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-// send otp for email verificaton 
+// Send OTP for email verification
 export const sendOtpEmail = async (email, name, otp) => {
     try {
-        await transporter.sendMail({
+        const { data, error } = await resend.emails.send({
             from: `"Columbia Merchant" <${process.env.MAIL_FROM}>`,
-            to: email,
+            to: [email],
             subject: 'Email Verification Code',
             html: `
-        <div style="font-family: Arial;">
-          <h2>Hello ${name}</h2>
+                <div style="font-family: Arial;">
+                    <h2>Hello ${name}</h2>
 
-          <p>Your verification code is:</p>
+                    <p>Your verification code is:</p>
 
-          <h1 style="color:#1e88e5">${otp}</h1>
+                    <h1 style="color:#1e88e5">${otp}</h1>
 
-          <p>This code expires in 10 minutes.</p>
-        </div>
-      `,
+                    <p>This code expires in 10 minutes.</p>
+                </div>
+            `
         });
-        console.log("✅ Verification email sent");
+
+        if (error) {
+            console.error('❌ Resend error:', error);
+            throw new ApiError(500, 'Failed to send verification email.');
+        }
+
+        console.log('✅ Verification email sent:', data);
+
+        return data;
+
     } catch (error) {
-        console.error("❌ Email failed:", error);
+        console.error('❌ Email failed:', error);
+
         if (error instanceof ApiError) {
             throw error;
         }
 
-        // Convert unknown errors into a generic server error
         throw new ApiError(
             500,
-            'An unexpected error occurred while processing the card request.'
+            'Failed to send verification email.'
         );
     }
 };
