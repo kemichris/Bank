@@ -192,7 +192,7 @@ export function Register() {
 
       console.log(error.response?.data);
 
-      alert(error.response?.data?.message || "Something went wrong.");
+      toast(error.response?.data?.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
