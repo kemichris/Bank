@@ -1,6 +1,7 @@
 import { email } from 'zod';
 import User from '../models/user.model.js';
 import Account from '../models/account.model.js';
+import Transaction from '../models/transaction.model.js';
 import ApiError from '../utils/apiError.utils.js';
 import { comparePassword } from '../utils/password.utils.js';
 import generateCode from '../utils/generateCode.utils.js';
