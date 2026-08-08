@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import {
   personalSchema,
@@ -172,15 +173,20 @@ export function Register() {
 
       console.log(res);
 
-      // We'll replace this later with a toast
-      alert(res.message);
-      setTimeout(() => {
+      if (res.success) {
+        toast.success(res.message);
+
+        setTimeout(() => {
         navigate("/verify-email", {
           state: {
             email: res.data.email,
           },
         });
       }, 3000);
+      } else {
+        toast.error(res.message);
+      }
+      
     } catch (error) {
       console.log(error);
 
