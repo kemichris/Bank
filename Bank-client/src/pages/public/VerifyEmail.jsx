@@ -40,11 +40,9 @@ export function VerifyEmail() {
                 setTimeout(() => {
                     navigate('/login');
                 }, 1500);
-
-                return;
+            } else {
+                toast.error(res.message);
             }
-
-            toast.error(res.message);
 
         } catch (error) {
             console.error(error.response?.data || error);
