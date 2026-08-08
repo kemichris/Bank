@@ -1,4 +1,3 @@
-import { ZodError } from 'zod';
 import ApiError from '../utils/apiError.utils.js';
 
 export const validate = schema => {
@@ -8,7 +7,7 @@ export const validate = schema => {
 
             next();
         } catch (error) {
-            if (error instanceof ZodError) {
+            if (error && typeof error.flatten === 'function') {
                 return next(
                     new ApiError(
                         400,
