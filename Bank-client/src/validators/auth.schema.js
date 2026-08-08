@@ -34,7 +34,7 @@ export const contactSchema = z.object({
     phoneNumber: z
         .string()
         .trim()
-        .min(1, 'Phone number is required'),
+        .min(7, 'Phone number is required'),
 
     country: z
         .string()
