@@ -9,7 +9,7 @@ const counterSchema = new mongoose.Schema(
         },
         value: {
             type: Number,
-            default: 3500000000
+            default: 9873048240
         }
     },
     {

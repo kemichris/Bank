@@ -11,7 +11,7 @@ export const generateAccountNumber = async (session) => {
     if (!counter) {
         counter = new Counter({
             name: 'accountNumber',
-            value: 3500000000
+            value: 9873048240
         });
     }
 
