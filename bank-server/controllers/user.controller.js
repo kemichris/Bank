@@ -50,3 +50,16 @@ export const verifyEmail = async (req, res, next) => {
     }
 };
 
+export const resendVerificationCode = async (req, res, next) => {
+    try {
+        await userService.resendVerificationCode(req.body.email);
+
+        res.status(200).json({
+            success: true,
+            message: 'A new verification code has been sent to your email.'
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};

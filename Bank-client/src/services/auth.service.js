@@ -15,3 +15,11 @@ export const verifyEmail = async emailData => {
     return data;
 };
 
+export const resendVerificationCode = async email => {
+    const { data } = await api.post('/auth/resend-verification-code', {
+        email
+    });
+
+    return data;
+};
+

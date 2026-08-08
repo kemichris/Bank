@@ -1,21 +1,16 @@
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { OtpInput } from '../../components/emailverification/OtpInput';
-import { verifyEmail } from '../../services/auth.service';
-
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { OtpInput } from "../../components/emailverification/OtpInput";
+import {
+    verifyEmail,
+    resendVerificationCode,
+} from "../../services/auth.service";
 
 export function VerifyEmail() {
     const navigate = useNavigate();
-    const [code, setCode] = useState([
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-    ]);
+    const [code, setCode] = useState(["", "", "", "", "", ""]);
     const [loading, setLoading] = useState(false);
 
     const location = useLocation();
@@ -25,75 +20,70 @@ export function VerifyEmail() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        const verificationCode = code.join('');
-
+        const verificationCode = code.join("");
 
         try {
             const res = await verifyEmail({
                 email,
-                verificationCode
+                verificationCode,
             });
 
             if (res.ok) {
                 toast.success(res.message);
 
                 setTimeout(() => {
-                    navigate('/login');
+                    navigate("/login");
                 }, 1500);
             } else {
                 toast.error(res.message);
             }
-
         } catch (error) {
             console.error(error.response?.data || error);
-            toast.error(error.response?.data?.message || 'Something went wrong. Please try again.'
-    );
+            toast.error(
+                error.response?.data?.message ||
+                "Something went wrong. Please try again.",
+            );
         } finally {
             setLoading(false);
         }
     };
 
-    const handleResend = () => {
-        console.log('Resend verification code');
+    const handleResend = async () => {
+        setLoading(true);
+        try {
+            const res = await resendVerificationCode(email);
+
+            toast.success(res.message);
+        } catch (error) {
+            toast.error(
+                error.response?.data?.message ||
+                "Something went wrong. Please try again.",
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="min-h-screen bg-background flex items-center justify-center px-4">
-
             <div className="w-full max-w-md rounded-2xl border border-border bg-surface-1 p-8 shadow-xl">
-
                 <div className="text-center">
-
-                    <h1 className="text-2xl font-bold text-text">
-                        Verify Your Email
-                    </h1>
+                    <h1 className="text-2xl font-bold text-text">Verify Your Email</h1>
 
                     <p className="mt-3 text-sm leading-6 text-text-muted">
-                        We've sent a{' '}
-                        <strong className="text-text">
-                            6-digit verification code
-                        </strong>{' '}
-                        to
+                        We've sent a{" "}
+                        <strong className="text-text">6-digit verification code</strong> to
                     </p>
 
-                    <p className="mt-1 font-medium text-primary">
-                        {email}
-                    </p>
+                    <p className="mt-1 font-medium text-primary">{email}</p>
 
                     <p className="mt-2 text-sm text-text-muted">
                         Please enter it below to activate your account.
                     </p>
-
                 </div>
 
-                <form
-                    onSubmit={handleSubmit}
-                    className="mt-8"
-                >
-                    <OtpInput
-                        value={code}
-                        onChange={setCode}
-                    />
+                <form onSubmit={handleSubmit} className="mt-8">
+                    <OtpInput value={code} onChange={setCode} />
 
                     <button
                         type="submit"
@@ -112,27 +102,28 @@ export function VerifyEmail() {
                         "
                         disabled={loading}
                     >
-                        {loading ? 'Loading...' : 'Verify Email'}
+                        {loading ? "Loading..." : "Verify Email"}
                     </button>
                 </form>
 
                 <p className="mt-6 text-center text-sm text-text-muted">
-                    Didn't receive the code?{' '}
-
+                    Didn't receive the code?{" "}
                     <button
                         type="button"
                         onClick={handleResend}
                         className="
                             font-semibold
-                            text-primary
+                          text-primary
                             hover:underline
                             cursor-pointer
+                            disabled:cursor-not-allowed
+                            disabled:opacity-50
                         "
+                        disabled={loading}
                     >
-                        Resend Code
+                        {loading ? "Sending code..." : "Resend"}
                     </button>
                 </p>
-
             </div>
         </div>
     );
