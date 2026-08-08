@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { StatsSection } from '../../components/dashboard/StatsSection';
 import { AccountSection } from '../../components/dashboard/AccountSection';
 import { RecentTransaction } from '../../components/dashboard/RecentTransaction';
+import { PageLoader } from '../../components/common/PageLoader';
 
 import { getDashboardData } from '../../services/dashboard.service';
 
@@ -30,11 +31,17 @@ export function Dashboard() {
     }, []);
 
     if (loading) {
-        return <div>Loading dashboard...</div>;
+        return <PageLoader />;
     }
 
     if (!dashboardData) {
-        return <div>Unable to load dashboard.</div>;
+        return (
+            <div className="flex min-h-full items-center justify-center">
+                <p className="text-text-muted">
+                    Unable to load dashboard data.
+                </p>
+            </div>
+        );
     }
 
     console.log(dashboardData)
@@ -48,6 +55,7 @@ export function Dashboard() {
 
             <StatsSection
                 statistics={dashboardData.statistics}
+                account={dashboardData.account}
             />
 
             <RecentTransaction

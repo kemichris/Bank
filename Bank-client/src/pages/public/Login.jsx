@@ -58,10 +58,12 @@ export function Login() {
 
             const token = res?.data?.accessToken;
             const role = res?.data?.user?.role;
+            const username = res?.data?.user?.username
 
             if (token) {
                 localStorage.setItem('token', token);
                 localStorage.setItem('role', role);
+                localStorage.setItem('username', username)
             }
 
             toast.success('Login successful!');

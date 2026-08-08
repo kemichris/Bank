@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { HiOutlineBars3, HiOutlineXMark } from "react-icons/hi2";
 
 
-export function Header({ sidebarOpen, setSidebarOpen }) {
+export function Header({ username, sidebarOpen, setSidebarOpen }) {
     return (
         <header className={`
             h-20 
@@ -37,7 +37,7 @@ export function Header({ sidebarOpen, setSidebarOpen }) {
             <div>
                 <h1 className="text-2xl font-bold text-text">Dashboard</h1>
 
-                <p className="text-text-muted text-sm">Welcome back, Maihi</p>
+                <p className="text-text-muted text-sm">Welcome back, {username}</p>
             </div>
 
             {/* Right */}

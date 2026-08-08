@@ -7,34 +7,34 @@ import {
 
 import { StatsCard } from './StatsCard';
 
-export function StatsSection() {
+export function StatsSection({statistics, account}) {
 
     const statDatas = [
         {
             icon: <FaCreditCard />,
             timeline: "Available",
-            amount: 50000, 
+            amount: account.limit, 
             stat: "Account Limit",
             bg:"bg-primary-2"
         },
         {
             icon: <FaArrowDown />,
             timeline: "This Month",
-            amount: 50000, 
+            amount: statistics.monthlyCredit, 
             stat: "Monthly Deposit",
             bg:"bg-primary-3"
         },
         {
             icon: <FaArrowUp />,
             timeline: "This Month",
-            amount: 50000, 
+            amount: statistics.monthlyDebit, 
             stat: "Monthly Expenses",
             bg:"bg-primary-4"
         },
         {
             icon: <FaChartLine />,
             timeline: "All Time",
-            amount: 50000, 
+            amount: statistics.totalVolume, 
             stat: "Total Volume",
             bg:"bg-primary-5"
         }
