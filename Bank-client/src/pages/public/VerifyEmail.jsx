@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { OtpInput } from '../../components/emailverification/OtpInput';
+import { verifyEmail } from '../../services/auth.service';
 
 export function VerifyEmail() {
+    const navigate = useNavigate();
     const [code, setCode] = useState([
         '',
         '',
@@ -15,13 +18,26 @@ export function VerifyEmail() {
 
     const email = location.state?.email;
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        const verificationCode = code.join('');
+    const verificationCode = code.join('');
 
-        console.log('Verification code:', verificationCode);
-    };
+    try {
+        const res = await verifyEmail('/auth/verify-email', {
+            email,
+            verificationCode
+        });
+
+        alert(res.message);
+        setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+
+    } catch (error) {
+        console.error(error.response?.data || error);
+    }
+};
 
     const handleResend = () => {
         console.log('Resend verification code');

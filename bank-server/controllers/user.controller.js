@@ -36,3 +36,17 @@ export const changePassword = async (req, res, next) => {
     }
 };
 
+export const verifyEmail = async (req, res, next) => {
+    try {
+        await userService.verifyEmail(req.body);
+
+        res.status(200).json({
+            success: true,
+            message: 'Email verified successfully.'
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+

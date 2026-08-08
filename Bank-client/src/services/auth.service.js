@@ -7,6 +7,11 @@ export const register = async formData => {
 
 export const login = async formData => {
     const { data } = await api.post('/auth/login', formData);
-    return data
-}
+    return data;
+};
+
+export const verifyEmail = async emailData => {
+    const { data } = await api.post('/auth/verify-email', emailData);
+    return data;
+};
 

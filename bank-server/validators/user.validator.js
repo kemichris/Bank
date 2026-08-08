@@ -20,3 +20,12 @@ export const changePasswordSchema = z.object({
     message: 'Passwords do not match.', 
     path: ['confirmPassword']
 }).transform(({ confirmPassword, ...rest }) => rest);
+
+
+export const verifyEmailSchema = z.object({
+    email: z.string().email('Invalid email address'),
+    verificationCode: z
+        .string()
+        .length(6, 'Verification code must be 6 digits')
+        .regex(/^\d+$/, 'Verification code must contain only numbers')
+});
