@@ -13,7 +13,7 @@ export const registerSchema = z.object({
 
     email: z.string().trim().email(),
 
-    phoneNumber: z.string().trim().min(11).max(15),
+    phoneNumber: z.string().trim().min(9).max(15),
 
     country: z.string().trim().min(2),
 
