@@ -14,30 +14,35 @@ export function VerifyEmail() {
         '',
         '',
     ]);
+    const [loading, setLoading] = useState(false);
+
     const location = useLocation();
 
     const email = location.state?.email;
 
     const handleSubmit = async (event) => {
-    event.preventDefault();
+        event.preventDefault();
+        setLoading(true);
+        const verificationCode = code.join('');
 
-    const verificationCode = code.join('');
 
-    try {
-        const res = await verifyEmail({
-            email,
-            verificationCode
-        });
+        try {
+            const res = await verifyEmail({
+                email,
+                verificationCode
+            });
 
-        alert(res.message);
-        setTimeout(() => {
-        navigate("/login");
-      }, 3000);
+            alert(res.message);
+            setTimeout(() => {
+                navigate("/login");
+            }, 3000);
 
-    } catch (error) {
-        console.error(error.response?.data || error);
-    }
-};
+        } catch (error) {
+            console.error(error.response?.data || error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleResend = () => {
         console.log('Resend verification code');
@@ -96,8 +101,9 @@ export function VerifyEmail() {
                             hover:opacity-90
                             cursor-pointer
                         "
+                        disabled={loading}
                     >
-                        Verify Email
+                        {loading ? 'Loading...' : 'Verify Email'}
                     </button>
                 </form>
 
