@@ -46,7 +46,8 @@ export function VerifyEmail() {
 
         } catch (error) {
             console.error(error.response?.data || error);
-            toast.error(error.response?.data || error)
+            toast.error(error.response?.data?.message || 'Something went wrong. Please try again.'
+    );
         } finally {
             setLoading(false);
         }
