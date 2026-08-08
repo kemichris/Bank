@@ -34,7 +34,7 @@ export function VerifyEmail() {
                 verificationCode
             });
 
-            if (res.success) {
+            if (res.ok) {
                 toast.success(res.message);
 
                 setTimeout(() => {
@@ -46,6 +46,7 @@ export function VerifyEmail() {
 
         } catch (error) {
             console.error(error.response?.data || error);
+            toast.error(error.response?.data || error)
         } finally {
             setLoading(false);
         }
