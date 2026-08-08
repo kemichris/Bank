@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { OtpInput } from '../../components/emailverification/OtpInput';
 import { verifyEmail } from '../../services/auth.service';
+
 
 export function VerifyEmail() {
     const navigate = useNavigate();
@@ -32,10 +34,17 @@ export function VerifyEmail() {
                 verificationCode
             });
 
-            alert(res.message);
-            setTimeout(() => {
-                navigate("/login");
-            }, 3000);
+            if (res.success) {
+                toast.success(res.message);
+
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1500);
+
+                return;
+            }
+
+            toast.error(res.message);
 
         } catch (error) {
             console.error(error.response?.data || error);
