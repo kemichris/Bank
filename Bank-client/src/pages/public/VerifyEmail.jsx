@@ -22,6 +22,7 @@ export function VerifyEmail() {
             setTimeout(() => {
                 navigate('/login', { replace: true });
             }, 2000);
+            return
 
         }
 
@@ -63,7 +64,7 @@ export function VerifyEmail() {
                 verificationCode,
             });
 
-            if (res.ok) {
+            if (res.success) {
                 toast.success(res.message);
 
                 setTimeout(() => {
