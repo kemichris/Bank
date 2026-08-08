@@ -56,22 +56,6 @@ export function Login() {
 
             console.log(res);
 
-            // User's email is not verified
-            if (res.data?.emailVerificationRequired) {
-                toast.error('Email verification required.');
-
-                setTimeout(() => {
-                    navigate(
-                        `/verify-email?email=${encodeURIComponent(
-                            res.data.email
-                        )}`
-                    );
-                }, 1500);
-
-                return;
-            }
-
-            // Normal login
             const token = res?.data?.accessToken;
             const role = res?.data?.user?.role;
 
@@ -88,14 +72,33 @@ export function Login() {
             console.log(error);
             console.log(error.response?.data);
 
+            const status = error.response?.status;
+            const message = error.response?.data?.message;
+
+            if (status === 403) {
+                toast.error('Email verification required.');
+
+                setTimeout(() => {
+                    navigate(
+                        `/verify-email?email=${encodeURIComponent(
+                            formData.email
+                        )}`
+                    );
+                }, 1500);
+
+                return;
+            }
+
             toast.error(
-                error.response?.data?.message ||
-                'Something went wrong.'
+                message || 'Something went wrong. Please try again.'
             );
+
         } finally {
             setLoading(false);
         }
     };
+
+
 
     return (
         <>
