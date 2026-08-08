@@ -17,8 +17,12 @@ export function VerifyEmail() {
 
     useEffect(() => {
         if (!email) {
-            navigate('/login', { replace: true });
-            return;
+            toast.error('No email address found');
+
+            setTimeout(() => {
+                navigate('/login', { replace: true });
+            }, 2000);
+
         }
 
         const checkVerificationStatus = async () => {
@@ -26,7 +30,12 @@ export function VerifyEmail() {
                 const res = await getEmailVerificationStatus(email);
 
                 if (res.data.emailVerified) {
-                    navigate('/login', { replace: true });
+                    toast.success('Your email is already verified.');
+
+                    setTimeout(() => {
+                        navigate('/login', { replace: true });
+                    }, 2000);
+
                 }
             } catch (error) {
                 console.error(
