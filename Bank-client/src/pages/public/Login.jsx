@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import toast from 'react-hot-toast';
 import { LoginLayout } from '../../components/login/LoginLayout';
 import { loginSchema } from '../../validators/auth.schema';
 
@@ -46,29 +46,51 @@ export function Login() {
 
     const handleSubmit = async e => {
         e.preventDefault();
+
         if (!validateForm()) return;
+
         setLoading(true);
 
         try {
             const res = await login(formData);
-            console.log(res)
 
-            const token =  res?.data?.accessToken;
-            const role = res?.data.user.role;
+            console.log(res);
+
+            // User's email is not verified
+            if (res.data?.emailVerificationRequired) {
+                toast.error('Email verification required.');
+
+                setTimeout(() => {
+                    navigate(
+                        `/verify-email?email=${encodeURIComponent(
+                            res.data.email
+                        )}`
+                    );
+                }, 1500);
+
+                return;
+            }
+
+            // Normal login
+            const token = res?.data?.accessToken;
+            const role = res?.data?.user?.role;
 
             if (token) {
                 localStorage.setItem('token', token);
                 localStorage.setItem('role', role);
             }
 
-            alert('login successful!');
+            toast.success('Login successful!');
+
             navigate('/dashboard');
+
         } catch (error) {
             console.log(error);
             console.log(error.response?.data);
 
-            alert(
-                error.response?.data?.message || 'Something went wrong.'
+            toast.error(
+                error.response?.data?.message ||
+                'Something went wrong.'
             );
         } finally {
             setLoading(false);
@@ -89,3 +111,4 @@ export function Login() {
         </>
     );
 }
+

@@ -10,6 +10,7 @@ import { fromSmallestUnit } from '../utils/money.utils.js';
 import { generateAccessToken } from '../utils/jwt.utils.js';
 import generateCode from '../utils/generateCode.utils.js';
 import { sendOtpEmail } from './mail.service.js';
+import { resendVerificationCode } from './user.service.js';
 
 // user registration service
 export const register = async (userData) => {
@@ -142,6 +143,24 @@ export const login = async (userData) => {
 
     if (!isPasswordValid) {
         throw new ApiError(401, 'Invalid email or password.');
+    }
+
+    // Check email verification
+    if (!user.emailVerified) {
+        try {
+            await resendVerificationCode(user.email);
+        } catch (error) {
+            // If a code was recently sent, don't treat it
+            // as a login failure.
+            if (error.statusCode !== 429) {
+                throw error;
+            }
+        }
+
+        return {
+            emailVerificationRequired: true,
+            email: user.email
+        };
     }
 
     // Generate access token
