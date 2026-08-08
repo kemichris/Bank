@@ -177,18 +177,25 @@ export function Register() {
         toast.success(res.message);
 
         setTimeout(() => {
-        navigate(`/verify-email?email=${encodeURIComponent(res.data.email)}`);
-      }, 3000);
+          navigate(`/verify-email?email=${encodeURIComponent(res.data.email)}`);
+        }, 3000);
       } else {
         toast.error(res.message);
       }
-      
     } catch (error) {
       console.log(error);
 
-      console.log(error.response?.data);
+      const data = error.response?.data;
 
-      toast(error.response?.data?.message || "Something went wrong.");
+      const firstError = data?.errors
+        ? Object.values(data.errors)[0]?.[0]
+        : null;
+
+      toast.error(
+        firstError ||
+          data?.message ||
+          "Something went wrong. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
