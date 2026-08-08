@@ -167,3 +167,85 @@ export const getEmailVerificationStatus = async (email) => {
 
     return user.emailVerified;
 };
+
+// Dashboard data 
+export const getDashboardData = async (userId) => {
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const [
+        user,
+        primaryAccount,
+        monthlyStats,
+        recentTransactions
+    ] = await Promise.all([
+        // User details
+        User.findById(userId).select(
+            'firstName lastName email username kycStatus'
+        ),
+
+        // Primary account
+        Account.findOne({
+            owner: userId,
+            isPrimary: true
+        }).select(
+            'accountName accountNumber accountType balance status limit isPrimary'
+        ),
+
+        // Monthly credit and debit
+        Transaction.aggregate([
+            {
+                $match: {
+                    owner: userId,
+                    status: 'completed',
+                    createdAt: {
+                        $gte: startOfMonth
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: '$direction',
+                    total: {
+                        $sum: '$amount'
+                    }
+                }
+            }
+        ]),
+
+        // Last 5 transactions
+        Transaction.find({
+            owner: userId,
+            status: 'completed'
+        })
+        .sort({ createdAt: -1 })
+        .limit(5)
+    ]);
+
+    // Get credit amount
+    const monthlyCredit =
+        monthlyStats.find(
+            item => item._id === 'credit'
+        )?.total || 0;
+
+    // Get debit amount
+    const monthlyDebit =
+        monthlyStats.find(
+            item => item._id === 'debit'
+        )?.total || 0;
+
+    // Total credit + debit
+    const totalVolume = monthlyCredit + monthlyDebit;
+
+    return {
+        user,
+        account: primaryAccount,
+        statistics: {
+            monthlyCredit,
+            monthlyDebit,
+            totalVolume
+        },
+        recentTransactions
+    };
+};

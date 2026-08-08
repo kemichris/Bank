@@ -58,6 +58,11 @@ export const userSchema = new mongoose.Schema(
             enum: ['active', 'inactive', 'suspended'],
             default: 'active'
         },
+        kycStatus: {
+            type: String,
+            enum: ['unverified', 'pending', 'verified', 'rejected'],
+            default: 'unverified'
+        },
         otp: {
             type: String,
             default: null

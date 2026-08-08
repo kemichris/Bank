@@ -28,6 +28,11 @@ export const accountSchema = new mongoose.Schema(
             default: 0,
             min: 0
         },
+        limit: {
+            type: Number,
+            default: 50000,
+            min: 0
+        },
         status: {
             type: String,
             enum: ["active", "inactive", "frozen", "closed"],
