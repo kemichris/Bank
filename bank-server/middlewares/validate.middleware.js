@@ -1,4 +1,7 @@
-export const validate = (schema) => {
+import { ZodError } from 'zod';
+import ApiError from '../utils/apiError.utils';
+
+export const validate = schema => {
     return (req, res, next) => {
         try {
             req.validatedData = schema.parse(req.body);
