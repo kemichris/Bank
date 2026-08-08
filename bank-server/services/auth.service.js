@@ -145,22 +145,21 @@ export const login = async (userData) => {
         throw new ApiError(401, 'Invalid email or password.');
     }
 
-    // Check email verification
     if (!user.emailVerified) {
         try {
             await resendVerificationCode(user.email);
         } catch (error) {
-            // If a code was recently sent, don't treat it
-            // as a login failure.
+            // If a code was sent within the last 60 seconds,
+            // don't stop the login flow because of the cooldown.
             if (error.statusCode !== 429) {
                 throw error;
             }
         }
 
-        return {
-            emailVerificationRequired: true,
-            email: user.email
-        };
+        throw new ApiError(
+            403,
+            'Email verification required.'
+        );
     }
 
     // Generate access token
