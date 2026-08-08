@@ -85,17 +85,7 @@ export const cardRequest = async (userId, cardData) => {
         };
 
     } catch (error) {
-        console.error('Card request error:', error);
-        // Preserve known application errors
-        if (error instanceof ApiError) {
-            throw error;
-        }
-
-        // Convert unknown errors into a generic server error
-        throw new ApiError(
-            500,
-            'An unexpected error occurred while processing the card request.'
-        );
+        throw error;
     }
 };
 
@@ -159,16 +149,7 @@ export const approveCardRequest = async (cardId) => {
             await session.abortTransaction();
         }
 
-        console.log(error)
-
-        if (error instanceof ApiError) {
-            throw error;
-        }
-
-        throw new ApiError(
-            500,
-            'An unexpected error occurred while approving the card request.'
-        );
+        throw error;
 
     } finally {
         await session.endSession();
@@ -208,15 +189,7 @@ export const blockCard = async (cardId, currentUser) => {
 
 
     } catch (error) {
-        if (error instanceof ApiError) {
-            throw error;
-        }
-
-        // Convert unknown errors into a generic server error
-        throw new ApiError(
-            500,
-            'An unexpected error occurred while blocking the card.'
-        );
+        throw error;
     }
 
 }
@@ -305,16 +278,7 @@ export const unblockCard = async (cardId, currentUser) => {
 
     } catch (error) {
 
-        console.log(error)
-
-        if (error instanceof ApiError) {
-            throw error;
-        }
-
-        throw new ApiError(
-            500,
-            'An unexpected error occurred while unblocking the card.'
-        );
+        throw error;
     }
 };
 
@@ -353,14 +317,6 @@ export const cancelCard = async (cardId) => {
         }
 
     } catch (error) {
-        if (error instanceof ApiError) {
-            throw error;
-        }
-
-        // Convert unknown errors into a generic server error
-        throw new ApiError(
-            500,
-            'An unexpected error occurred while cancelling the card.'
-        );
+        throw error;
     }
 }

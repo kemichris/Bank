@@ -5,11 +5,17 @@ export const validate = (schema) => {
 
             next();
         } catch (error) {
-            return res.status(400).json({
-                success: false,
-                message: 'Validation failed.',
-                errors: error.messages || error.errors || error.issues || error
-            });
+            if (error instanceof ZodError) {
+                return next(
+                    new ApiError(
+                        400,
+                        'Validation failed.',
+                        error.flatten().fieldErrors
+                    )
+                );
+            }
+
+            next(error);
         }
     };
 };

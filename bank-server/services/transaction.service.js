@@ -243,18 +243,7 @@ export const depositFunds = async (userId, depositData, receiptFile) => {
             }
         }
 
-        // Re-throw known application errors
-        if (error instanceof ApiError) {
-            throw error;
-        }
-
-        // Throw a generic server error for unexpected failures
-        console.error(error);
-
-        throw new ApiError(
-            500,
-            error.message
-        );
+        throw error;
 
     } finally {
         // Always end the session
