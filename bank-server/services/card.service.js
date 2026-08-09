@@ -18,7 +18,7 @@ import ApiError from '../utils/apiError.utils.js';
 // ─── CARD REQUEST ──────────────────────────────────────────────
 // Creates a pending card request
 export const cardRequest = async (userId, cardData) => {
-    const { brand, type, spendingLimit } = cardData;
+    const { brand, spendingLimit } = cardData;
 
     // Find the user's account and populate owner details
     const account = await Account.findOne({
