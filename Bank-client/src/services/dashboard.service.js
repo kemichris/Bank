@@ -6,7 +6,7 @@ export const getDashboardData = async () => {
 };
 
 export const getTransactionHistory = async () => {
-    const response = await api.get('/transactions/history');
+    const response = await api.get('/transaction/history');
 
     return response.data;
 };
