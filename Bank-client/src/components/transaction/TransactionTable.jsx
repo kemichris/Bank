@@ -27,7 +27,7 @@ const transactionColumns = [
         key: 'date',
         label: 'Date',
         render: row =>
-            new Date(row.createdAt).toLocaleDateString(),
+            new Date(row.createdAt).toLocaleString(),
     },
 
     {
