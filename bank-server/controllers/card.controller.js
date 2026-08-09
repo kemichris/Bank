@@ -98,3 +98,20 @@ export const cancelCard = async (req, res, next) => {
         next(error)
     }
 }
+
+// Get active Card
+export const getActiveCard = async (req, res, next) => {
+    try {
+        const userId = req.user._id
+        const cardData = await cardService.getActiveCard(userId)
+
+        return res.status(200).json({
+            success: true,
+            message: 'card retrieved successfully',
+            data: cardData
+        })
+
+    } catch (error) {
+        next(error)
+    }
+}

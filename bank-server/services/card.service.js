@@ -10,7 +10,7 @@ import {
     isCardExpired
 } from '../utils/card.utils.js';
 
-import { encrypt } from '../utils/encryption.utils.js';
+import { encrypt, decrypt } from '../utils/encryption.utils.js';
 import { hashPassword } from '../utils/password.utils.js';
 import ApiError from '../utils/apiError.utils.js';
 
@@ -92,7 +92,6 @@ export const cardRequest = async (userId, cardData) => {
         createdAt: card.createdAt
     };
 };
-
 
 // ─── APPROVE CARD REQUEST ──────────────────────────────────────
 export const approveCardRequest = async cardId => {
@@ -328,5 +327,47 @@ export const cancelCard = async cardId => {
         cardId: card._id,
         status: card.status,
         cancelledAt: card.updatedAt
+    };
+};
+
+// ─── Get Card Info──────────────────────────────────────────────
+
+export const getActiveCard = async userId => {
+    const card = await Card.findOne({
+        owner: userId,
+        status: 'active'
+    });
+
+    if (!card) {
+        throw new ApiError(
+            404,
+            'No active card found.'
+        );
+    }
+
+    return {
+        _id: card._id,
+        owner: card.owner,
+        account: card.account,
+
+        cardNumber: decrypt(card.cardNumber),
+        cvv: decrypt(card.cvv),
+
+        last4: card.last4,
+        cardHolderName: card.cardHolderName,
+        brand: card.brand,
+        type: card.type,
+
+        expiryMonth: card.expiryMonth,
+        expiryYear: card.expiryYear,
+
+        status: card.status,
+        spendingLimit: card.spendingLimit,
+
+        onlinePayments: card.onlinePayments,
+        atmWithdrawal: card.atmWithdrawal,
+        internationalPayments: card.internationalPayments,
+
+        isFrozen: card.isFrozen
     };
 };
