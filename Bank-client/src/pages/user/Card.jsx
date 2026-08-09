@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-// import { CreditCard } from '../../components/cards/CreditCard';
+import { getActiveCards } from '../../services/card.service';
 import { CardStats } from '../../components/cards/CardStats';
 import { PageLoader } from '../../components/common/PageLoader';
 
@@ -9,42 +9,44 @@ import { CardBanner } from '../../components/cards/CardBanner';
 import { CardListings } from '../../components/cards/CardListings';
 
 export function Card() {
-    // const [transactions, setTransactions] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [cards, setCards] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     const loadTransactions = async () => {
-    //         try {
-    //             const res = await getTransactionHistory();
+    useEffect(() => {
+        const loadActiveCards = async () => {
+            try {
+                const res = await getActiveCards();
+                console.log(res.data)
+                setCards(res.data);
+            } catch (error) {
+                console.error(
+                    error.response?.data || error
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    //             setTransactions(res.data);
-    //         } catch (error) {
-    //             console.error(
-    //                 error.response?.data || error
-    //             );
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
+        loadActiveCards();
+    }, []);
 
-    //     loadTransactions();
-    // }, []);
 
-    
 
     if (loading) {
         return <PageLoader />;
     }
 
-    
+
 
     return (
         <>
             <CardsHeader />
-            <CardStats />
+            <CardStats
+                activeCards={cards.activeCards}
+                pendingCards={cards.pendingCards}
+            />
             <CardBanner />
-            <CardListings />
-            {/* <CreditCard /> */}
+            <CardListings cards={cards.cards} />
         </>
     );
 }

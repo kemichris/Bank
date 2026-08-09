@@ -10,45 +10,43 @@ export function CreditCard({
 }) {
     const [showDetails, setShowDetails] = useState(false);
 
-    // Remove spaces first in case the card number comes formatted
     const cleanCardNumber = String(cardNumber).replace(/\s/g, '');
 
-    // Split card number into groups of 4
     const formattedCardNumber =
         cleanCardNumber.match(/.{1,4}/g)?.join('  ') || '';
 
     return (
-        <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/20 bg-linear-to-br from-sky-500 via-blue-600 to-slate-900 px-5 py-4 text-white shadow-2xl sm:rounded-[22px] sm:px-6 sm:py-5">
+        <div className="relative aspect-[1.586/1] w-full max-w-md overflow-hidden rounded-[5%] border border-white/20 bg-linear-to-br from-sky-500 via-blue-600 to-slate-900 p-[5%] text-white shadow-2xl">
 
             {/* Top-right decorative circles */}
-            <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-white/10 sm:-right-14 sm:-top-14 sm:h-36 sm:w-36" />
+            <div className="absolute right-[10%] top-[10%] h-[32%] w-[32%] rounded-full bg-white/10" />
 
-            <div className="absolute -right-5 -top-5 h-20 w-20 rounded-full bg-white/5 sm:h-24 sm:w-24" />
+            <div className="absolute right-[4%] top-[4%] h-[20%] w-[20%] rounded-full bg-white/5" />
 
             {/* Bottom glow */}
-            <div className="absolute -bottom-20 left-1/3 h-36 w-36 rounded-full bg-blue-400/20 blur-3xl" />
+            <div className="absolute bottom-[20%] left-1/3 h-[36%] w-[36%] rounded-full bg-blue-400/20 blur-3xl" />
 
             {/* Card content */}
-            <div className="relative z-10">
+            <div className="relative z-10 flex h-full flex-col">
 
                 {/* Top */}
                 <div className="flex items-start justify-between">
 
                     <div>
-                        <p className="text-base font-semibold tracking-wide sm:text-lg">
+                        <p className="text-[clamp(10px,2vw,18px)] font-semibold tracking-wide">
                             NEON
                         </p>
 
-                        <p className="mt-0.5 text-[9px] uppercase tracking-[0.18em] text-blue-100 sm:text-[10px]">
+                        <p className="mt-[1%] text-[clamp(5px,1vw,10px)] uppercase tracking-[0.18em] text-blue-100">
                             Virtual Card
                         </p>
                     </div>
 
                     {/* Top right */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-[8%]">
 
                         {/* Contactless */}
-                        <div className="text-lg font-light text-white/90 sm:text-xl">
+                        <div className="text-[clamp(10px,2vw,20px)] font-light text-white/90">
                             )))
                         </div>
 
@@ -56,16 +54,9 @@ export function CreditCard({
                         <button
                             type="button"
                             onClick={() =>
-                                setShowDetails((previous) => !previous)
+                                setShowDetails(previous => !previous)
                             }
-                            className="
-                                rounded-full
-                                p-1.5
-                                text-white/80
-                                transition
-                                hover:bg-white/10
-                                hover:text-white
-                            "
+                            className="rounded-full p-[4%] text-white/80 transition hover:bg-white/10 hover:text-white"
                             aria-label={
                                 showDetails
                                     ? 'Hide card details'
@@ -73,9 +64,13 @@ export function CreditCard({
                             }
                         >
                             {showDetails ? (
-                                <HiOutlineEyeSlash size={18} />
+                                <HiOutlineEyeSlash
+                                    className="h-[clamp(12px,2vw,18px)] w-[clamp(12px,2vw,18px)]"
+                                />
                             ) : (
-                                <HiOutlineEye size={18} />
+                                <HiOutlineEye
+                                    className="h-[clamp(12px,2vw,18px)] w-[clamp(12px,2vw,18px)]"
+                                />
                             )}
                         </button>
 
@@ -83,9 +78,8 @@ export function CreditCard({
 
                 </div>
 
-
                 {/* Chip */}
-                <div className="mt-6 h-7 w-10 overflow-hidden rounded-md border border-white/20 bg-linear-to-br from-yellow-100 to-yellow-400 shadow-inner sm:mt-7 sm:h-8 sm:w-12">
+                <div className="mt-[7%] h-[13%] w-[16%] overflow-hidden rounded-[15%] border border-white/20 bg-linear-to-br from-yellow-100 to-yellow-400 shadow-inner">
 
                     <div className="relative h-full w-full">
 
@@ -93,76 +87,69 @@ export function CreditCard({
 
                         <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-yellow-700/30" />
 
-                        <div className="absolute left-1 top-1 h-3.5 w-2.5 rounded border border-yellow-700/30 sm:left-1.5 sm:top-1.5 sm:h-4 sm:w-3" />
+                        <div className="absolute left-[10%] top-[12%] h-[45%] w-[28%] rounded border border-yellow-700/30" />
 
-                        <div className="absolute right-1 top-1 h-3.5 w-2.5 rounded border border-yellow-700/30 sm:right-1.5 sm:top-1.5 sm:h-4 sm:w-3" />
+                        <div className="absolute right-[10%] top-[12%] h-[45%] w-[28%] rounded border border-yellow-700/30" />
 
                     </div>
 
                 </div>
 
-
                 {/* Card number */}
-                <div className="mt-4 whitespace-nowrap text-sm font-medium tracking-widest sm:mt-5 sm:text-lg sm:tracking-[0.15em]">
+                <div className="mt-[5%] whitespace-nowrap text-[clamp(9px,2vw,18px)] font-medium tracking-[0.12em]">
 
-                    {showDetails ? (
-                        formattedCardNumber
-                    ) : (
-                        '••••  ••••  ••••  ••••'
-                    )}
+                    {showDetails
+                        ? formattedCardNumber
+                        : '••••  ••••  ••••  ••••'}
 
                 </div>
 
-
                 {/* Bottom information */}
-                <div className="mt-5 flex items-end justify-between gap-3 sm:mt-6 sm:gap-4">
+                <div className="mt-auto flex items-end justify-between gap-[3%]">
 
                     {/* Card holder */}
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
 
-                        <p className="text-[7px] uppercase tracking-widest text-blue-100/70 sm:text-[8px]">
+                        <p className="text-[clamp(5px,0.8vw,8px)] uppercase tracking-widest text-blue-100/70">
                             Card Holder
                         </p>
 
-                        <p className="mt-0.5 truncate text-[11px] font-medium uppercase tracking-wide sm:text-xs">
+                        <p className="mt-[1%] truncate text-[clamp(7px,1vw,12px)] font-medium uppercase tracking-wide">
                             {cardHolder}
                         </p>
 
                     </div>
 
-
                     {/* Expiry */}
                     <div className="shrink-0">
 
-                        <p className="text-[7px] uppercase tracking-widest text-blue-100/70 sm:text-[8px]">
+                        <p className="text-[clamp(5px,0.8vw,8px)] uppercase tracking-widest text-blue-100/70">
                             Expires
                         </p>
 
-                        <p className="mt-0.5 text-[11px] font-medium sm:text-xs">
+                        <p className="mt-[1%] text-[clamp(7px,1vw,12px)] font-medium">
                             {showDetails ? expires : '**/**'}
                         </p>
 
                     </div>
 
-
                     {/* CVV */}
                     <div className="shrink-0">
 
-                        <p className="text-[7px] uppercase tracking-widest text-blue-100/70 sm:text-[8px]">
+                        <p className="text-[clamp(5px,0.8vw,8px)] uppercase tracking-widest text-blue-100/70">
                             CVV
                         </p>
 
-                        <p className="mt-0.5 text-[11px] font-medium tracking-wider sm:text-xs">
+                        <p className="mt-[1%] text-[clamp(7px,1vw,12px)] font-medium tracking-wider">
                             {showDetails ? cvv : '•••'}
                         </p>
 
                     </div>
 
-
                     {/* VISA */}
                     <div className="shrink-0">
 
-                        <p className="text-lg font-black italic tracking-tight sm:text-xl">
+                        <p className="text-[clamp(10px,2vw,20px)] font-black italic tracking-tight">
                             {type}
                         </p>
 

@@ -2,18 +2,18 @@ import { StatCard } from "./StatCard"
 import { FaCreditCard, FaHourglass } from "react-icons/fa"
 
 
-export function CardStats() {
+export function CardStats({activeCards, pendingCards}) {
     const statDatas = [
         {
             icon: <FaCreditCard className="text-text" size={25} />,
             title: "Active Cards",
-            number: 0,
+            number: activeCards,
             className: "bg-orange-500"
         },
         {
             icon: <FaHourglass className="text-text" size={25}/>,
             title: "Pending Application",
-            number: 0,
+            number: pendingCards,
             className: "bg-green-500"
         }
     ]
