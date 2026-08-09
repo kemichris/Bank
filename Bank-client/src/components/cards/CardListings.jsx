@@ -17,7 +17,7 @@ export function CardListings({ cards }) {
                 </Link>
 
             </div>
-            <div className={`${cards.length > 0 ? 'px-4 py-6 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5' : ''}`}>
+            <div className={`${cards.length > 0 ? 'px-4 py-6 grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-5' : ''}`}>
                 {cards.length > 0 ? (
                     cards.map(card => (
 

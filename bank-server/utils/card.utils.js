@@ -45,7 +45,7 @@ export const generateCVV = () => {
 };
 
 // Generates a card expiry date
-export const generateExpiryDate = (yearsValid = 4) => {
+export const generateExpiryDate = (yearsValid = 1) => {
     const today = new Date();
 
     const expiryMonth = crypto.randomInt(1, 13);
