@@ -2,7 +2,7 @@ import express from 'express'
 import {protect, authorize} from '../middlewares/auth.middleware.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import { cardRequestSchema } from '../validators/card.validator.js';
-import { cardRequest, approveCardRequest, blockCard, unblockCard, cancelCard, getActiveCard} from '../controllers/card.controller.js';
+import { cardRequest, approveCardRequest, blockCard, unblockCard, cancelCard, getCardOverview} from '../controllers/card.controller.js';
 import User from '../models/user.model.js';
 
 
@@ -24,6 +24,6 @@ router.patch('/unblock/:id', protect, authorize('user', 'admin', 'manager', 'sup
 router.patch('/cancel/:id', protect, authorize('user', 'admin', 'manager', 'superadmin'), cancelCard);
 
 // Get active card 
-router.get('/active', protect, authorize('user'), getActiveCard )
+router.get('/overview', protect, authorize('user'), getCardOverview )
 
 export default router;

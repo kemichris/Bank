@@ -100,10 +100,10 @@ export const cancelCard = async (req, res, next) => {
 }
 
 // Get active Card
-export const getActiveCard = async (req, res, next) => {
+export const getCardOverview = async (req, res, next) => {
     try {
         const userId = req.user._id
-        const cardData = await cardService.getActiveCard(userId)
+        const cardData = await cardService.getCardOverview(userId)
 
         return res.status(200).json({
             success: true,

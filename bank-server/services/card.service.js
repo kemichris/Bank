@@ -330,44 +330,56 @@ export const cancelCard = async cardId => {
     };
 };
 
-// ─── Get Card Info──────────────────────────────────────────────
+// ─── Get Card overview ──────────────────────────────────────────────
+export const getCardOverview = async userId => {
+    const [cards, pendingCards, activeCards] = await Promise.all([
+        // Get all active cards
+        Card.find({
+            owner: userId,
+            status: 'active'
+        }),
 
-export const getActiveCard = async userId => {
-    const card = await Card.findOne({
-        owner: userId,
-        status: 'active'
-    });
+        // Count pending cards
+        Card.countDocuments({
+            owner: userId,
+            status: 'pending'
+        }),
 
-    if (!card) {
-        throw new ApiError(
-            404,
-            'No active card found.'
-        );
-    }
+        // Count active cards
+        Card.countDocuments({
+            owner: userId,
+            status: 'active'
+        })
+    ]);
 
     return {
-        _id: card._id,
-        owner: card.owner,
-        account: card.account,
+        cards: cards.map(card => ({
+            _id: card._id,
+            owner: card.owner,
+            account: card.account,
 
-        cardNumber: decrypt(card.cardNumber),
-        cvv: decrypt(card.cvv),
+            cardNumber: decrypt(card.cardNumber),
+            cvv: decrypt(card.cvv),
 
-        last4: card.last4,
-        cardHolderName: card.cardHolderName,
-        brand: card.brand,
-        type: card.type,
+            last4: card.last4,
+            cardHolderName: card.cardHolderName,
+            brand: card.brand,
+            type: card.type,
 
-        expiryMonth: card.expiryMonth,
-        expiryYear: card.expiryYear,
+            expiryMonth: card.expiryMonth,
+            expiryYear: card.expiryYear,
 
-        status: card.status,
-        spendingLimit: card.spendingLimit,
+            status: card.status,
+            spendingLimit: card.spendingLimit,
 
-        onlinePayments: card.onlinePayments,
-        atmWithdrawal: card.atmWithdrawal,
-        internationalPayments: card.internationalPayments,
+            onlinePayments: card.onlinePayments,
+            atmWithdrawal: card.atmWithdrawal,
+            internationalPayments: card.internationalPayments,
 
-        isFrozen: card.isFrozen
+            isFrozen: card.isFrozen
+        })),
+
+        pendingCards,
+        activeCards
     };
 };
