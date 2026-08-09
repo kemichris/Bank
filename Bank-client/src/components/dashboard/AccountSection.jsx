@@ -24,7 +24,7 @@ export function AccountSection({account, user}) {
                 </div>
             </div>
             <div className="flex flex-col items-center">
-                <h3 className="text-[1.5rem] font-bold text-white ">${account.balance.toFixed(2)}</h3>
+                <h3 className="text-[1.5rem] font-bold text-white ">${account.balance.toLocaleString()}</h3>
                 <p className="text-[0.7rem] text-slate-200/80 sm:text-sm">Available Balance</p>
             </div>
             <div className="flex items-start justify-between ">

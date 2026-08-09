@@ -6,30 +6,56 @@ const transactionColumns = [
     {
         key: 'name',
         label: 'Name',
+        render: row => {
+            if (row.type === 'deposit') {
+                return 'Deposit';
+            }
+
+            if (row.type === 'withdrawal') {
+                return 'Withdrawal';
+            }
+
+            if (row.counterParty) {
+                return `${row.counterParty.firstName} ${row.counterParty.lastName}`;
+            }
+
+            return 'Transfer';
+        },
     },
+
     {
         key: 'date',
         label: 'Date',
+        render: row =>
+            new Date(row.createdAt).toLocaleDateString(),
     },
+
     {
         key: 'amount',
         label: 'Amount',
-        render: (transaction) => (
-            <span
-                className={
-                    transaction.amount.startsWith('+')
-                        ? 'text-green-500 font-semibold'
-                        : 'text-red-500 font-semibold'
-                }
-            >
-                {transaction.amount}
-            </span>
-        ),
+        render: row => {
+            const isCredit =
+                row.direction === 'credit';
+
+            return (
+                <span
+                    className={
+                        isCredit
+                            ? 'font-semibold text-green-500'
+                            : 'font-semibold text-red-500'
+                    }
+                >
+                    {isCredit ? '+' : '-'}
+                    {row.amount.toLocaleString()}
+                </span>
+            );
+        },
     },
 ];
 
-export function TransactionTable({transactions}) {
+export function TransactionTable({ transactions }) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+
     return (
         <div>
             <Table

@@ -7,7 +7,7 @@ import { TransactionTable } from "../transaction/TransactionTable";
 //     { id: 3, name: "Salary Deposit", amount: "+$3,200.00", date: "Mon, 08:00" },
 // ];
 
-export function RecentTransaction(transactions) {
+export function RecentTransaction({transactions}) {
     return (
         <div className="rounded-3xl border border-border bg-surface-1 p-5 shadow-sm mt-8">
             <div className="mb-4 flex items-center justify-between">
@@ -17,7 +17,7 @@ export function RecentTransaction(transactions) {
                 </Link>
             </div>
 
-            <TransactionTable transactions={transactions.recentTransaction} />
+            <TransactionTable transactions={transactions} />
         </div>
     );
 }

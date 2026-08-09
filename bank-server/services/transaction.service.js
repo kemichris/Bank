@@ -82,7 +82,7 @@ export const transferFunds = async (senderId, transferData) => {
 
             counterParty: receiverAccount.owner._id,
             counterPartyAccount: receiverAccount._id,
-
+            method: 'transfer',
             amount,
             currency: senderAccount.currency,
             type: 'transfer',
@@ -99,7 +99,7 @@ export const transferFunds = async (senderId, transferData) => {
 
             counterParty: senderId,
             counterPartyAccount: senderAccount._id,
-
+            method: 'transfer',
             amount,
             currency: receiverAccount.currency,
             type: 'transfer',

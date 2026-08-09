@@ -22,7 +22,7 @@ export function TableBody({
         <tbody className="divide-y divide-border bg-surface-1">
             {data.map((row) => (
                 <tr
-                    key={row.id}
+                    key={row._id}
                     onClick={() => onRowClick?.(row)}
                     className={`
                         hover:bg-surface-2
