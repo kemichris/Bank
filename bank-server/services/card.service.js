@@ -63,7 +63,6 @@ export const cardRequest = async (userId, cardData) => {
 
         // Card request details
         brand,
-        type,
         spendingLimit,
 
         // Card holder information
@@ -86,7 +85,6 @@ export const cardRequest = async (userId, cardData) => {
     return {
         cardId: card._id,
         brand: card.brand,
-        type: card.type,
         spendingLimit: card.spendingLimit,
         status: card.status,
         createdAt: card.createdAt
