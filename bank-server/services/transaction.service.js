@@ -187,19 +187,12 @@ export const depositFunds = async (userId, depositData, receiptFile) => {
                 {
                     owner: userId,
                     ownerAccount: account._id,
-
                     amount,
-                    currency: account.currency,
-
+                    method,
                     type: 'deposit',
                     direction: 'credit',
-
                     reference,
-                    description: `Deposit via ${method}`,
-
                     status: 'pending',
-
-                    paymentMethod: method,
 
                     // Cloudinary data
                     receipt: uploadedReceipt.secure_url,
@@ -217,8 +210,7 @@ export const depositFunds = async (userId, depositData, receiptFile) => {
             transactionId: transaction._id,
             reference: transaction.reference,
             amount: transaction.amount,
-            currency: transaction.currency,
-            paymentMethod: transaction.paymentMethod,
+            paymentMethod: transaction.method,
             receipt: transaction.receipt,
             status: transaction.status,
             createdAt: transaction.createdAt
