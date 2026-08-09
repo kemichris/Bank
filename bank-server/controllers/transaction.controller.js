@@ -39,6 +39,25 @@ export const depositFunds = async (req, res, next) => {
     }
 };
 
+// Approve Deposit
+export const approveDeposit = async (req, res, next) => {
+    try {
+        const { depositId } = req.params;
+
+        const approvedDeposit =
+            await transactionService.approveDeposit(depositId);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Deposit approved successfully.',
+            data: approvedDeposit
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 // Get transaction history
 export const getTransactionHistory = async (req, res, next) => {
     try {
