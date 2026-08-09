@@ -223,6 +223,7 @@ export const getDashboardData = async (userId) => {
             status: 'completed'
         })
         .populate('counterParty', 'firstName lastName')
+        .populate('counterPartyAccount', 'accountNumber' )
         .sort({ createdAt: -1 })
         .limit(5)
     ]);

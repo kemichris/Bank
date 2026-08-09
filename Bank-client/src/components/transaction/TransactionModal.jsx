@@ -1,3 +1,4 @@
+
 import { HiOutlineXMark } from 'react-icons/hi2';
 
 export function TransactionModal({
@@ -5,6 +6,41 @@ export function TransactionModal({
     onClose,
 }) {
     if (!transaction) return null;
+
+    const isCredit = transaction.direction === 'credit';
+
+    // Determine transaction name
+    const transactionName = () => {
+        if (transaction.type === 'deposit') {
+            return 'Deposit';
+        }
+
+        if (transaction.type === 'withdrawal') {
+            return 'Withdrawal';
+        }
+
+        if (transaction.counterParty) {
+            return `${transaction.counterParty.firstName} ${transaction.counterParty.lastName}`;
+        }
+
+        return 'Transfer';
+    };
+
+    // Format date and time
+    const transactionDate = new Date(
+        transaction.createdAt
+    ).toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+    });
+
+    // Format amount
+    const transactionAmount = `${
+        isCredit ? '+' : '-'
+    }${transaction.amount.toLocaleString()}`;
 
     return (
         <div
@@ -25,12 +61,14 @@ export function TransactionModal({
                     w-full
                     max-w-lg
                     rounded-2xl
-                    bg-surface-1
                     border
                     border-border
+                    bg-surface-1
                     shadow-xl
                 "
-                onClick={(event) => event.stopPropagation()}
+                onClick={(event) =>
+                    event.stopPropagation()
+                }
             >
 
                 {/* Header */}
@@ -66,25 +104,25 @@ export function TransactionModal({
                 <div className="space-y-5 px-6 py-6">
 
                     <TransactionDetail
-                        label="Transaction ID"
-                        value={transaction.id}
+                        label="Reference"
+                        value={transaction.reference}
                     />
 
                     <TransactionDetail
                         label="Name"
-                        value={transaction.name}
+                        value={transactionName()}
                     />
 
                     <TransactionDetail
                         label="Date"
-                        value={transaction.date}
+                        value={transactionDate}
                     />
 
                     <TransactionDetail
                         label="Amount"
-                        value={transaction.amount}
+                        value={transactionAmount}
                         valueClassName={
-                            transaction.amount.startsWith('+')
+                            isCredit
                                 ? 'text-green-500'
                                 : 'text-red-500'
                         }
@@ -93,6 +131,11 @@ export function TransactionModal({
                     <TransactionDetail
                         label="Type"
                         value={transaction.type}
+                    />
+
+                    <TransactionDetail
+                        label="Direction"
+                        value={transaction.direction}
                     />
 
                     <TransactionDetail
@@ -105,12 +148,31 @@ export function TransactionModal({
                         value={transaction.description}
                     />
 
+                    <TransactionDetail
+                        label="Payment Method"
+                        value={transaction.method}
+                    />
+
+                    {/* Only show counterparty account for debits */}
+                    {!isCredit &&
+                        transaction.counterPartyAccount && (
+                            <TransactionDetail
+                                label="Counterparty Account"
+                                value={
+                                    transaction
+                                        .counterPartyAccount
+                                        .accountNumber
+                                }
+                            />
+                        )}
+
                 </div>
 
             </div>
         </div>
     );
 }
+
 
 function TransactionDetail({
     label,
@@ -126,6 +188,8 @@ function TransactionDetail({
 
             <span
                 className={`
+                    max-w-[65%]
+                    break-all
                     text-right
                     text-sm
                     font-medium
@@ -138,3 +202,4 @@ function TransactionDetail({
         </div>
     );
 }
+
