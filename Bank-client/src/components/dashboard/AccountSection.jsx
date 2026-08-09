@@ -4,6 +4,7 @@ import { FaPlus } from "react-icons/fa";
 import { IoCopy } from "react-icons/io5";
 import { BsShieldFillExclamation } from "react-icons/bs";
 import { FaDotCircle } from "react-icons/fa";
+import {formatMoney} from "../../utils/formatMoney";
 
 
 export function AccountSection({account, user}) {
@@ -24,7 +25,7 @@ export function AccountSection({account, user}) {
                 </div>
             </div>
             <div className="flex flex-col items-center">
-                <h3 className="text-[1.5rem] font-bold text-white ">${account.balance.toLocaleString()}</h3>
+                <h3 className="text-[1.5rem] font-bold text-white ">${formatMoney(account.balance)}</h3>
                 <p className="text-[0.7rem] text-slate-200/80 sm:text-sm">Available Balance</p>
             </div>
             <div className="flex items-start justify-between ">

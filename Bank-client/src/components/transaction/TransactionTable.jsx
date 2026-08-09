@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Table } from "../common/Table"
 import { TransactionModal } from "./TransactionModal";
-
+import {formatMoney} from "../../utils/formatMoney";
 const transactionColumns = [
     {
         key: 'name',
@@ -46,7 +46,7 @@ const transactionColumns = [
                     }
                 >
                     {isCredit ? '+' : '-'}
-                    {row.amount.toLocaleString()}
+                    ${formatMoney(row.amount)}
                 </span>
             );
         },

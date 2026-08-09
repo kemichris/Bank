@@ -1,5 +1,5 @@
-
 import { HiOutlineXMark } from 'react-icons/hi2';
+import { formatMoney } from '../../utils/formatMoney';
 
 export function TransactionModal({
     transaction,
@@ -37,10 +37,10 @@ export function TransactionModal({
         minute: '2-digit',
     });
 
-    // Format amount
-    const transactionAmount = `${
-        isCredit ? '+' : '-'
-    }${transaction.amount.toLocaleString()}`;
+    // Format amount as a plain string using the helper.
+    const transactionAmount = `${isCredit ? '+' : '-'}$${formatMoney(
+        transaction.amount
+    )}`;
 
     return (
         <div

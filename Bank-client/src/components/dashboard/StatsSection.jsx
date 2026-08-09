@@ -6,6 +6,7 @@ import {
 } from 'react-icons/fa';
 
 import { StatsCard } from './StatsCard';
+import {formatMoney} from '../../utils/formatMoney'
 
 export function StatsSection({statistics, account}) {
 
@@ -13,28 +14,28 @@ export function StatsSection({statistics, account}) {
         {
             icon: <FaCreditCard />,
             timeline: "Available",
-            amount: account.limit, 
+            amount: formatMoney(account.limit), 
             stat: "Account Limit",
             bg:"bg-primary-2"
         },
         {
             icon: <FaArrowDown />,
             timeline: "This Month",
-            amount: statistics.monthlyCredit, 
+            amount: formatMoney(statistics.monthlyCredit), 
             stat: "Monthly Deposit",
             bg:"bg-primary-3"
         },
         {
             icon: <FaArrowUp />,
             timeline: "This Month",
-            amount: statistics.monthlyDebit, 
+            amount: formatMoney(statistics.monthlyDebi), 
             stat: "Monthly Expenses",
             bg:"bg-primary-4"
         },
         {
             icon: <FaChartLine />,
             timeline: "All Time",
-            amount: statistics.totalVolume, 
+            amount: formatMoney(statistics.totalVolume), 
             stat: "Total Volume",
             bg:"bg-primary-5"
         }
