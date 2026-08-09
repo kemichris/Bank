@@ -2,6 +2,7 @@ import { DashboardLayout } from '../pages/layout/DashboardLayout';
 import { Dashboard } from '../pages/user/Dashboard';
 import { Transactions } from '../pages/user/Transactions';
 import { Card } from '../pages/user/Card';
+import { CardApplication } from '../pages/user/CardApplication';
 
 export const userRoutes = [
     {
@@ -9,15 +10,19 @@ export const userRoutes = [
             children: [
                 {
                     path: '/dashboard',
-                    element: <Dashboard />,
+                    element: <Dashboard />
                 },
                 {
                     path: '/dashboard/transactions',
-                    element: <Transactions />,
+                    element: <Transactions />
                 },
                 {
                     path: '/dashboard/card',
-                    element: <Card />,
+                    element: <Card />
+                },
+                {
+                    path: '/dashboard/card/apply',
+                    element: <CardApplication />
                 },
             ]
     }

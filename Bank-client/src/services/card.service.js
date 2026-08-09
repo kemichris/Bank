@@ -5,3 +5,8 @@ export const getActiveCards = async () => {
 
     return response.data
 }
+
+export const cardRequest = async formData => {
+    const {data} = await api.post('card/request', formData)
+    return data
+}

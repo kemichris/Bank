@@ -16,7 +16,7 @@ export function CardBanner() {
                 <li>Quick issuance </li>
             </ul>
 
-            <Link to="/dashboard/card/application" className="w-fit mt-3 text-sm flex xl:hidden lg:hidden md:hidden px-3 py-2 rounded-2xl bg-linear-to-r from-surface-1 to-primary-1 items-center text-text gap-2 hover:scale-[.9] transition-transform">
+            <Link to="/dashboard/card/apply" className="w-fit mt-3 text-sm flex xl:hidden lg:hidden md:hidden px-3 py-2 rounded-2xl bg-linear-to-r from-surface-1 to-primary-1 items-center text-text gap-2 hover:scale-[.9] transition-transform">
                 <FaPlus />
                 Apply for Card
             </Link>

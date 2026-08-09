@@ -8,6 +8,8 @@ import { CardsHeader } from '../../components/cards/CardsHeader';
 import { CardBanner } from '../../components/cards/CardBanner';
 import { CardListings } from '../../components/cards/CardListings';
 
+import { FaPlus } from "react-icons/fa"
+
 export function Card() {
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -40,7 +42,14 @@ export function Card() {
 
     return (
         <>
-            <CardsHeader />
+        <title>Columbia Merchant | Card</title>
+            <CardsHeader
+                cardHeader='Virtual Cards'
+                headerDetail='Secure virtual cards for online payments and subscriptions'
+                to='/dashboard/card/apply'
+                icon={<FaPlus />}
+                linkText="Apply for Card"
+            />
             <CardStats
                 activeCards={cards.activeCards}
                 pendingCards={cards.pendingCards}
