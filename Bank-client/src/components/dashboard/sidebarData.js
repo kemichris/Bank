@@ -30,7 +30,7 @@ export const sidebarData = [
       {
         name: 'Cards',
         icon: FaCreditCard,
-        path: '/dashboard/cards'
+        path: '/dashboard/card'
       }
     ]
   },

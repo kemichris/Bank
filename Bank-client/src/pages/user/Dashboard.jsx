@@ -47,7 +47,9 @@ export function Dashboard() {
     console.log(dashboardData)
 
     return (
-        <div className="h-full bg-surface-1">
+        <>
+            <title>Columbia Merchant | Dashboard</title>
+
             <AccountSection
                 account={dashboardData.account}
                 user={dashboardData.user}
@@ -61,6 +63,6 @@ export function Dashboard() {
             <RecentTransaction
                 transactions={dashboardData.recentTransactions}
             />
-        </div>
+        </>
     );
 }

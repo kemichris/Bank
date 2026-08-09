@@ -42,6 +42,7 @@ export function Transactions() {
 
     return (
         <>
+            <title>Columbia Merchant | Transactions</title>
             <h2 className='text-text text-left mb-8'>Transactions</h2>
 
             <TransactionTable
