@@ -41,12 +41,12 @@ export function Transactions() {
     // }
 
     return (
-        <div>
-            <h1>Transactions</h1>
+        <>
+            <h2 className='text-text text-left mb-8'>Transactions</h2>
 
             <TransactionTable
                 transactions={transactions}
             />
-        </div>
+        </>
     );
 }
