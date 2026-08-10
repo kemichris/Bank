@@ -10,6 +10,7 @@ import {
 import {
     transferFunds,
     getTransferRecipient,
+    internationalTransfer,
     depositFunds,
     approveDeposit,
     getTransactionHistory,
@@ -17,7 +18,7 @@ import {
 
 const router = express.Router();
 
-// Transfer funds route
+// Transfer funds route(local)
 router.post(
     "/transfer",
     protect,
@@ -26,11 +27,20 @@ router.post(
     transferFunds,
 );
 
+// confirm transfer recipient 
 router.get(
     '/recipient',
     protect,
     authorize('user'),
     getTransferRecipient
+);
+
+// international transfer 
+router.post(
+    '/international-transfer',
+    protect,
+    authorize('user'),
+    internationalTransfer
 );
 
 // deposit funds route

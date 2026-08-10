@@ -4,6 +4,7 @@ import { Transactions } from '../pages/user/Transactions';
 import { Card } from '../pages/user/Card';
 import { CardApplication } from '../pages/user/CardApplication';
 import { LocalTransfer } from '../pages/user/LocalTransfer';
+import { International } from '../pages/user/International';
 
 export const userRoutes = [
     {
@@ -28,6 +29,10 @@ export const userRoutes = [
                 {
                     path: '/dashboard/local-transfer',
                     element: <LocalTransfer />
+                },
+                {
+                    path: '/dashboard/international',
+                    element: <International />
                 },
             ]
     }

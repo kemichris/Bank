@@ -1,6 +1,6 @@
 import * as transactionService from '../services/transaction.service.js';
 
-// Transfer funds
+// Transfer funds (local)
 export const transferFunds = async (req, res, next) => {
     try {
         const transfer = await transactionService.transferFunds(
@@ -33,6 +33,28 @@ export const getTransferRecipient = async (req, res, next) => {
             success: true,
             message: 'Recipient found successfully.',
             data: recipient
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+// International transfer
+export const internationalTransfer = async (req, res, next) => {
+    try {
+        const userId = req.user._id;
+
+        const transaction =
+            await transactionService.internationalTransfer(
+                userId,
+                req.body
+            );
+
+        return res.status(201).json({
+            success: true,
+            message: 'International transfer submitted successfully. Awaiting approval.',
+            data: transaction
         });
 
     } catch (error) {

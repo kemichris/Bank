@@ -3,6 +3,7 @@ import { IoIosSend } from "react-icons/io";
 
 import { UserPageHeader } from "../../components/ui/UserPageHeader";
 import { TransferForm } from "../../components/transaction/TransferForm";
+import { BankSecurityNotice } from "../../components/transaction/SecurityNotice";
 
 
 export function LocalTransfer() {
@@ -19,6 +20,8 @@ export function LocalTransfer() {
             />
 
             <TransferForm />
+
+            <BankSecurityNotice />
 
         </>
     )

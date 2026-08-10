@@ -22,7 +22,7 @@ export function Table({
     );
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 mb-16">
 
             <div className="overflow-x-auto rounded-2xl border border-border">
 

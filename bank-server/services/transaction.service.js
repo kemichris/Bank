@@ -9,7 +9,7 @@ import { generateTransactionReference } from "../utils/transaction.utils.js";
 import { uploadImage, deleteImage } from "../utils/cloudinary.utils.js";
 import { comparePassword } from "../utils/password.utils.js";
 
-// Transfer funds service
+// Transfer funds service(local)
 
 export const transferFunds = async (senderId, transferData) => {
     const { recipientAccountNumber, amount, description, transactionPin } =
@@ -153,7 +153,6 @@ export const transferFunds = async (senderId, transferData) => {
 
             amount,
 
-
             type: "transfer",
 
             direction: "debit",
@@ -181,7 +180,6 @@ export const transferFunds = async (senderId, transferData) => {
             method: "local transfer",
 
             amount,
-
 
             type: "transfer",
 
@@ -269,6 +267,129 @@ export const getTransferRecipient = async (accountNumber) => {
         firstName: account.owner.firstName,
         lastName: account.owner.lastName,
     };
+};
+
+// International transfer
+export const internationalTransfer = async (senderId, transferData) => {
+    const {
+        beneficiaryAccountName,
+        beneficiaryAccountNumber,
+        bankName,
+        bankAddress,
+        accountType,
+        country,
+        iban,
+        swiftCode,
+        amount,
+        transactionPin,
+        note,
+    } = transferData;
+
+    const session = await mongoose.startSession();
+
+    try {
+        session.startTransaction();
+
+        // Find the sender
+        const sender = await User.findById(senderId).session(session);
+
+        if (!sender) {
+            throw new ApiError(404, "User not found.");
+        }
+
+        // Verify transaction PIN
+        const isPinValid = await comparePassword(
+            transactionPin,
+            sender.transactionPin,
+        );
+
+        if (!isPinValid) {
+            throw new ApiError(400, "Invalid transaction PIN.");
+        }
+
+        // Find sender's account
+        const senderAccount = await Account.findOne({
+            owner: senderId,
+        }).session(session);
+
+        if (!senderAccount) {
+            throw new ApiError(404, "Sender account not found.");
+        }
+
+        // Make sure account is active
+        if (senderAccount.status !== "active") {
+            throw new ApiError(400, "Sender account is not active.");
+        }
+
+        // Check balance
+        if (senderAccount.balance < amount) {
+            throw new ApiError(400, "Insufficient balance.");
+        }
+
+        // Generate transaction reference
+        const reference = generateTransactionReference();
+
+        // Debit sender immediately
+        senderAccount.balance -= amount;
+
+        // Create pending international transaction
+        const transaction = new Transaction({
+            owner: senderId,
+
+            ownerAccount: senderAccount._id,
+
+            amount,
+
+            type: "international_transfer",
+
+            direction: "debit",
+
+            method: "international transfer",
+
+            reference,
+
+            description: note,
+
+            status: "pending",
+
+            internationalDetails: {
+                beneficiaryAccountName,
+                beneficiaryAccountNumber,
+                bankName,
+                bankAddress,
+                accountType,
+                country,
+                iban,
+                swiftCode,
+            },
+        });
+
+        // Save transaction
+        await transaction.save({ session });
+
+        // Save new account balance
+        await senderAccount.save({ session });
+
+        // Commit everything
+        await session.commitTransaction();
+
+        return {
+            transactionId: transaction._id,
+            reference: transaction.reference,
+            amount: transaction.amount,
+            currency: senderAccount.currency,
+            description: transaction.description,
+            status: transaction.status,
+        };
+    } catch (error) {
+        if (session.inTransaction()) {
+            await session.abortTransaction();
+        }
+
+        throw error;
+    } finally {
+        await session.endSession();
+    }
 };
 
 // Deposit funds

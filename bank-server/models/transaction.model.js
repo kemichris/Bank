@@ -38,7 +38,12 @@ const transactionSchema = new mongoose.Schema(
 
         type: {
             type: String,
-            enum: ["transfer", "deposit", "withdrawal"],
+            enum: [
+                'transfer',
+                'international_transfer',
+                'deposit',
+                'withdrawal'
+            ],
             required: true,
         },
 
@@ -47,6 +52,17 @@ const transactionSchema = new mongoose.Schema(
             type: String,
             enum: ["credit", "debit"],
             required: true,
+        },
+
+        internationalDetails: {
+            beneficiaryAccountName: String,
+            beneficiaryAccountNumber: String,
+            bankName: String,
+            bankAddress: String,
+            accountType: String,
+            country: String,
+            iban: String,
+            swiftCode: String
         },
 
         reference: {
@@ -71,8 +87,30 @@ const transactionSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["pending", "completed", "failed", "reversed"],
-            default: "pending",
+            enum: [
+                'pending',
+                'processing',
+                'completed',
+                'failed',
+                'rejected',
+                'reversed'
+            ],
+            default: 'pending',
+        },
+        reviewedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            default: null,
+        },
+
+        reviewedAt: {
+            type: Date,
+            default: null,
+        },
+
+        rejectionReason: {
+            type: String,
+            default: null,
         },
     },
     {
