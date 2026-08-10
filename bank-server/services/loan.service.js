@@ -16,9 +16,9 @@ export const applyForLoan = async (userId, loanData) => {
     // -----------------------------------------
 
     if (
-        typeof loanAmount !== 'number' ||
-        !Number.isFinite(loanAmount) ||
-        loanAmount <= 0
+        typeof requestedAmount !== 'number' ||
+        !Number.isFinite(requestedAmount) ||
+        requestedAmount <= 0
     ) {
         throw new ApiError(
             400,
@@ -118,7 +118,7 @@ export const applyForLoan = async (userId, loanData) => {
         owner: userId,
         account: account._id,
 
-        loanAmount,
+        requestedAmount,
         duration,
         creditFacility,
         purpose: purpose.trim(),
@@ -133,7 +133,7 @@ export const applyForLoan = async (userId, loanData) => {
 
     return {
         loanId: loan._id,
-        loanAmount: loan.loanAmount,
+        requestedAmount: loan.requestedAmount,
         duration: loan.duration,
         creditFacility: loan.creditFacility,
         purpose: loan.purpose,
