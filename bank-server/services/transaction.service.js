@@ -109,7 +109,9 @@ export const transferFunds = async (senderId, transferData) => {
 
         const receiverAccount = await Account.findOne({
             accountNumber: recipientAccountNumber,
-        }).session(session);
+        })
+        .populate('owner', 'firstName lastName email')
+        .session(session);
 
         if (!receiverAccount) {
             throw new ApiError(404, "Recipient account not found.");
