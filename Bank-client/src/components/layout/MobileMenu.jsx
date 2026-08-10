@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-import { FaAngleDown } from "react-icons/fa";
+import { FaAngleDown, FaSignInAlt } from "react-icons/fa";
 import { IoMdHome } from "react-icons/io";
 import { FaInfoCircle } from "react-icons/fa";
-import { IoMdSettings } from "react-icons/io";
+
 import { IoMdMail } from "react-icons/io";
 import { TbSettingsCog } from "react-icons/tb";
 
@@ -84,10 +84,10 @@ export function MobileMenu({ open, onClose }) {
             </ul>
 
             <div className="mobile-bottom">
-                <button className="mobile-theme-switch-btn">
-                    <IoMdSettings />
-                    Switch to Light Mode
-                </button>
+                <Link to="/login" className="mobile-theme-switch-btn">
+                    <FaSignInAlt />
+                    Sign In
+                </Link>
             </div>
         </div>
     );
