@@ -7,3 +7,12 @@ export const getTransferRecipient = async accountNumber => {
 
     return data;
 };
+
+export const transferFunds = async transferData => {
+    const { data } = await api.post(
+        '/transaction/transfer',
+        transferData
+    );
+
+    return data;
+};

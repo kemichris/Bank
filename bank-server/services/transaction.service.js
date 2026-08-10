@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import cloudinary from "../utils/cloudinary.utils.js";
 import Account from "../models/account.model.js";
 import Transaction from "../models/transaction.model.js";
+import User from "../models/user.model.js";
 import PaymentMethod from "../models/paymentMethod.model.js";
 import ApiError from "../utils/apiError.utils.js";
 import { generateTransactionReference } from "../utils/transaction.utils.js";
