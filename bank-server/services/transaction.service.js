@@ -376,8 +376,8 @@ export const internationalTransfer = async (senderId, transferData) => {
 
         // When user submits transfer
         await wireTransferPendingMail(
-            user.email,
-            `${user.firstName} ${user.lastName}`,
+            sender.email,
+            `${sender.firstName} ${sender.lastName}`,
             transaction.amount,
             transaction.internationalDetails.beneficiaryAccountName
         );
