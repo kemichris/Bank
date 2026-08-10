@@ -1,43 +1,83 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const loanSchema = new mongoose.Schema(
     {
+        // User who applied for the loan
         owner: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true
         },
+
+        // Account associated with the loan
         account: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Account',
             required: true
         },
-        amount: {
+
+        // Amount requested by the user
+        requestedAmount: {
             type: Number,
             required: true,
-            min: 1000
+            min: 1
         },
-        interestRate: {
-            type: Number,
-            required: true
-        },
-        term: {
-            type: Number,
-            required: true
-        },
-        monthlyPayment: {
+
+        // Amount approved by admin
+        approvedAmount: {
             type: Number,
             default: null
         },
-        totalRepayment: {
-            type: Number,
-            default: null
-        },
+
+        // Purpose of the loan
         purpose: {
             type: String,
             required: true,
             trim: true
         },
+
+        // Loan duration
+        term: {
+            type: Number,
+            required: true,
+            min: 1
+        },
+
+        // Duration unit
+        termUnit: {
+            type: String,
+            enum: ['days', 'months', 'years'],
+            default: 'months'
+        },
+
+        // Interest rate
+        interestRate: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        // Total amount the user is expected to repay
+        totalRepayment: {
+            type: Number,
+            default: null
+        },
+
+        // Amount already repaid
+        amountRepaid: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        // Remaining amount to repay
+        remainingBalance: {
+            type: Number,
+            default: null,
+            min: 0
+        },
+
+        // Loan status
         status: {
             type: String,
             enum: [
@@ -45,39 +85,40 @@ const loanSchema = new mongoose.Schema(
                 'approved',
                 'rejected',
                 'active',
-                'paid',
-                'defaulted'
+                'completed',
+                'defaulted',
+                'cancelled'
             ],
             default: 'pending'
         },
-        approvedBy: {
+
+        // Admin who reviewed the application
+        reviewedBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             default: null
         },
-        approvedAt: {
+
+        reviewedAt: {
             type: Date,
             default: null
         },
+
+        // Reason if rejected
         rejectionReason: {
             type: String,
-            default: null
+            default: ''
         },
+
+        // When the approved loan was deposited
         disbursedAt: {
             type: Date,
             default: null
         },
-        nextPaymentDate: {
+
+        // Expected repayment completion date
+        dueDate: {
             type: Date,
-            default: null
-        },
-        remainingBalance: {
-            type: Number,
-            default: null
-        },
-        disbursementTransaction: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Transaction',
             default: null
         }
     },
