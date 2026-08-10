@@ -60,23 +60,11 @@ export const cardRequest = async (userId, cardData) => {
     const card = await Card.create({
         owner: userId,
         account: account._id,
-
         // Card request details
         brand,
         spendingLimit,
-
         // Card holder information
         cardHolderName,
-
-        // Sensitive card information will be generated
-        // only after the request is approved
-        cardNumber: null,
-        cvv: null,
-        pin: null,
-        last4: null,
-        expiryMonth: null,
-        expiryYear: null,
-
         // Initial status
         status: 'pending'
     });
