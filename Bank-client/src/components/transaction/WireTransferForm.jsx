@@ -1,143 +1,132 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaGlobe } from 'react-icons/fa';
-import toast from 'react-hot-toast';
-import { internationalTransfer } from '../../services/transaction.service';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaGlobe } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { internationalTransfer } from "../../services/transaction.service";
 
 export function WireTransferForm() {
-    const navigate = useNavigate()
-    const [formData, setFormData] = useState({
-        beneficiaryAccountName: '',
-        beneficiaryAccountNumber: '',
-        bankName: '',
-        bankAddress: '',
-        accountType: '',
-        country: '',
-        iban: '',
-        swiftCode: '',
-        transactionPin: '',
-        note: ''
-    });
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    beneficiaryAccountName: "",
+    beneficiaryAccountNumber: "",
+    bankName: "",
+    bankAddress: "",
+    accountType: "",
+    country: "",
+    iban: "",
+    swiftCode: "",
+    amount: "",
+    transactionPin: "",
+    note: "",
+  });
 
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    const handleChange = event => {
-        const { name, value } = event.target;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
-        setFormData(previous => ({
-            ...previous,
-            [name]: value
-        }));
-    };
+    setFormData((previous) => ({
+      ...previous,
+      [name]: name === "amount" ? Number(value) : value,
+    }));
+  };
 
-    const handleSubmit = async event => {
-        event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        if (!formData.beneficiaryAccountName) {
-            toast.error('Please enter the beneficiary account name.');
-            return;
-        }
+    if (!formData.beneficiaryAccountName) {
+      toast.error("Please enter the beneficiary account name.");
+      return;
+    }
 
-        if (!formData.beneficiaryAccountNumber) {
-            toast.error('Please enter the beneficiary account number.');
-            return;
-        }
+    if (!formData.beneficiaryAccountNumber) {
+      toast.error("Please enter the beneficiary account number.");
+      return;
+    }
 
-        if (!formData.bankName) {
-            toast.error('Please enter the bank name.');
-            return;
-        }
+    if (!formData.bankName) {
+      toast.error("Please enter the bank name.");
+      return;
+    }
 
-        if (!formData.country) {
-            toast.error('Please select the country.');
-            return;
-        }
+    if (!formData.country) {
+      toast.error("Please select the country.");
+      return;
+    }
 
-        if (!formData.iban) {
-            toast.error('Please enter the IBAN number.');
-            return;
-        }
+    if (!formData.iban) {
+      toast.error("Please enter the IBAN number.");
+      return;
+    }
 
-        if (!formData.swiftCode) {
-            toast.error('Please enter the SWIFT code.');
-            return;
-        }
+    if (!formData.swiftCode) {
+      toast.error("Please enter the SWIFT code.");
+      return;
+    }
 
-        if (!formData.transactionPin) {
-            toast.error('Please enter your transaction PIN.');
-            return;
-        }
+    if (!formData.transactionPin) {
+      toast.error("Please enter your transaction PIN.");
+      return;
+    }
 
-        setLoading(true);
+    setLoading(true);
 
-        try {
-            console.log(formData);
+    try {
+      console.log(formData);
 
-            const res = await internationalTransfer(formData)
+      const res = await internationalTransfer(formData);
 
-            toast.success(
-                res.message
-            );
-            setTimeout(()=> {
-                navigate('/dashboard/transactions')
-            }, 1500)
+      toast.success(res.message);
+      setTimeout(() => {
+        navigate("/dashboard/transactions");
+      }, 1500);
+    } catch (error) {
+      console.error(error);
 
-        } catch (error) {
-            console.error(error);
+      toast.error(
+        error.response?.data?.message ||
+          "Unable to complete international transfer.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            toast.error(
-                error.response?.data?.message ||
-                'Unable to complete international transfer.'
-            );
-        } finally {
-            setLoading(false);
-        }
-    };
+  return (
+    <div className="mx-auto w-full max-w-xl rounded-2xl border border-border bg-surface-2 p-6">
+      {/* Header */}
+      <div className="mb-6">
+        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500">
+          <FaGlobe size={20} />
+        </div>
 
-    return (
-        <div className="mx-auto w-full max-w-xl rounded-2xl border border-border bg-surface-2 p-6">
+        <h2 className="text-xl font-semibold text-text">
+          International Transfer
+        </h2>
 
-            {/* Header */}
-            <div className="mb-6">
+        <p className="mt-1 text-sm text-text-muted">
+          Send money securely to an international bank account.
+        </p>
+      </div>
 
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500">
-                    <FaGlobe size={20} />
-                </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Beneficiary Account Name */}
+        <div>
+          <label
+            htmlFor="beneficiaryAccountName"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            Beneficiary Account Name
+          </label>
 
-                <h2 className="text-xl font-semibold text-text">
-                    International Transfer
-                </h2>
-
-                <p className="mt-1 text-sm text-text-muted">
-                    Send money securely to an international bank account.
-                </p>
-
-            </div>
-
-
-            <form
-                onSubmit={handleSubmit}
-                className="space-y-5"
-            >
-
-                {/* Beneficiary Account Name */}
-                <div>
-
-                    <label
-                        htmlFor="beneficiaryAccountName"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        Beneficiary Account Name
-                    </label>
-
-                    <input
-                        id="beneficiaryAccountName"
-                        name="beneficiaryAccountName"
-                        type="text"
-                        value={formData.beneficiaryAccountName}
-                        onChange={handleChange}
-                        placeholder="Enter account holder name"
-                        className="
+          <input
+            id="beneficiaryAccountName"
+            name="beneficiaryAccountName"
+            type="text"
+            value={formData.beneficiaryAccountName}
+            onChange={handleChange}
+            placeholder="Enter account holder name"
+            className="
                             w-full
                             rounded-xl
                             border
@@ -153,30 +142,27 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    />
+          />
+        </div>
 
-                </div>
+        {/* Beneficiary Account Number */}
+        <div>
+          <label
+            htmlFor="beneficiaryAccountNumber"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            Beneficiary Account Number
+          </label>
 
-
-                {/* Beneficiary Account Number */}
-                <div>
-
-                    <label
-                        htmlFor="beneficiaryAccountNumber"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        Beneficiary Account Number
-                    </label>
-
-                    <input
-                        id="beneficiaryAccountNumber"
-                        name="beneficiaryAccountNumber"
-                        type="text"
-                        inputMode="numeric"
-                        value={formData.beneficiaryAccountNumber}
-                        onChange={handleChange}
-                        placeholder="Enter account number"
-                        className="
+          <input
+            id="beneficiaryAccountNumber"
+            name="beneficiaryAccountNumber"
+            type="text"
+            inputMode="numeric"
+            value={formData.beneficiaryAccountNumber}
+            onChange={handleChange}
+            placeholder="Enter account number"
+            className="
                             w-full
                             rounded-xl
                             border
@@ -192,29 +178,26 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    />
+          />
+        </div>
 
-                </div>
+        {/* Bank Name */}
+        <div>
+          <label
+            htmlFor="bankName"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            Bank Name
+          </label>
 
-
-                {/* Bank Name */}
-                <div>
-
-                    <label
-                        htmlFor="bankName"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        Bank Name
-                    </label>
-
-                    <input
-                        id="bankName"
-                        name="bankName"
-                        type="text"
-                        value={formData.bankName}
-                        onChange={handleChange}
-                        placeholder="Enter bank name"
-                        className="
+          <input
+            id="bankName"
+            name="bankName"
+            type="text"
+            value={formData.bankName}
+            onChange={handleChange}
+            placeholder="Enter bank name"
+            className="
                             w-full
                             rounded-xl
                             border
@@ -230,29 +213,26 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    />
+          />
+        </div>
 
-                </div>
+        {/* Bank Address */}
+        <div>
+          <label
+            htmlFor="bankAddress"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            Bank Address
+          </label>
 
-
-                {/* Bank Address */}
-                <div>
-
-                    <label
-                        htmlFor="bankAddress"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        Bank Address
-                    </label>
-
-                    <textarea
-                        id="bankAddress"
-                        name="bankAddress"
-                        rows="2"
-                        value={formData.bankAddress}
-                        onChange={handleChange}
-                        placeholder="Enter bank address"
-                        className="
+          <textarea
+            id="bankAddress"
+            name="bankAddress"
+            rows="2"
+            value={formData.bankAddress}
+            onChange={handleChange}
+            placeholder="Enter bank address"
+            className="
                             w-full
                             resize-none
                             rounded-xl
@@ -269,27 +249,24 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    />
+          />
+        </div>
 
-                </div>
+        {/* Account Type */}
+        <div>
+          <label
+            htmlFor="accountType"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            Account Type
+          </label>
 
-
-                {/* Account Type */}
-                <div>
-
-                    <label
-                        htmlFor="accountType"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        Account Type
-                    </label>
-
-                    <select
-                        id="accountType"
-                        name="accountType"
-                        value={formData.accountType}
-                        onChange={handleChange}
-                        className="
+          <select
+            id="accountType"
+            name="accountType"
+            value={formData.accountType}
+            onChange={handleChange}
+            className="
                             w-full
                             rounded-xl
                             border
@@ -305,50 +282,36 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    >
-                        <option value="">
-                            Select account type
-                        </option>
+          >
+            <option value="">Select account type</option>
 
-                        <option value="online-banking">
-                            Online Banking
-                        </option>
+            <option value="online-banking">Online Banking</option>
 
-                        <option value="joint">
-                            Joint Account
-                        </option>
+            <option value="joint">Joint Account</option>
 
-                        <option value="checking">
-                            Checking
-                        </option>
+            <option value="checking">Checking</option>
 
-                        <option value="savings">
-                            Savings Account
-                        </option>
+            <option value="savings">Savings Account</option>
+          </select>
+        </div>
 
-                    </select>
+        {/* Country */}
+        <div>
+          <label
+            htmlFor="country"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            Country
+          </label>
 
-                </div>
-
-
-                {/* Country */}
-                <div>
-
-                    <label
-                        htmlFor="country"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        Country
-                    </label>
-
-                    <input
-                        id="country"
-                        name="country"
-                        type="text"
-                        value={formData.country}
-                        onChange={handleChange}
-                        placeholder="Enter country"
-                        className="
+          <input
+            id="country"
+            name="country"
+            type="text"
+            value={formData.country}
+            onChange={handleChange}
+            placeholder="Enter country"
+            className="
                             w-full
                             rounded-xl
                             border
@@ -364,29 +327,26 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    />
+          />
+        </div>
 
-                </div>
+        {/* IBAN */}
+        <div>
+          <label
+            htmlFor="iban"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            IBAN Number
+          </label>
 
-
-                {/* IBAN */}
-                <div>
-
-                    <label
-                        htmlFor="iban"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        IBAN Number
-                    </label>
-
-                    <input
-                        id="iban"
-                        name="iban"
-                        type="text"
-                        value={formData.iban}
-                        onChange={handleChange}
-                        placeholder="Enter IBAN number"
-                        className="
+          <input
+            id="iban"
+            name="iban"
+            type="text"
+            value={formData.iban}
+            onChange={handleChange}
+            placeholder="Enter IBAN number"
+            className="
                             w-full
                             rounded-xl
                             border
@@ -403,34 +363,31 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    />
+          />
 
-                    <p className="mt-1.5 text-xs text-text-muted">
-                        International Bank Account Number
-                    </p>
+          <p className="mt-1.5 text-xs text-text-muted">
+            International Bank Account Number
+          </p>
+        </div>
 
-                </div>
+        {/* SWIFT */}
+        <div>
+          <label
+            htmlFor="swiftCode"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            SWIFT Code
+          </label>
 
-
-                {/* SWIFT */}
-                <div>
-
-                    <label
-                        htmlFor="swiftCode"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        SWIFT Code
-                    </label>
-
-                    <input
-                        id="swiftCode"
-                        name="swiftCode"
-                        type="text"
-                        value={formData.swiftCode}
-                        onChange={handleChange}
-                        placeholder="Enter SWIFT code"
-                        maxLength="11"
-                        className="
+          <input
+            id="swiftCode"
+            name="swiftCode"
+            type="text"
+            value={formData.swiftCode}
+            onChange={handleChange}
+            placeholder="Enter SWIFT code"
+            maxLength="11"
+            className="
                             w-full
                             rounded-xl
                             border
@@ -447,35 +404,76 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    />
+          />
 
-                    <p className="mt-1.5 text-xs text-text-muted">
-                        8-11 character bank identifier code
-                    </p>
+          <p className="mt-1.5 text-xs text-text-muted">
+            8-11 character bank identifier code
+          </p>
+        </div>
 
-                </div>
+        {/* Amount */}
+        <div>
+          <label
+            htmlFor="amount"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            Amount
+          </label>
 
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-text-muted">
+              $
+            </span>
 
-                {/* Transaction PIN */}
-                <div>
+            <input
+              id="amount"
+              name="amount"
+              type="number"
+              min="1"
+              step="0.01"
+              value={formData.amount}
+              onChange={handleChange}
+              placeholder="0.00"
+              className="
+                w-full
+                rounded-xl
+                border
+                border-border
+                bg-surface-1
+                py-3
+                pl-8
+                pr-4
+                text-base
+                text-text
+                outline-none
+                transition
+                focus:border-blue-500
+                focus:ring-2
+                focus:ring-blue-500/20
+            "
+            />
+          </div>
+        </div>
 
-                    <label
-                        htmlFor="transactionPin"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        Transaction PIN
-                    </label>
+        {/* Transaction PIN */}
+        <div>
+          <label
+            htmlFor="transactionPin"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            Transaction PIN
+          </label>
 
-                    <input
-                        id="transactionPin"
-                        name="transactionPin"
-                        type="password"
-                        inputMode="numeric"
-                        maxLength="4"
-                        value={formData.transactionPin}
-                        onChange={handleChange}
-                        placeholder="Enter transaction PIN"
-                        className="
+          <input
+            id="transactionPin"
+            name="transactionPin"
+            type="password"
+            inputMode="numeric"
+            maxLength="4"
+            value={formData.transactionPin}
+            onChange={handleChange}
+            placeholder="Enter transaction PIN"
+            className="
                             w-full
                             rounded-xl
                             border
@@ -492,33 +490,30 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    />
+          />
 
-                    <p className="mt-1.5 text-xs text-text-muted">
-                        This is your transaction PIN, not your login password.
-                    </p>
+          <p className="mt-1.5 text-xs text-text-muted">
+            This is your transaction PIN, not your login password.
+          </p>
+        </div>
 
-                </div>
+        {/* Note */}
+        <div>
+          <label
+            htmlFor="note"
+            className="mb-2 block text-sm font-medium text-text"
+          >
+            Note <span className="text-text-muted">(Optional)</span>
+          </label>
 
-
-                {/* Note */}
-                <div>
-
-                    <label
-                        htmlFor="note"
-                        className="mb-2 block text-sm font-medium text-text"
-                    >
-                        Note <span className="text-text-muted">(Optional)</span>
-                    </label>
-
-                    <textarea
-                        id="note"
-                        name="note"
-                        rows="3"
-                        value={formData.note}
-                        onChange={handleChange}
-                        placeholder="Add a note for this transfer"
-                        className="
+          <textarea
+            id="note"
+            name="note"
+            rows="3"
+            value={formData.note}
+            onChange={handleChange}
+            placeholder="Add a note for this transfer"
+            className="
                             w-full
                             resize-none
                             rounded-xl
@@ -535,16 +530,14 @@ export function WireTransferForm() {
                             focus:ring-2
                             focus:ring-blue-500/20
                         "
-                    />
+          />
+        </div>
 
-                </div>
-
-
-                {/* Submit */}
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="
+        {/* Submit */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="
                         flex
                         w-full
                         items-center
@@ -562,14 +555,10 @@ export function WireTransferForm() {
                         disabled:cursor-not-allowed
                         disabled:opacity-60
                     "
-                >
-                    {loading
-                        ? 'Processing...'
-                        : 'Send International Transfer'}
-                </button>
-
-            </form>
-
-        </div>
-    );
+        >
+          {loading ? "Processing..." : "Send International Transfer"}
+        </button>
+      </form>
+    </div>
+  );
 }
