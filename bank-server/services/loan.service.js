@@ -5,7 +5,7 @@ import ApiError from "../utils/apiError.utils.js";
 export const applyForLoan = async (userId, loanData) => {
     const {
         requestedAmount,
-        duration,
+        term,
         creditFacility,
         purpose,
         monthlyNetIncome
@@ -32,7 +32,7 @@ export const applyForLoan = async (userId, loanData) => {
 
     const allowedDurations = [6, 12, 24, 36, 48, 60];
 
-    if (!allowedDurations.includes(duration)) {
+    if (!allowedDurations.includes(term)) {
         throw new ApiError(
             400,
             'Invalid loan duration.'
@@ -119,7 +119,7 @@ export const applyForLoan = async (userId, loanData) => {
         account: account._id,
 
         requestedAmount,
-        duration,
+        term,
         creditFacility,
         purpose: purpose.trim(),
         monthlyNetIncome,
@@ -134,7 +134,7 @@ export const applyForLoan = async (userId, loanData) => {
     return {
         loanId: loan._id,
         requestedAmount: loan.requestedAmount,
-        duration: loan.duration,
+        term: loan.term,
         creditFacility: loan.creditFacility,
         purpose: loan.purpose,
         monthlyNetIncome: loan.monthlyNetIncome,
