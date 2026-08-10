@@ -23,6 +23,10 @@ export function TransactionModal({
             return `${transaction.counterParty.firstName} ${transaction.counterParty.lastName}`;
         }
 
+        if (transaction.internationalDetails?.beneficiaryAccountName) {
+            return transaction.internationalDetails.beneficiaryAccountName;
+        }
+
         return 'Transfer';
     };
 
@@ -154,14 +158,20 @@ export function TransactionModal({
                     />
 
                     {/* Only show counterparty account for debits */}
-                    {!isCredit &&
-                        transaction.counterPartyAccount && (
+                    {/* Show counterparty / beneficiary account for debits */}
+                    {!isCredit && (
+                        transaction.counterPartyAccount?.accountNumber ||
+                        transaction.internationalDetails?.beneficiaryAccountNumber
+                    ) && (
                             <TransactionDetail
-                                label="Counterparty Account"
+                                label={
+                                    transaction.type === 'international_transfer'
+                                        ? 'Beneficiary Account'
+                                        : 'Counterparty Account'
+                                }
                                 value={
-                                    transaction
-                                        .counterPartyAccount
-                                        .accountNumber
+                                    transaction.counterPartyAccount?.accountNumber ||
+                                    transaction.internationalDetails?.beneficiaryAccountNumber
                                 }
                             />
                         )}

@@ -19,6 +19,11 @@ const transactionColumns = [
                 return `${row.counterParty.firstName} ${row.counterParty.lastName}`;
             }
 
+            if (row.internationalDetails?.beneficiaryAccountName) {
+                return row.internationalDetails.beneficiaryAccountName;
+
+            }
+
             return 'Transfer';
         },
     },
