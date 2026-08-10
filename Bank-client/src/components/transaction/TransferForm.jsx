@@ -117,7 +117,7 @@ export function TransferForm() {
                     <FaArrowRight size={20} />
                 </div>
 
-                <h2 className="text-xl font-semibold text-text">Transfer Money</h2>
+                <h2 className="text-xl font-semibold text-text text-left">Transfer Money</h2>
 
                 <p className="mt-1 text-sm text-text-muted">
                     Send money securely to another account.

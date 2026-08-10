@@ -100,7 +100,7 @@ export function WireTransferForm() {
           <FaGlobe size={20} />
         </div>
 
-        <h2 className="text-xl font-semibold text-text">
+        <h2 className="text-xl font-semibold text-text text-left">
           International Transfer
         </h2>
 

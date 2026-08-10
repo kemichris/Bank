@@ -5,6 +5,8 @@ import { Card } from '../pages/user/Card';
 import { CardApplication } from '../pages/user/CardApplication';
 import { LocalTransfer } from '../pages/user/LocalTransfer';
 import { International } from '../pages/user/International';
+import { Deposit } from '../pages/user/Deposit';
+import { DepositPayment } from '../pages/user/DepositPayment';
 
 export const userRoutes = [
     {
@@ -33,6 +35,14 @@ export const userRoutes = [
                 {
                     path: '/dashboard/international',
                     element: <International />
+                },
+                {
+                    path: '/dashboard/deposit',
+                    element: <Deposit />
+                },
+                {
+                    path: '/dashboard/deposit/payment',
+                    element: <DepositPayment />
                 },
             ]
     }

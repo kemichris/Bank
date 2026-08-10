@@ -10,6 +10,11 @@ export const login = async formData => {
     return data;
 };
 
+export const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+};
+
 export const verifyEmail = async emailData => {
     const { data } = await api.post('/auth/verify-email', emailData);
     return data;
