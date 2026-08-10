@@ -65,10 +65,6 @@ export const wireTransferPendingMail = async (
             margin: 0 auto;
         ">
 
-            <h2 style="color: #111;">
-                Wire Transfer Pending
-            </h2>
-
             <p>
                 Hi ${fullName},
             </p>
@@ -134,3 +130,206 @@ export const wireTransferPendingMail = async (
     return data;
 };
 
+export const localTransferSentMail = async (
+    email,
+    fullName,
+    amount,
+    recipient,
+    reference
+) => {
+    const subject = 'Transfer Successful';
+
+    const html = `
+        <div style="
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+        ">
+
+            <p>
+                Hi ${fullName},
+            </p>
+
+            <p>
+                Your transfer of
+                <strong>$${Number(amount).toFixed(2)}</strong>
+                to <strong>${recipient}</strong>
+                has been completed successfully.
+            </p>
+
+            <div style="
+                background: #f5f5f5;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 20px 0;
+            ">
+
+                <p style="margin: 5px 0;">
+                    <strong>Status:</strong> Completed
+                </p>
+
+                <p style="margin: 5px 0;">
+                    <strong>Amount:</strong>
+                    $${Number(amount).toFixed(2)}
+                </p>
+
+                <p style="margin: 5px 0;">
+                    <strong>Recipient:</strong>
+                    ${recipient}
+                </p>
+
+                <p style="margin: 5px 0;">
+                    <strong>Reference:</strong>
+                    ${reference}
+                </p>
+
+            </div>
+
+            <p>
+                Thank you for trusting
+                <strong>Global Merchant Bank</strong>.
+            </p>
+
+            <hr style="
+                border: none;
+                border-top: 1px solid #ddd;
+                margin: 25px 0;
+            ">
+
+            <p style="
+                font-size: 12px;
+                color: #777;
+            ">
+                This is an automated email. Please do not reply to this message.
+            </p>
+
+        </div>
+    `;
+
+    const { data, error } = await resend.emails.send({
+        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+        to: email,
+        subject,
+        html
+    });
+
+    if (error) {
+        throw new Error(
+            `Failed to send transfer email: ${error.message}`
+        );
+    }
+
+    return data;
+};
+
+
+export const localTransferReceivedMail = async (
+    email,
+    fullName,
+    amount,
+    sender,
+    reference,
+    description
+) => {
+    const subject = 'Transfer Received';
+
+    const html = `
+        <div style="
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+        ">
+
+            <p>
+                Hi ${fullName},
+            </p>
+
+            <p>
+                You have received
+                <strong>$${Number(amount).toFixed(2)}</strong>
+                from <strong>${sender}</strong>.
+            </p>
+
+            <div style="
+                background: #f5f5f5;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 20px 0;
+            ">
+
+                <p style="margin: 5px 0;">
+                    <strong>Status:</strong> Completed
+                </p>
+
+                <p style="margin: 5px 0;">
+                    <strong>Amount:</strong>
+                    $${Number(amount).toFixed(2)}
+                </p>
+
+                <p style="margin: 5px 0;">
+                    <strong>From:</strong>
+                    ${sender}
+                </p>
+
+                <p style="margin: 5px 0;">
+                    <strong>Reference:</strong>
+                    ${reference}
+                </p>
+
+                ${
+                    description
+                        ? `
+                            <p style="margin: 5px 0;">
+                                <strong>Description:</strong>
+                                ${description}
+                            </p>
+                        `
+                        : ''
+                }
+
+            </div>
+
+            <p>
+                The funds have been credited to your account.
+            </p>
+
+            <p>
+                Thank you for trusting
+                <strong>Global Merchant Bank</strong>.
+            </p>
+
+            <hr style="
+                border: none;
+                border-top: 1px solid #ddd;
+                margin: 25px 0;
+            ">
+
+            <p style="
+                font-size: 12px;
+                color: #777;
+            ">
+                This is an automated email. Please do not reply to this message.
+            </p>
+
+        </div>
+    `;
+
+    const { data, error } = await resend.emails.send({
+        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+        to: email,
+        subject,
+        html
+    });
+
+    if (error) {
+        throw new Error(
+            `Failed to send transfer email: ${error.message}`
+        );
+    }
+
+    return data;
+};

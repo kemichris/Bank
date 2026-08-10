@@ -8,7 +8,7 @@ import ApiError from "../utils/apiError.utils.js";
 import { generateTransactionReference } from "../utils/transaction.utils.js";
 import { uploadImage, deleteImage } from "../utils/cloudinary.utils.js";
 import { comparePassword } from "../utils/password.utils.js";
-import { wireTransferPendingMail } from "./mail.service.js";
+import { wireTransferPendingMail, localTransferSentMail, localTransferReceivedMail } from "./mail.service.js";
 
 // Transfer funds service(local)
 
@@ -222,6 +222,23 @@ export const transferFunds = async (senderId, transferData) => {
         // -----------------------------------------
 
         await session.commitTransaction();
+
+        await localTransferSentMail(
+            sender.email,
+            `${sender.firstName} ${sender.lastName}`,
+            amount,
+            `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
+            reference
+        );
+
+        await localTransferReceivedMail(
+            receiverAccount.owner.email,
+            `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
+            amount,
+            `${sender.firstName} ${sender.lastName}`,
+            reference,
+            description
+        );
 
         // -----------------------------------------
         // 19. Return transfer details
