@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { FaArrowRight } from "react-icons/fa";
 import toast from "react-hot-toast";
 
@@ -8,6 +9,7 @@ import {
 } from "../../services/transaction.service";
 
 export function TransferForm() {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         accountNumber: "",
         amount: "",
@@ -93,6 +95,9 @@ export function TransferForm() {
             console.log(res);
 
             toast.success(res.message || "Transfer successful.");
+            setTimeout(()=> {
+                navigate('/dashboard/card')
+            }, 1500)
         } catch (error) {
             console.error(error);
 
