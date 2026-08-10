@@ -4,7 +4,7 @@ import ApiError from "../utils/apiError.utils.js";
 
 export const applyForLoan = async (userId, loanData) => {
     const {
-        loanAmount,
+        requestedAmount,
         duration,
         creditFacility,
         purpose,
