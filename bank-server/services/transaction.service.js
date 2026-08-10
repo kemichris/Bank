@@ -8,6 +8,7 @@ import ApiError from "../utils/apiError.utils.js";
 import { generateTransactionReference } from "../utils/transaction.utils.js";
 import { uploadImage, deleteImage } from "../utils/cloudinary.utils.js";
 import { comparePassword } from "../utils/password.utils.js";
+import { wireTransferPendingMail } from "./mail.service.js";
 
 // Transfer funds service(local)
 
@@ -372,6 +373,14 @@ export const internationalTransfer = async (senderId, transferData) => {
 
         // Commit everything
         await session.commitTransaction();
+
+        // When user submits transfer
+        await wireTransferPendingMail(
+            user.email,
+            `${user.firstName} ${user.lastName}`,
+            transaction.amount,
+            transaction.internationalDetails.beneficiaryAccountName
+        );
 
         return {
             transactionId: transaction._id,

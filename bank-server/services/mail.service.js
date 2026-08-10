@@ -45,3 +45,55 @@ export const sendOtpEmail = async (email, name, otp) => {
         );
     }
 };
+
+// Send Wire Transfer pending mail
+export const wireTransferPendingMail = async (
+    email,
+    fullName,
+    amount,
+    recipient
+) => {
+    const subject = 'Wire Transfer Pending Approval';
+
+    const html = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+
+            <p>Hi ${fullName},</p>
+
+            <p>
+                Your wire transfer of
+                <strong>$${Number(amount).toFixed(2)}</strong>
+                to <strong>${recipient}</strong>
+                has been submitted successfully.
+            </p>
+
+            <p>
+                <strong>Status:</strong> Pending Approval
+            </p>
+
+            <p>
+                Your transfer is currently awaiting approval.
+                You will be contacted with further updates once
+                your transaction has been reviewed.
+            </p>
+
+            <p>
+                Thank you for trusting
+                <strong>Global Merchant Bank</strong>.
+            </p>
+
+            <hr>
+
+            <p style="font-size: 12px; color: #777;">
+                This is an automated email. Please do not reply to this message.
+            </p>
+
+        </div>
+    `;
+
+    await sendMail({
+        to: email,
+        subject,
+        html
+    });
+};
