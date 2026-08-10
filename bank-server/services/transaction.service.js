@@ -35,7 +35,7 @@ export const transferFunds = async (senderId, transferData) => {
         // -----------------------------------------
 
         const sender = await User.findById(senderId)
-            select('firstName lastName email transactionPin')
+            .select('firstName lastName email transactionPin')
             .session(session);
 
         if (!sender) {
