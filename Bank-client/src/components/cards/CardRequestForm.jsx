@@ -144,7 +144,7 @@ export function CardRequestForm() {
 
                     <div className="relative">
 
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-text-muted">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-base text-text-muted">
                             $
                         </span>
 
@@ -166,7 +166,7 @@ export function CardRequestForm() {
                                 py-3
                                 pl-8
                                 pr-4
-                                text-sm
+                                text-base
                                 text-text
                                 outline-none
                                 transition

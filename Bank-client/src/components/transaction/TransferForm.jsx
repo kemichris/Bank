@@ -152,7 +152,7 @@ export function TransferForm() {
                                 bg-surface-1
                                 px-4
                                 py-3
-                                text-sm
+                                text-base
                                 text-text
                                 outline-none
                                 transition
@@ -231,7 +231,7 @@ export function TransferForm() {
                                 py-3
                                 pl-8
                                 pr-4
-                                text-sm
+                                text-base
                                 text-text
                                 outline-none
                                 transition
@@ -268,7 +268,7 @@ export function TransferForm() {
                             bg-surface-1
                             px-4
                             py-3
-                            text-sm
+                            text-base
                             text-text
                             outline-none
                             transition
@@ -305,7 +305,7 @@ export function TransferForm() {
                             bg-surface-1
                             px-4
                             py-3
-                            text-sm
+                            text-base
                             tracking-[0.3em]
                             text-text
                             outline-none
