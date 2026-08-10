@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaGlobe } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import { internationalTransfer } from '../../services/transaction.service';
 
 export function WireTransferForm() {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         beneficiaryAccountName: '',
         beneficiaryAccountNumber: '',
@@ -70,11 +73,14 @@ export function WireTransferForm() {
         try {
             console.log(formData);
 
-            // Add your international transfer API call here
+            const res = await internationalTransfer(formData)
 
             toast.success(
-                'International transfer submitted successfully.'
+                res.message
             );
+            setTimeout(()=> {
+                navigate('/dashboard/transactions')
+            }, 1500)
 
         } catch (error) {
             console.error(error);
