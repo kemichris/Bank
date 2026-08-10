@@ -96,7 +96,7 @@ export function TransferForm() {
 
             toast.success(res.message || "Transfer successful.");
             setTimeout(()=> {
-                navigate('/dashboard/card')
+                navigate('/dashboard/transactions')
             }, 1500)
         } catch (error) {
             console.error(error);
