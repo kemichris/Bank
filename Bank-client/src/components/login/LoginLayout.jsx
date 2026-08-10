@@ -59,9 +59,10 @@ export function LoginLayout({
                     </div>
 
                     <div className="login-options">
-                        <label className="keep-signed-in">
+                        <label className="keep-signed-in flex items-center">
                             <input
                                 type="checkbox"
+                                className='w-3 h-3'
                                 name="keepSignedIn"
                                 checked={formData.keepSignedIn}
                                 onChange={handleChange}
