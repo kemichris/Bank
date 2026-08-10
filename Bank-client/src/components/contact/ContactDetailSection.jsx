@@ -17,13 +17,13 @@ export function ContactDetailSection() {
         {
             contactIcon: <FaPhoneAlt />,
             contactTitle: "Phone Banking",
-            contactDetails: ["Available 24/7", "Call: 1-800-BANKING", "International: +1-555-0123"]
+            contactDetails: ["Available 24/7", "Call: 1-800-BANKING", "International: +1 (928) 581-2928"]
         },
 
         {
             contactIcon: <MdEmail />,
             contactTitle: "Email Support",
-            contactDetails: ["Response within 24hrs", "support@Columbia Merchant Bank.live"]
+            contactDetails: ["Response within 24hrs", "support@columbmerchant.live"]
         },
         {
             contactIcon: <FaLocationDot />,
