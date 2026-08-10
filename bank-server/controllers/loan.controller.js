@@ -1,4 +1,4 @@
-import * as loanServices from '../services/loan.service'
+import * as loanServices from '../services/loan.service.js'
 
 // Loan request
 export const applyForLoan = async (req, res, next) => {
