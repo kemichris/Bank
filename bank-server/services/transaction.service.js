@@ -1,19 +1,18 @@
-import mongoose from 'mongoose';
-import cloudinary from '../utils/cloudinary.utils.js';
-import Account from '../models/account.model.js';
-import Transaction from '../models/transaction.model.js';
-import PaymentMethod from '../models/paymentMethod.model.js';
-import ApiError from '../utils/apiError.utils.js';
-import { generateTransactionReference } from '../utils/transaction.utils.js';
-import { uploadImage, deleteImage } from '../utils/cloudinary.utils.js';
+import mongoose from "mongoose";
+import cloudinary from "../utils/cloudinary.utils.js";
+import Account from "../models/account.model.js";
+import Transaction from "../models/transaction.model.js";
+import PaymentMethod from "../models/paymentMethod.model.js";
+import ApiError from "../utils/apiError.utils.js";
+import { generateTransactionReference } from "../utils/transaction.utils.js";
+import { uploadImage, deleteImage } from "../utils/cloudinary.utils.js";
+import { comparePassword } from "../utils/password.utils.js";
 
 // Transfer funds service
+
 export const transferFunds = async (senderId, transferData) => {
-    const {
-        recipientAccountNumber,
-        amount,
-        description
-    } = transferData;
+    const { recipientAccountNumber, amount, description, transactionPin } =
+        transferData;
 
     // Start MongoDB session
     const session = await mongoose.startSession();
@@ -21,119 +20,229 @@ export const transferFunds = async (senderId, transferData) => {
     try {
         session.startTransaction();
 
-        // Find sender's account
+        // -----------------------------------------
+        // 1. Validate transfer amount
+        // -----------------------------------------
+
+        if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
+            throw new ApiError(400, "Invalid transfer amount.");
+        }
+
+        // -----------------------------------------
+        // 2. Find sender
+        // -----------------------------------------
+
+        const sender = await User.findById(senderId)
+            .select("transactionPin")
+            .session(session);
+
+        if (!sender) {
+            throw new ApiError(404, "User not found.");
+        }
+
+        // -----------------------------------------
+        // 3. Make sure transaction PIN exists
+        // -----------------------------------------
+
+        if (!sender.transactionPin) {
+            throw new ApiError(400, "Transaction PIN has not been set.");
+        }
+
+        // -----------------------------------------
+        // 4. Verify transaction PIN
+        // -----------------------------------------
+
+        if (!transactionPin) {
+            throw new ApiError(400, "Transaction PIN is required.");
+        }
+
+        const isValidPin = await comparePassword(
+            transactionPin,
+            sender.transactionPin,
+        );
+
+        if (!isValidPin) {
+            throw new ApiError(400, "Invalid transaction PIN.");
+        }
+
+        // -----------------------------------------
+        // 5. Find sender's account
+        // -----------------------------------------
+
         const senderAccount = await Account.findOne({
-            owner: senderId
+            owner: senderId,
         }).session(session);
 
         if (!senderAccount) {
-            throw new ApiError(404, 'Sender account not found.');
+            throw new ApiError(404, "Sender account not found.");
         }
 
-        // Ensure sender account is active
-        if (senderAccount.status !== 'active') {
-            throw new ApiError(400, 'Sender account is not active.');
+        // -----------------------------------------
+        // 6. Ensure sender account is active
+        // -----------------------------------------
+
+        if (senderAccount.status !== "active") {
+            throw new ApiError(400, "Sender account is not active.");
         }
 
-        // Prevent self-transfer
+        // -----------------------------------------
+        // 7. Prevent self-transfer
+        // -----------------------------------------
+
         if (senderAccount.accountNumber === recipientAccountNumber) {
-            throw new ApiError(400, 'You cannot transfer to your own account.');
+            throw new ApiError(400, "You cannot transfer to your own account.");
         }
 
-        // Ensure sender has sufficient balance
+        // -----------------------------------------
+        // 8. Ensure sufficient balance
+        // -----------------------------------------
+
         if (senderAccount.balance < amount) {
-            throw new ApiError(400, 'Insufficient balance.');
+            throw new ApiError(400, "Insufficient balance.");
         }
 
-        // Find recipient's account
+        // -----------------------------------------
+        // 9. Find recipient account
+        // -----------------------------------------
+
         const receiverAccount = await Account.findOne({
-            accountNumber: recipientAccountNumber
-        })
-            .populate('owner')
-            .session(session);
+            accountNumber: recipientAccountNumber,
+        }).session(session);
 
         if (!receiverAccount) {
-            throw new ApiError(404, 'Recipient account not found.');
+            throw new ApiError(404, "Recipient account not found.");
         }
 
-        // Ensure recipient account is active
-        if (receiverAccount.status !== 'active') {
-            throw new ApiError(400, 'Recipient account is not active.');
+        // -----------------------------------------
+        // 10. Ensure recipient account is active
+        // -----------------------------------------
+
+        if (receiverAccount.status !== "active") {
+            throw new ApiError(400, "Recipient account is not active.");
         }
 
-        // Ensure both accounts use the same currency
-        if (senderAccount.currency !== receiverAccount.currency) {
-            throw new ApiError(400, 'Currency mismatch.');
-        }
+        // -----------------------------------------
+        // 12. Generate transaction reference
+        // -----------------------------------------
 
-        // Generate unique transaction reference
         const reference = generateTransactionReference();
 
-        // Debit sender
+        // -----------------------------------------
+        // 13. Update balances
+        // -----------------------------------------
+
         senderAccount.balance -= amount;
 
-        // Credit receiver
         receiverAccount.balance += amount;
 
-        // Sender's transaction record
+        // -----------------------------------------
+        // 14. Create sender transaction
+        // -----------------------------------------
+
         const senderTransaction = new Transaction({
             owner: senderId,
+
             ownerAccount: senderAccount._id,
 
-            counterParty: receiverAccount.owner._id,
+            counterParty: receiverAccount.owner,
+
             counterPartyAccount: receiverAccount._id,
-            method: 'local transfer',
+
+            method: "local transfer",
+
             amount,
-            currency: senderAccount.currency,
-            type: 'transfer',
-            direction: 'debit',
+
+
+            type: "transfer",
+
+            direction: "debit",
+
             reference,
+
             description,
-            status: 'completed'
+
+            status: "completed",
         });
 
-        // Receiver's transaction record
+        // -----------------------------------------
+        // 15. Create receiver transaction
+        // -----------------------------------------
+
         const receiverTransaction = new Transaction({
-            owner: receiverAccount.owner._id,
+            owner: receiverAccount.owner,
+
             ownerAccount: receiverAccount._id,
 
             counterParty: senderId,
+
             counterPartyAccount: senderAccount._id,
-            method: 'local transfer',
+
+            method: "local transfer",
+
             amount,
-            currency: receiverAccount.currency,
-            type: 'transfer',
-            direction: 'credit',
+
+
+            type: "transfer",
+
+            direction: "credit",
+
             reference,
+
             description,
-            status: 'completed'
+
+            status: "completed",
         });
 
-        // Save both transaction records
-        await senderTransaction.save({ session });
-        await receiverTransaction.save({ session });
+        // -----------------------------------------
+        // 16. Save transactions
+        // -----------------------------------------
 
-        // Save updated account balances
-        await senderAccount.save({ session });
-        await receiverAccount.save({ session });
+        await senderTransaction.save({
+            session,
+        });
 
-        // Commit transaction
+        await receiverTransaction.save({
+            session,
+        });
+
+        // -----------------------------------------
+        // 17. Save updated balances
+        // -----------------------------------------
+
+        await senderAccount.save({
+            session,
+        });
+
+        await receiverAccount.save({
+            session,
+        });
+
+        // -----------------------------------------
+        // 18. Commit everything
+        // -----------------------------------------
+
         await session.commitTransaction();
 
-        // Return transfer details
+        // -----------------------------------------
+        // 19. Return transfer details
+        // -----------------------------------------
+
         return {
             transactionId: senderTransaction._id,
-            reference: senderTransaction.reference,
-            amount: senderTransaction.amount,
-            currency: senderTransaction.currency,
-            description: senderTransaction.description,
-            status: senderTransaction.status
-        };
 
+            reference: senderTransaction.reference,
+
+            amount: senderTransaction.amount,
+
+            description: senderTransaction.description,
+
+            status: senderTransaction.status,
+        };
     } catch (error) {
         if (session.inTransaction()) {
             await session.abortTransaction();
         }
+
         throw error;
     } finally {
         await session.endSession();
@@ -141,29 +250,23 @@ export const transferFunds = async (senderId, transferData) => {
 };
 
 // Get transfer recipient
-export const getTransferRecipient = async accountNumber => {
+export const getTransferRecipient = async (accountNumber) => {
     const account = await Account.findOne({
-        accountNumber
-    }).populate('owner', 'firstName lastName');
+        accountNumber,
+    }).populate("owner", "firstName lastName");
 
     if (!account) {
-        throw new ApiError(
-            404,
-            'Account not found.'
-        );
+        throw new ApiError(404, "Account not found.");
     }
 
-    if (account.status !== 'active') {
-        throw new ApiError(
-            400,
-            'Recipient account is not active.'
-        );
+    if (account.status !== "active") {
+        throw new ApiError(400, "Recipient account is not active.");
     }
 
     return {
         accountNumber: account.accountNumber,
         firstName: account.owner.firstName,
-        lastName: account.owner.lastName
+        lastName: account.owner.lastName,
     };
 };
 
@@ -182,28 +285,25 @@ export const depositFunds = async (userId, depositData, receiptFile) => {
 
         // Ensure receipt was uploaded
         if (!receiptFile) {
-            throw new ApiError(400, 'Deposit receipt is required.');
+            throw new ApiError(400, "Deposit receipt is required.");
         }
 
         // Find user's account
         const account = await Account.findOne({
-            owner: userId
+            owner: userId,
         }).session(session);
 
         if (!account) {
-            throw new ApiError(404, 'Account not found.');
+            throw new ApiError(404, "Account not found.");
         }
 
         // Ensure account is active
-        if (account.status !== 'active') {
-            throw new ApiError(400, 'Account is not active.');
+        if (account.status !== "active") {
+            throw new ApiError(400, "Account is not active.");
         }
 
         // Upload receipt to Cloudinary
-        uploadedReceipt = await uploadImage(
-            receiptFile.buffer,
-            'neon/deposits'
-        );
+        uploadedReceipt = await uploadImage(receiptFile.buffer, "neon/deposits");
 
         // Generate unique transaction reference
         const reference = generateTransactionReference();
@@ -216,17 +316,17 @@ export const depositFunds = async (userId, depositData, receiptFile) => {
                     ownerAccount: account._id,
                     amount,
                     method,
-                    type: 'deposit',
-                    direction: 'credit',
+                    type: "deposit",
+                    direction: "credit",
                     reference,
-                    status: 'pending',
+                    status: "pending",
 
                     // Cloudinary data
                     receipt: uploadedReceipt.secure_url,
-                    receiptPublicId: uploadedReceipt.public_id
-                }
+                    receiptPublicId: uploadedReceipt.public_id,
+                },
             ],
-            { session }
+            { session },
         );
 
         // Commit database transaction
@@ -240,11 +340,9 @@ export const depositFunds = async (userId, depositData, receiptFile) => {
             paymentMethod: transaction.method,
             receipt: transaction.receipt,
             status: transaction.status,
-            createdAt: transaction.createdAt
+            createdAt: transaction.createdAt,
         };
-
     } catch (error) {
-
         // Roll back database transaction
         if (session.inTransaction()) {
             await session.abortTransaction();
@@ -256,14 +354,13 @@ export const depositFunds = async (userId, depositData, receiptFile) => {
                 await deleteImage(uploadedReceipt.public_id);
             } catch (cloudinaryError) {
                 console.error(
-                    'Failed to delete uploaded receipt:',
-                    cloudinaryError.message
+                    "Failed to delete uploaded receipt:",
+                    cloudinaryError.message,
                 );
             }
         }
 
         throw error;
-
     } finally {
         // Always end the session
         await session.endSession();
@@ -278,51 +375,34 @@ export const approveDeposit = async (depositId) => {
         session.startTransaction();
 
         // Find the pending deposit
-        const deposit = await Transaction.findById(
-            depositId
-        ).session(session);
+        const deposit = await Transaction.findById(depositId).session(session);
 
         if (!deposit) {
-            throw new ApiError(
-                404,
-                'Deposit transaction not found.'
-            );
+            throw new ApiError(404, "Deposit transaction not found.");
         }
 
         // Ensure this is actually a deposit
-        if (deposit.type !== 'deposit') {
-            throw new ApiError(
-                400,
-                'This transaction is not a deposit.'
-            );
+        if (deposit.type !== "deposit") {
+            throw new ApiError(400, "This transaction is not a deposit.");
         }
 
         // Only pending deposits can be approved
-        if (deposit.status !== 'pending') {
-            throw new ApiError(
-                400,
-                'Only pending deposits can be approved.'
-            );
+        if (deposit.status !== "pending") {
+            throw new ApiError(400, "Only pending deposits can be approved.");
         }
 
         // Find the account associated with the deposit
-        const account = await Account.findById(
-            deposit.ownerAccount
-        ).session(session);
+        const account = await Account.findById(deposit.ownerAccount).session(
+            session,
+        );
 
         if (!account) {
-            throw new ApiError(
-                404,
-                'Account not found.'
-            );
+            throw new ApiError(404, "Account not found.");
         }
 
         // Ensure the account is active
-        if (account.status !== 'active') {
-            throw new ApiError(
-                400,
-                'Account is not active.'
-            );
+        if (account.status !== "active") {
+            throw new ApiError(400, "Account is not active.");
         }
 
         // Credit the deposit amount to the account
@@ -331,7 +411,7 @@ export const approveDeposit = async (depositId) => {
         await account.save({ session });
 
         // Mark the deposit as completed
-        deposit.status = 'completed';
+        deposit.status = "completed";
 
         await deposit.save({ session });
 
@@ -342,37 +422,31 @@ export const approveDeposit = async (depositId) => {
             transactionId: deposit._id,
             reference: deposit.reference,
             amount: deposit.amount,
-            currency: deposit.currency,
             paymentMethod: deposit.paymentMethod,
             status: deposit.status,
             accountId: account._id,
             newBalance: account.balance,
-            completedAt: deposit.updatedAt
+            completedAt: deposit.updatedAt,
         };
-
     } catch (error) {
         if (session.inTransaction()) {
             await session.abortTransaction();
         }
 
         throw error;
-
     } finally {
         await session.endSession();
     }
 };
 
-
 // Get transaction history
 export const getTransactionHistory = async (userId) => {
-
     const transactions = await Transaction.find({
-        owner: userId
+        owner: userId,
     })
-        .populate('counterParty', 'firstName lastName')
-        .populate('counterPartyAccount', 'accountNumber')
+        .populate("counterParty", "firstName lastName")
+        .populate("counterPartyAccount", "accountNumber")
         .sort({ createdAt: -1 });
 
     return transactions;
 };
-
