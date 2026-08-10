@@ -47,6 +47,7 @@ export const sendOtpEmail = async (email, name, otp) => {
 };
 
 // Send Wire Transfer pending mail
+
 export const wireTransferPendingMail = async (
     email,
     fullName,
@@ -56,9 +57,21 @@ export const wireTransferPendingMail = async (
     const subject = 'Wire Transfer Pending Approval';
 
     const html = `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <div style="
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+        ">
 
-            <p>Hi ${fullName},</p>
+            <h2 style="color: #111;">
+                Wire Transfer Pending
+            </h2>
+
+            <p>
+                Hi ${fullName},
+            </p>
 
             <p>
                 Your wire transfer of
@@ -67,9 +80,16 @@ export const wireTransferPendingMail = async (
                 has been submitted successfully.
             </p>
 
-            <p>
-                <strong>Status:</strong> Pending Approval
-            </p>
+            <div style="
+                background: #f5f5f5;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 20px 0;
+            ">
+                <p style="margin: 0;">
+                    <strong>Status:</strong> Pending Approval
+                </p>
+            </div>
 
             <p>
                 Your transfer is currently awaiting approval.
@@ -82,18 +102,35 @@ export const wireTransferPendingMail = async (
                 <strong>Global Merchant Bank</strong>.
             </p>
 
-            <hr>
+            <hr style="
+                border: none;
+                border-top: 1px solid #ddd;
+                margin: 25px 0;
+            ">
 
-            <p style="font-size: 12px; color: #777;">
+            <p style="
+                font-size: 12px;
+                color: #777;
+            ">
                 This is an automated email. Please do not reply to this message.
             </p>
 
         </div>
     `;
 
-    await sendMail({
+    const { data, error } = await resend.emails.send({
+        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
         to: email,
         subject,
         html
     });
+
+    if (error) {
+        throw new Error(
+            `Failed to send wire transfer email: ${error.message}`
+        );
+    }
+
+    return data;
 };
+
