@@ -5,10 +5,10 @@ import {
   FaPaperPlane,
   FaGlobe,
   FaPlus,
-  FaExchangeAlt,
+  // FaExchangeAlt,
   FaUniversity,
   FaFileInvoice,
-  FaHandHoldingUsd,
+  // FaHandHoldingUsd,
   FaCog,
   FaHeadset
 } from 'react-icons/fa';
@@ -52,12 +52,12 @@ export const sidebarData = [
         name: 'Deposit',
         icon: FaPlus,
         path: '/dashboard/deposit'
-      },
-      {
-        name: 'Currency Swap',
-        icon: FaExchangeAlt,
-        path: '/dashboard/swap'
       }
+      // {
+      //   name: 'Currency Swap',
+      //   icon: FaExchangeAlt,
+      //   path: '/dashboard/swap'
+      // }
     ]
   },
 
@@ -73,12 +73,12 @@ export const sidebarData = [
         name: 'Tax Refund',
         icon: FaFileInvoice,
         path: '/dashboard/tax-refund'
-      },
-      {
-        name: 'Grants',
-        icon: FaHandHoldingUsd,
-        path: '/dashboard/grants'
       }
+      // {
+      //   name: 'Grants',
+      //   icon: FaHandHoldingUsd,
+      //   path: '/dashboard/grants'
+      // }
     ]
   },
 
