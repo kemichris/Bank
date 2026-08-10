@@ -19,6 +19,27 @@ export const transferFunds = async (req, res, next) => {
     }
 };
 
+// Get recipient account
+export const getTransferRecipient = async (req, res, next) => {
+    try {
+        const { accountNumber } = req.query;
+
+        const recipient =
+            await transactionService.getTransferRecipient(
+                accountNumber
+            );
+
+        return res.status(200).json({
+            success: true,
+            message: 'Recipient found successfully.',
+            data: recipient
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 // Deposit funds
 export const depositFunds = async (req, res, next) => {
     try {

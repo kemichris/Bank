@@ -140,6 +140,33 @@ export const transferFunds = async (senderId, transferData) => {
     }
 };
 
+// Get transfer recipient
+export const getTransferRecipient = async accountNumber => {
+    const account = await Account.findOne({
+        accountNumber
+    }).populate('owner', 'firstName lastName');
+
+    if (!account) {
+        throw new ApiError(
+            404,
+            'Account not found.'
+        );
+    }
+
+    if (account.status !== 'active') {
+        throw new ApiError(
+            400,
+            'Recipient account is not active.'
+        );
+    }
+
+    return {
+        accountNumber: account.accountNumber,
+        firstName: account.owner.firstName,
+        lastName: account.owner.lastName
+    };
+};
+
 // Deposit funds
 export const depositFunds = async (userId, depositData, receiptFile) => {
     const { amount, method } = depositData;

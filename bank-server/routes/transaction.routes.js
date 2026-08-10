@@ -9,6 +9,7 @@ import {
 
 import {
     transferFunds,
+    getTransferRecipient,
     depositFunds,
     approveDeposit,
     getTransactionHistory,
@@ -23,6 +24,13 @@ router.post(
     authorize("user"),
     validate(transferSchema),
     transferFunds,
+);
+
+router.get(
+    '/recipient',
+    protect,
+    authorize('user'),
+    getTransferRecipient
 );
 
 // deposit funds route
