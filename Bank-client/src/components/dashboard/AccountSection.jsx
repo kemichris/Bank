@@ -4,10 +4,24 @@ import { FaPlus } from "react-icons/fa";
 import { IoCopy } from "react-icons/io5";
 import { BsShieldFillExclamation } from "react-icons/bs";
 import { FaDotCircle } from "react-icons/fa";
-import {formatMoney} from "../../utils/formatMoney";
+import { formatMoney } from "../../utils/formatMoney";
+
+import toast from "react-hot-toast";
 
 
-export function AccountSection({account, user}) {
+export function AccountSection({ account, user }) {
+    const copyAccountNumber = async () => {
+        try {
+            await navigator.clipboard.writeText(
+                account.accountNumber
+            );
+
+            // optional
+            toast.success('Account number copied.');
+        } catch (error) {
+            console.error('Failed to copy account number:', error);
+        }
+    };
     return (
         <section className="mt-4 mb-8 flex flex-col gap-8 rounded-[28px] border border-white/20 bg-linear-to-br from-cyan-500 via-blue-700 to-slate-700 px-6 py-8 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.45)]">
             <div className="flex justify-between items-center">
@@ -20,7 +34,14 @@ export function AccountSection({account, user}) {
                     <p className="text-[0.7rem] text-slate-200/80 sm:text-sm">Account Number</p>
                     <p className="mt-1 flex items-center gap-2 text-white">
                         <strong className="text-[0.8rem] sm:text-base">{account.accountNumber}</strong>
-                        <IoCopy className="cursor-pointer text-sm transition hover:scale-110" />
+                        <button
+                            type="button"
+                            onClick={copyAccountNumber}
+                            className="transition hover:scale-110"
+                            title="Copy account number"
+                        >
+                            <IoCopy className="text-sm" />
+                        </button>
                     </p>
                 </div>
             </div>
