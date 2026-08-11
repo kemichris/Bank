@@ -1,6 +1,6 @@
-import TaxRefund  from "../models/taxrefund.model.js";
-import { taxRefundRequestReceivedMail } from "./mail.service";
-import User from "../models/user.model";
+import TaxRefund  from "../models/taxRefund.model.js";
+import { taxRefundRequestReceivedMail } from "./mail.service.js";
+import User from "../models/user.model.js";
 
 export const submitTaxRefundRequest = async (userId, refundData) => {
     const {
