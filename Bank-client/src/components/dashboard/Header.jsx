@@ -1,39 +1,40 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 // FaBell,
-import {  FaUser } from 'react-icons/fa';
+import { FaUser } from "react-icons/fa";
 import {
-    HiOutlineBars3,
-    HiOutlineXMark,
-    HiOutlineUser,
-    HiOutlineQuestionMarkCircle,
-    HiOutlineArrowRightOnRectangle,
-} from 'react-icons/hi2';
+  HiOutlineBars3,
+  HiOutlineXMark,
+  HiOutlineUser,
+  HiOutlineQuestionMarkCircle,
+  HiOutlineArrowRightOnRectangle,
+} from "react-icons/hi2";
 
-import { logout } from '../../services/auth.service';
+import { logout } from "../../services/auth.service";
 
 export function Header({
-    username,
-    sidebarOpen,
-    setSidebarOpen
+  username,
+  profileimage,
+  sidebarOpen,
+  setSidebarOpen,
 }) {
-    const [profileOpen, setProfileOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logout();
+  const handleLogout = () => {
+    logout();
 
-        setProfileOpen(false);
+    setProfileOpen(false);
 
-        navigate('/login', {
-            replace: true
-        });
-    };
+    navigate("/login", {
+      replace: true,
+    });
+  };
 
-    return (
-        <header
-            className="
+  return (
+    <header
+      className="
                 fixed
                 top-0
                 right-0
@@ -49,39 +50,31 @@ export function Header({
                 px-6
                 py-4
             "
-        >
+    >
+      {/* Mobile menu */}
+      <button
+        type="button"
+        className="rounded-md p-2 text-text lg:hidden"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        {sidebarOpen ? (
+          <HiOutlineXMark size={24} />
+        ) : (
+          <HiOutlineBars3 size={24} />
+        )}
+      </button>
 
-            {/* Mobile menu */}
-            <button
-                type="button"
-                className="rounded-md p-2 text-text lg:hidden"
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-            >
-                {sidebarOpen ? (
-                    <HiOutlineXMark size={24} />
-                ) : (
-                    <HiOutlineBars3 size={24} />
-                )}
-            </button>
+      {/* Left */}
+      <div>
+        <h1 className="text-2xl font-bold text-text">Dashboard</h1>
 
+        <p className="text-sm text-text-muted">Welcome back, {username}</p>
+      </div>
 
-            {/* Left */}
-            <div>
-                <h1 className="text-2xl font-bold text-text">
-                    Dashboard
-                </h1>
-
-                <p className="text-sm text-text-muted">
-                    Welcome back, {username}
-                </p>
-            </div>
-
-
-            {/* Right */}
-            <div className="flex items-center gap-3">
-
-                {/* Notification */}
-                {/* <button
+      {/* Right */}
+      <div className="flex items-center gap-3">
+        {/* Notification */}
+        {/* <button
                     type="button"
                     className="
                         rounded-2xl
@@ -95,45 +88,49 @@ export function Header({
                     <FaBell />
                 </button> */}
 
-
-                {/* Profile wrapper */}
-                <div className="relative">
-
-                    {/* Profile button */}
-                    <button
-                        type="button"
-                        onClick={() =>
-                            setProfileOpen(previous => !previous)
-                        }
-                        className="
+        {/* Profile wrapper */}
+        <div className="relative">
+          {/* Profile button */}
+          <button
+            type="button"
+            onClick={() => setProfileOpen((previous) => !previous)}
+            className="
                             rounded-lg
                             p-2
                             transition
                             hover:bg-surface-2
                         "
-                    >
-                        <div
-                            className="
-                                flex
-                                h-8
-                                w-8
-                                items-center
-                                justify-center
-                                rounded-full
-                                border
-                                border-amber-50
-                                bg-primary
-                            "
-                        >
-                            <FaUser className="text-text" />
-                        </div>
-                    </button>
+          >
+            <div
+              className="
+                flex
+                h-8
+                w-8
+                items-center
+                justify-center
+                overflow-hidden
+                rounded-full
+                border
+              border-amber-50
+              bg-primary
+                "
+            >
+              {profileimage ? (
+                <img
+                  src={profileimage}
+                  alt="Profile"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <FaUser className="text-text" />
+              )}
+            </div>
+          </button>
 
-
-                    {/* Dropdown */}
-                    {profileOpen && (
-                        <div
-                            className="
+          {/* Dropdown */}
+          {profileOpen && (
+            <div
+              className="
                                 absolute
                                 right-0
                                 top-13
@@ -146,15 +143,12 @@ export function Header({
                                 bg-surface-2
                                 shadow-2xl
                             "
-                        >
-
-                            {/* User information */}
-                            <div className="px-5 py-4">
-
-                                <div className="flex items-center gap-3">
-
-                                    <div
-                                        className="
+            >
+              {/* User information */}
+              <div className="px-5 py-4">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="
                                             flex
                                             h-12
                                             w-12
@@ -166,36 +160,30 @@ export function Header({
                                             border-amber-50
                                             bg-primary
                                         "
-                                    >
-                                        <FaUser className="text-lg text-text" />
-                                    </div>
+                  >
+                    <FaUser className="text-lg text-text" />
+                  </div>
 
-                                    <div className="min-w-0">
-                                        <p className="truncate font-semibold text-text">
-                                            {username}
-                                        </p>
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold text-text">
+                      {username}
+                    </p>
 
-                                        <p className="text-sm text-text-muted">
-                                            Account
-                                        </p>
-                                    </div>
+                    <p className="text-sm text-text-muted">Account</p>
+                  </div>
+                </div>
+              </div>
 
-                                </div>
-
-                            </div>
-
-
-                            {/* Menu */}
-                            <div className="border-t border-border py-2">
-
-                                {/* Profile Settings */}
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setProfileOpen(false);
-                                        navigate('/dashboard/settings');
-                                    }}
-                                    className="
+              {/* Menu */}
+              <div className="border-t border-border py-2">
+                {/* Profile Settings */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProfileOpen(false);
+                    navigate("/dashboard/settings");
+                  }}
+                  className="
                                         flex
                                         w-full
                                         items-center
@@ -207,9 +195,9 @@ export function Header({
                                         transition
                                         hover:bg-red-500/10
                                     "
-                                >
-                                    <span
-                                        className="
+                >
+                  <span
+                    className="
                                             flex
                                             h-10
                                             w-10
@@ -219,25 +207,21 @@ export function Header({
                                             bg-surface-3
                                             text-text-muted
                                         "
-                                    >
-                                        <HiOutlineUser size={21} />
-                                    </span>
+                  >
+                    <HiOutlineUser size={21} />
+                  </span>
 
-                                    <span className="font-medium">
-                                        Profile Settings
-                                    </span>
+                  <span className="font-medium">Profile Settings</span>
+                </button>
 
-                                </button>
-
-
-                                {/* Help */}
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setProfileOpen(false);
-                                        navigate('/dashboard/support');
-                                    }}
-                                    className="
+                {/* Help */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProfileOpen(false);
+                    navigate("/dashboard/support");
+                  }}
+                  className="
                                         flex
                                         w-full
                                         items-center
@@ -249,9 +233,9 @@ export function Header({
                                         transition
                                         hover:bg-red-500/10
                                     "
-                                >
-                                    <span
-                                        className="
+                >
+                  <span
+                    className="
                                             flex
                                             h-10
                                             w-10
@@ -261,28 +245,20 @@ export function Header({
                                             bg-surface-3
                                             text-text-muted
                                         "
-                                    >
-                                        <HiOutlineQuestionMarkCircle
-                                            size={21}
-                                        />
-                                    </span>
+                  >
+                    <HiOutlineQuestionMarkCircle size={21} />
+                  </span>
 
-                                    <span className="font-medium">
-                                        Help & Support
-                                    </span>
+                  <span className="font-medium">Help & Support</span>
+                </button>
+              </div>
 
-                                </button>
-
-                            </div>
-
-
-                            {/* Sign out */}
-                            <div className="border-t border-border px-4 py-3">
-
-                                <button
-                                    type="button"
-                                    onClick={handleLogout}
-                                    className="
+              {/* Sign out */}
+              <div className="border-t border-border px-4 py-3">
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="
                                         flex
                                         w-full
                                         items-center
@@ -295,9 +271,9 @@ export function Header({
                                         transition
                                         hover:bg-red-500/10
                                     "
-                                >
-                                    <span
-                                        className="
+                >
+                  <span
+                    className="
                                             flex
                                             h-10
                                             w-10
@@ -306,27 +282,17 @@ export function Header({
                                             rounded-xl
                                             bg-red-500/10
                                         "
-                                    >
-                                        <HiOutlineArrowRightOnRectangle
-                                            size={21}
-                                        />
-                                    </span>
+                  >
+                    <HiOutlineArrowRightOnRectangle size={21} />
+                  </span>
 
-                                    <span className="font-semibold">
-                                        Sign Out
-                                    </span>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-                    )}
-
-                </div>
-
+                  <span className="font-semibold">Sign Out</span>
+                </button>
+              </div>
             </div>
-
-        </header>
-    );
+          )}
+        </div>
+      </div>
+    </header>
+  );
 }

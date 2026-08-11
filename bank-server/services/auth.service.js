@@ -172,6 +172,7 @@ export const login = async (userData) => {
       username: user.username,
       email: user.email,
       role: user.role.name,
+      profileImage: user.profileImage
     },
   };
 };
