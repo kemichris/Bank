@@ -205,7 +205,7 @@ export function Header({
                                         text-left
                                         text-text
                                         transition
-                                        hover:bg-surface-3
+                                        hover:bg-red-500/10
                                     "
                                 >
                                     <span
@@ -247,7 +247,7 @@ export function Header({
                                         text-left
                                         text-text
                                         transition
-                                        hover:bg-surface-3
+                                        hover:bg-red-500/10
                                     "
                                 >
                                     <span

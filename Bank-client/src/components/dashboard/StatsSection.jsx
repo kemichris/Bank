@@ -28,7 +28,7 @@ export function StatsSection({statistics, account}) {
         {
             icon: <FaArrowUp />,
             timeline: "This Month",
-            amount: formatMoney(statistics.monthlyDebi), 
+            amount: formatMoney(statistics.monthlyDebit), 
             stat: "Monthly Expenses",
             bg:"bg-primary-4"
         },
