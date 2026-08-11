@@ -3,10 +3,10 @@ import config from './config';
 import toast from 'react-hot-toast';
 
 const api = axios.create({
-    baseURL: config.API_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+    baseURL: config.API_BASE_URL
+    // headers: {
+    //     'Content-Type': 'application/json',
+    // },
 });
 
 // Attach token to requests

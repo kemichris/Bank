@@ -40,6 +40,10 @@ export const updateProfileImage = async (userId, imageFile) => {
   try {
     uploadedImage = await uploadImage(imageFile.buffer, "neon/profile-images");
   } catch (error) {
+    console.error(
+        'CLOUDINARY PROFILE IMAGE ERROR:',
+        error
+    );
     throw new ApiError(500, "Unable to upload profile image.");
   }
 
