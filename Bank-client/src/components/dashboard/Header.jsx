@@ -193,7 +193,7 @@ export function Header({
                                     type="button"
                                     onClick={() => {
                                         setProfileOpen(false);
-                                        navigate('/dashboard/profile');
+                                        navigate('/dashboard/settings');
                                     }}
                                     className="
                                         flex

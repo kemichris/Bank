@@ -120,7 +120,7 @@ export function AssistanceCard() {
 
             {/* Chat Button */}
             <Link
-                to="/dashboard/contact"
+                to="/dashboard/support"
                 className="
                     mt-5
                     flex
