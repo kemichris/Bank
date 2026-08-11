@@ -56,7 +56,7 @@ export const submitTaxRefundRequest = async (userId, refundData) => {
     // 4. Check for existing pending request
     // -----------------------------------------
 
-    const existingRequest = await TaxRefundRequest.findOne({
+    const existingRequest = await TaxRefund.findOne({
         owner: userId,
         status: 'pending'
     });
@@ -72,7 +72,7 @@ export const submitTaxRefundRequest = async (userId, refundData) => {
     // 5. Create request
     // -----------------------------------------
 
-    const refundRequest = await TaxRefundRequest.create({
+    const refundRequest = await TaxRefund.create({
         owner: userId,
         fullName: fullName.trim(),
         ssn: ssn.trim(),
