@@ -23,6 +23,7 @@ export function ForgotPassword() {
 
     const [email, setEmail] = useState('');
     const [resetCode, setResetCode] = useState('');
+    const [resetToken, setResetToken] = useState('');
 
     const [newPassword, setNewPassword] =
         useState('');
@@ -38,7 +39,10 @@ export function ForgotPassword() {
         event.preventDefault();
 
         if (!email.trim()) {
-            toast.error('Please enter your email address.');
+            toast.error(
+                'Please enter your email address.'
+            );
+
             return;
         }
 
@@ -49,6 +53,7 @@ export function ForgotPassword() {
 
             /*
                 Don't rely on whether the account exists.
+
                 Always move to the code screen.
             */
             toast.success(
@@ -61,6 +66,7 @@ export function ForgotPassword() {
             console.error(error);
 
             toast.error(
+                error.response?.data?.message ||
                 'Unable to process your request.'
             );
 
@@ -74,17 +80,36 @@ export function ForgotPassword() {
         event.preventDefault();
 
         if (!resetCode.trim()) {
-            toast.error('Please enter the reset code.');
+            toast.error(
+                'Please enter the reset code.'
+            );
+
+            return;
+        }
+
+        if (resetCode.length !== 6) {
+            toast.error(
+                'Please enter the 6-digit reset code.'
+            );
+
             return;
         }
 
         setLoading(true);
 
         try {
-            await verifyResetCode(
+            const response = await verifyResetCode(
                 email,
                 resetCode
             );
+
+            /*
+                The backend creates a temporary
+                password-reset token after the
+                verification code is successfully
+                verified.
+            */
+            setResetToken(response.resetToken);
 
             toast.success(
                 'Code verified successfully.'
@@ -125,15 +150,30 @@ export function ForgotPassword() {
             return;
         }
 
+        /*
+            Make sure the verification step actually
+            produced a reset token.
+        */
+        if (!resetToken) {
+            toast.error(
+                'Your reset session is invalid. Please start again.'
+            );
+
+            setStep(1);
+
+            return;
+        }
+
         setLoading(true);
 
         try {
-            await resetPassword({
-                email,
-                resetCode,
-                newPassword,
-                confirmPassword
-            });
+            await resetPassword(
+                {
+                    password: newPassword,
+                    confirmPassword
+                },
+                resetToken
+            );
 
             toast.success(
                 'Password reset successfully.'
@@ -346,7 +386,10 @@ export function ForgotPassword() {
                                     value={resetCode}
                                     onChange={event =>
                                         setResetCode(
-                                            event.target.value
+                                            event.target.value.replace(
+                                                /\D/g,
+                                                ''
+                                            )
                                         )
                                     }
                                     placeholder="000000"

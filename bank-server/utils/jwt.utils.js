@@ -16,3 +16,15 @@ export const verifyAccessToken = (token) => {
         process.env.JWT_SECRET
     );
 };
+
+export const generateResetToken = payload => {
+    const resetToken = jwt.sign(
+        payload,
+        process.env.RESET_PASSWORD_SECRET,
+        {
+            expiresIn: '10m'
+        }
+    );
+
+    return resetToken;
+};

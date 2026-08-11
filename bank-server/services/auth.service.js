@@ -7,7 +7,7 @@ import ApiError from "../utils/apiError.utils.js";
 import { hashPassword, comparePassword } from "../utils/password.utils.js";
 import { generateAccountNumber } from "../utils/account.utils.js";
 import { fromSmallestUnit } from "../utils/money.utils.js";
-import { generateAccessToken } from "../utils/jwt.utils.js";
+import { generateAccessToken, generateResetToken } from "../utils/jwt.utils.js";
 import generateCode from "../utils/generateCode.utils.js";
 import { sendOtpEmail, sendPasswordResetMail } from "./mail.service.js";
 import { resendVerificationCode } from "./user.service.js";
@@ -221,53 +221,53 @@ export const forgotPassword = async (email) => {
 
 // verify rest code
 export const verifyResetCode = async (email, code) => {
-  const normalizedEmail = email?.toLowerCase().trim();
+    const normalizedEmail =
+        email?.toLowerCase().trim();
 
-  if (!normalizedEmail || !code) {
-    throw new ApiError(400, "Email and verification code are required.");
-  }
+    if (!normalizedEmail || !code) {
+        throw new ApiError(
+            400,
+            'Email and verification code are required.'
+        );
+    }
 
-  const user = await User.findOne({
-    email: normalizedEmail,
-    resetPasswordCode: code,
-    resetPasswordExpires: {
-      $gt: Date.now(),
-    },
-  });
+    const user = await User.findOne({
+        email: normalizedEmail,
+        resetPasswordCode: code,
+        resetPasswordExpires: {
+            $gt: Date.now()
+        }
+    });
 
-  if (!user) {
-    throw new ApiError(400, "Invalid or expired verification code.");
-  }
+    if (!user) {
+        throw new ApiError(
+            400,
+            'Invalid or expired verification code.'
+        );
+    }
 
-  /*
+    /*
         The code has now been successfully verified.
 
-        Consume it immediately so it cannot be
-        reused.
+        Consume it immediately so it cannot be reused.
     */
-  user.resetPasswordCode = null;
-  user.resetPasswordExpires = null;
+    user.resetPasswordCode = null;
+    user.resetPasswordExpires = null;
 
-  await user.save();
+    await user.save();
 
-  /*
+    /*
         Create a temporary token that can ONLY
         be used for password resetting.
     */
-  const resetToken = jwt.sign(
-    {
-      id: user._id,
-      purpose: "password-reset",
-    },
-    process.env.RESET_PASSWORD_SECRET,
-    {
-      expiresIn: "10m",
-    },
-  );
+    const resetToken = generateResetToken({
+        id: user._id,
+        purpose: 'password-reset'
+    });
 
-  return {
-    resetToken,
-  };
+    return {
+        resetToken
+    };
 };
 
 export const resetPassword = async (
