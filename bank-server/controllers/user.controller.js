@@ -19,6 +19,8 @@ export const getProfile = async (req, res, next) => {
 // update profile Image
 export const updateProfileImage = async (req, res, next) => {
   try {
+    console.log('REQ FILE:', req.file);
+        console.log('REQ BODY:', req.body);
     const userId = req.user._id;
 
     const result = await userService.updateProfileImage(userId, req.file);
