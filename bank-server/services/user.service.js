@@ -6,6 +6,7 @@ import ApiError from "../utils/apiError.utils.js";
 import { hashPassword, comparePassword } from "../utils/password.utils.js";
 import generateCode from "../utils/generateCode.utils.js";
 import { sendOtpEmail } from "./mail.service.js";
+import { uploadImage, deleteImage } from "../utils/cloudinary.utils.js";
 
 // Get logged-in user's profile
 export const getProfile = async (userId) => {
