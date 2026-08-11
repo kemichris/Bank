@@ -74,7 +74,7 @@ export function AccountSection({ account, user }) {
             </div>
             <div className="flex  items-center justify-end gap-3">
                 <Link
-                    to="/dashboard/transfer"
+                    to="/dashboard/local-transfer"
                     className="flex items-center gap-2 rounded-2xl bg-white/20 px-4 py-2.5 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/30"
                 >
                     <FaTelegramPlane /> Transfer
