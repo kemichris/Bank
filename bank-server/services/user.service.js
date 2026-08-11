@@ -22,6 +22,64 @@ export const getProfile = async (userId) => {
   return user;
 };
 
+// Upload profile photo
+export const updateProfileImage = async (userId, imageFile) => {
+  
+  if (!imageFile) {
+    throw new ApiError(400, "Profile image is required.");
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
+
+  let uploadedImage;
+
+  try {
+    uploadedImage = await uploadImage(imageFile.buffer, "neon/profile-images");
+  } catch (error) {
+    throw new ApiError(500, "Unable to upload profile image.");
+  }
+
+
+  const oldPublicId = user.profileImagePublicId;
+
+  user.profileImage = uploadedImage.secure_url;
+
+  user.profileImagePublicId = uploadedImage.public_id;
+
+  await user.save();
+
+  // -----------------------------------------
+  // 5. Delete old image
+  // -----------------------------------------
+
+  if (oldPublicId) {
+    try {
+      await deleteImage(oldPublicId);
+    } catch (error) {
+      /*
+                The new image has already been saved
+                successfully, so don't fail the request
+                just because the old Cloudinary image
+                could not be deleted.
+            */
+
+      console.error("Failed to delete old profile image:", error.message);
+    }
+  }
+
+  // -----------------------------------------
+  // 6. Return updated image
+  // -----------------------------------------
+
+  return {
+    profileImage: user.profileImage,
+  };
+};
+
 // change password
 export const changePassword = async (userId, currentPassword, newPassword) => {
   const user = await User.findById(userId);

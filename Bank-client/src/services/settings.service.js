@@ -22,3 +22,13 @@ export const changePin = async pinData => {
 
     return data;
 };
+
+// upate profile photo
+export const profileImgUpdate = async formData => {
+    const { data } = await api.put(
+        '/user/profile-image',
+        formData
+    );
+
+    return data;
+};
