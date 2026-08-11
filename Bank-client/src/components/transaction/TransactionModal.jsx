@@ -1,5 +1,6 @@
 import { HiOutlineXMark } from 'react-icons/hi2';
 import { formatMoney } from '../../utils/formatMoney';
+import { TransactionReceipt } from './TransactionReceipt';
 
 export function TransactionModal({
     transaction,
@@ -23,8 +24,13 @@ export function TransactionModal({
             return `${transaction.counterParty.firstName} ${transaction.counterParty.lastName}`;
         }
 
-        if (transaction.internationalDetails?.beneficiaryAccountName) {
-            return transaction.internationalDetails.beneficiaryAccountName;
+        if (
+            transaction.internationalDetails
+                ?.beneficiaryAccountName
+        ) {
+            return transaction
+                .internationalDetails
+                .beneficiaryAccountName;
         }
 
         return 'Transfer';
@@ -41,10 +47,10 @@ export function TransactionModal({
         minute: '2-digit',
     });
 
-    // Format amount as a plain string using the helper.
-    const transactionAmount = `${isCredit ? '+' : '-'}$${formatMoney(
-        transaction.amount
-    )}`;
+    // Format amount
+    const transactionAmount = `${
+        isCredit ? '+' : '-'
+    }$${formatMoney(transaction.amount)}`;
 
     return (
         <div
@@ -60,35 +66,57 @@ export function TransactionModal({
             "
             onClick={onClose}
         >
+
             <div
                 className="
                     w-full
                     max-w-lg
+                    overflow-hidden
                     rounded-2xl
                     border
                     border-border
                     bg-surface-1
                     shadow-xl
                 "
-                onClick={(event) =>
+                onClick={event =>
                     event.stopPropagation()
                 }
             >
 
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-border px-6 py-5">
+
+                <div className="
+                    flex
+                    items-center
+                    justify-between
+                    border-b
+                    border-border
+                    px-6
+                    py-5
+                ">
 
                     <div>
-                        <h2 className="text-xl font-semibold text-text">
+
+                        <h2 className="
+                            text-xl
+                            font-semibold
+                            text-text
+                        ">
                             Transaction Details
                         </h2>
 
-                        <p className="mt-1 text-sm text-text-muted">
+                        <p className="
+                            mt-1
+                            text-sm
+                            text-text-muted
+                        ">
                             Full transaction information
                         </p>
+
                     </div>
 
                     <button
+                        type="button"
                         onClick={onClose}
                         className="
                             rounded-lg
@@ -104,8 +132,14 @@ export function TransactionModal({
 
                 </div>
 
+
                 {/* Details */}
-                <div className="space-y-5 px-6 py-6">
+
+                <div className="
+                    space-y-5
+                    px-6
+                    py-6
+                ">
 
                     <TransactionDetail
                         label="Reference"
@@ -157,28 +191,41 @@ export function TransactionModal({
                         value={transaction.method}
                     />
 
-                    {/* Only show counterparty account for debits */}
-                    {/* Show counterparty / beneficiary account for debits */}
                     {!isCredit && (
-                        transaction.counterPartyAccount?.accountNumber ||
-                        transaction.internationalDetails?.beneficiaryAccountNumber
+                        transaction.counterPartyAccount
+                            ?.accountNumber ||
+                        transaction.internationalDetails
+                            ?.beneficiaryAccountNumber
                     ) && (
-                            <TransactionDetail
-                                label={
-                                    transaction.type === 'international_transfer'
-                                        ? 'Beneficiary Account'
-                                        : 'Counterparty Account'
-                                }
-                                value={
-                                    transaction.counterPartyAccount?.accountNumber ||
-                                    transaction.internationalDetails?.beneficiaryAccountNumber
-                                }
-                            />
-                        )}
+                        <TransactionDetail
+                            label={
+                                transaction.type ===
+                                'international_transfer'
+                                    ? 'Beneficiary Account'
+                                    : 'Counterparty Account'
+                            }
+                            value={
+                                transaction
+                                    .counterPartyAccount
+                                    ?.accountNumber ||
+                                transaction
+                                    .internationalDetails
+                                    ?.beneficiaryAccountNumber
+                            }
+                        />
+                    )}
 
                 </div>
 
+
+                {/* Receipt Actions */}
+
+                <TransactionReceipt
+                    transaction={transaction}
+                />
+
             </div>
+
         </div>
     );
 }
@@ -190,9 +237,17 @@ function TransactionDetail({
     valueClassName = 'text-text',
 }) {
     return (
-        <div className="flex items-start justify-between gap-6">
+        <div className="
+            flex
+            items-center
+            justify-between
+            gap-4
+        ">
 
-            <span className="text-sm text-text-muted">
+            <span className="
+                text-sm
+                text-text-muted
+            ">
                 {label}
             </span>
 
@@ -212,4 +267,3 @@ function TransactionDetail({
         </div>
     );
 }
-
