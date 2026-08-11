@@ -149,19 +149,27 @@ export function Header({
                 <div className="flex items-center gap-3">
                   <div
                     className="
-                                            flex
-                                            h-12
-                                            w-12
-                                            shrink-0
-                                            items-center
-                                            justify-center
-                                            rounded-full
-                                            border
-                                            border-amber-50
-                                            bg-primary
-                                        "
+                        flex
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        overflow-hidden
+                        rounded-full
+                        border
+                        border-amber-50
+                      bg-primary
+                    "
                   >
-                    <FaUser className="text-lg text-text" />
+                    {profileimage ? (
+                      <img
+                        src={profileimage}
+                        alt="Profile"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <FaUser className="text-text" />
+                    )}
                   </div>
 
                   <div className="min-w-0">
