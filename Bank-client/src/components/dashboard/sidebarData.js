@@ -4,13 +4,13 @@ import {
   FaCreditCard,
   FaPaperPlane,
   FaGlobe,
-  // FaPlus,
+  FaPlus,
   // FaExchangeAlt,
-  // FaUniversity,
-  // FaFileInvoice,
+  FaUniversity,
+  FaFileInvoice,
   // FaHandHoldingUsd,
-  // FaCog,
-  // FaHeadset
+  FaCog,
+  FaHeadset
 } from 'react-icons/fa';
 
 export const sidebarData = [
@@ -48,11 +48,11 @@ export const sidebarData = [
         icon: FaGlobe,
         path: '/dashboard/international'
       },
-      // {
-      //   name: 'Deposit',
-      //   icon: FaPlus,
-      //   path: '/dashboard/deposit'
-      // }
+      {
+        name: 'Deposit',
+        icon: FaPlus,
+        path: '/dashboard/deposit'
+      }
       // {
       //   name: 'Currency Swap',
       //   icon: FaExchangeAlt,
@@ -61,40 +61,40 @@ export const sidebarData = [
     ]
   },
 
-  // {
-  //   title: 'SERVICES',
-  //   links: [
-  //     {
-  //       name: 'Loans',
-  //       icon: FaUniversity,
-  //       path: '/dashboard/loans'
-  //     },
-  //     {
-  //       name: 'Tax Refund',
-  //       icon: FaFileInvoice,
-  //       path: '/dashboard/tax-refund'
-  //     }
-  //     // {
-  //     //   name: 'Grants',
-  //     //   icon: FaHandHoldingUsd,
-  //     //   path: '/dashboard/grants'
-  //     // }
-  //   ]
-  // },
+  {
+    title: 'SERVICES',
+    links: [
+      {
+        name: 'Loans',
+        icon: FaUniversity,
+        path: '/dashboard/loan'
+      },
+      {
+        name: 'Tax Refund',
+        icon: FaFileInvoice,
+        path: '/dashboard/tax-refund'
+      },
+      // {
+      //   name: 'Grants',
+      //   icon: FaHandHoldingUsd,
+      //   path: '/dashboard/grants'
+      // }
+    ]
+  },
 
-  // {
-  //   title: 'ACCOUNT',
-  //   links: [
-  //     {
-  //       name: 'Settings',
-  //       icon: FaCog,
-  //       path: '/dashboard/settings'
-  //     },
-  //     {
-  //       name: 'Support',
-  //       icon: FaHeadset,
-  //       path: '/dashboard/support'
-  //     }
-  //   ]
-  // }
+  {
+    title: 'ACCOUNT',
+    links: [
+      {
+        name: 'Settings',
+        icon: FaCog,
+        path: '/dashboard/settings'
+      },
+      {
+        name: 'Support',
+        icon: FaHeadset,
+        path: '/dashboard/support'
+      }
+    ]
+  }
 ];

@@ -46,6 +46,99 @@ export const sendOtpEmail = async (email, name, otp) => {
     }
 };
 
+// Send password reset mail
+export const sendPasswordResetMail = async (
+    email,
+    fullName,
+    resetCode
+) => {
+    const subject = 'Password Reset Code';
+
+    const html = `
+        <div style="
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+        ">
+
+            <p>
+                Hi ${fullName},
+            </p>
+
+            <p>
+                We received a request to reset the password
+                for your Global Merchant Bank account.
+            </p>
+
+            <p>
+                Your password reset code is:
+            </p>
+
+            <div style="
+                margin: 25px 0;
+                padding: 18px;
+                text-align: center;
+                background: #f5f5f5;
+                border-radius: 10px;
+            ">
+                <strong style="
+                    font-size: 28px;
+                    letter-spacing: 8px;
+                ">
+                    ${resetCode}
+                </strong>
+            </div>
+
+            <p>
+                This code will expire in
+                <strong>10 minutes</strong>.
+            </p>
+
+            <p>
+                If you did not request a password reset,
+                you can safely ignore this email.
+            </p>
+
+            <p>
+                Thank you for trusting
+                <strong>Global Merchant Bank</strong>.
+            </p>
+
+            <hr style="
+                border: none;
+                border-top: 1px solid #ddd;
+                margin: 25px 0;
+            ">
+
+            <p style="
+                font-size: 12px;
+                color: #777;
+            ">
+                This is an automated email. Please do not reply
+                to this message.
+            </p>
+
+        </div>
+    `;
+
+    const { data, error } = await resend.emails.send({
+        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+        to: email,
+        subject,
+        html
+    });
+
+    if (error) {
+        throw new Error(
+            `Failed to send password reset email: ${error.message}`
+        );
+    }
+
+    return data;
+};
+
 // Send Wire Transfer pending mail
 export const wireTransferPendingMail = async (
     email,

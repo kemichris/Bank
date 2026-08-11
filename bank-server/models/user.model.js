@@ -79,11 +79,11 @@ export const userSchema = new mongoose.Schema(
             type: Date,
             default: null
         },
-        passwordResetToken: {
+        resetPasswordCode: {
             type: String,
             default: null
         },
-        passwordResetExpires: {
+        resetPasswordExpires: {
             type: Date,
             default: null
         },

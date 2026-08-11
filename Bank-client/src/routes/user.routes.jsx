@@ -7,6 +7,11 @@ import { LocalTransfer } from '../pages/user/LocalTransfer';
 import { International } from '../pages/user/International';
 import { Deposit } from '../pages/user/Deposit';
 import { DepositPayment } from '../pages/user/DepositPayment';
+import { LoanService } from '../pages/user/LoanService';
+import { LoanApplication } from '../pages/user/LoanApplication';
+import { TaxRefund } from '../pages/user/TaxRefund';
+import { Setting } from '../pages/user/Setting';
+
 
 export const userRoutes = [
     {
@@ -43,6 +48,22 @@ export const userRoutes = [
                 {
                     path: '/dashboard/deposit/payment',
                     element: <DepositPayment />
+                },
+                {
+                    path: '/dashboard/loan',
+                    element: <LoanService />
+                },
+                {
+                    path: '/dashboard/loan/application',
+                    element: <LoanApplication />
+                },
+                {
+                    path: '/dashboard/tax-refund',
+                    element: <TaxRefund />
+                },
+                {
+                    path: '/dashboard/settings',
+                    element: <Setting />
                 },
             ]
     }

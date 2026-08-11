@@ -11,6 +11,7 @@ import { Terms } from '../pages/public/Terms';
 import { Register } from '../pages/public/Register';
 import { Login } from '../pages/public/Login';
 import { VerifyEmail } from '../pages/public/VerifyEmail';
+import { ForgotPassword } from '../pages/public/ForgotPassword';
 
 export const publicRoutes = [
     {
@@ -24,6 +25,10 @@ export const publicRoutes = [
     {
         path: '/verify-email',
         element: <VerifyEmail />,
+    },
+    {
+        path: '/forgot-password',
+        element: <ForgotPassword />
     },
     {
         element: <PublicLayout />,

@@ -7,13 +7,11 @@ import { comparePassword } from '../utils/password.utils.js';
 import generateCode from '../utils/generateCode.utils.js';
 import { sendOtpEmail } from './mail.service.js';
 
-
 // Get logged-in user's profile
 export const getProfile = async (userId) => {
     const user = await User.findById(userId)
-        .populate('role')
-        .populate('account')
-        .select('-password -otp -otpExpiry -passwordResetToken -passwordResetExpires');
+        .populate('account', 'accountNumber')
+        .select('-password -otp -otpExpiry -passwordResetToken -passwordResetExpires -transactionPin -passwordChangedAt');
 
     if (!user) {
         throw new ApiError(404, 'User not found.');
@@ -222,10 +220,10 @@ export const getDashboardData = async (userId) => {
             owner: userId,
             status: 'completed'
         })
-        .populate('counterParty', 'firstName lastName')
-        .populate('counterPartyAccount', 'accountNumber' )
-        .sort({ createdAt: -1 })
-        .limit(5)
+            .populate('counterParty', 'firstName lastName')
+            .populate('counterPartyAccount', 'accountNumber')
+            .sort({ createdAt: -1 })
+            .limit(5)
     ]);
 
     // Get credit amount
