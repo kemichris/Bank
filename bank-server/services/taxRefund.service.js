@@ -1,4 +1,4 @@
-import TaxRefund  from "../models/taxrefund.model";
+import TaxRefund  from "../models/taxrefund.model.js";
 import { taxRefundRequestReceivedMail } from "./mail.service";
 import User from "../models/user.model";
 
