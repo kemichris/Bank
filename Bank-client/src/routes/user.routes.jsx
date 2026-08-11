@@ -11,6 +11,7 @@ import { LoanService } from '../pages/user/LoanService';
 import { LoanApplication } from '../pages/user/LoanApplication';
 import { TaxRefund } from '../pages/user/TaxRefund';
 import { Setting } from '../pages/user/Setting';
+import { Support } from '../pages/user/Support';
 
 
 export const userRoutes = [
@@ -64,6 +65,10 @@ export const userRoutes = [
                 {
                     path: '/dashboard/settings',
                     element: <Setting />
+                },
+                {
+                    path: '/dashboard/support',
+                    element: <Support />
                 },
             ]
     }

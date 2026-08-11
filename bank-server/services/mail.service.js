@@ -517,3 +517,92 @@ export const taxRefundRequestReceivedMail = async (
 
     return data;
 };
+
+
+// support ticked received mail 
+// Send support ticket received mail
+export const supportTicketReceivedMail = async (
+    email,
+    fullName,
+    ticketTitle
+) => {
+    const subject = 'Support Ticket Received';
+
+    const html = `
+        <div style="
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+        ">
+
+            <p>
+                Hi ${fullName},
+            </p>
+
+            <p>
+                We have received your support request successfully.
+                Our support team will review your request and get back
+                to you as soon as possible.
+            </p>
+
+            <div style="
+                background: #f5f5f5;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 20px 0;
+            ">
+                <p style="margin: 0 0 8px;">
+                    <strong>Ticket:</strong>
+                    ${ticketTitle}
+                </p>
+
+                <p style="margin: 0;">
+                    <strong>Status:</strong>
+                    Open
+                </p>
+            </div>
+
+            <p>
+                Our support team typically responds within 24 hours.
+                If we need any additional information to resolve your
+                issue, we will contact you.
+            </p>
+
+            <p>
+                Thank you for contacting
+                <strong>Global Merchant Bank Support</strong>.
+            </p>
+
+            <hr style="
+                border: none;
+                border-top: 1px solid #ddd;
+                margin: 25px 0;
+            ">
+
+            <p style="
+                font-size: 12px;
+                color: #777;
+            ">
+                This is an automated email. Please do not reply to this message.
+            </p>
+
+        </div>
+    `;
+
+    const { data, error } = await resend.emails.send({
+        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+        to: email,
+        subject,
+        html
+    });
+
+    if (error) {
+        throw new Error(
+            `Failed to send support ticket email: ${error.message}`
+        );
+    }
+
+    return data;
+};

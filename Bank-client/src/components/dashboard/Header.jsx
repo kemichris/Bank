@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { FaBell, FaUser } from 'react-icons/fa';
+// FaBell,
+import {  FaUser } from 'react-icons/fa';
 import {
     HiOutlineBars3,
     HiOutlineXMark,
@@ -81,7 +81,7 @@ export function Header({
             <div className="flex items-center gap-3">
 
                 {/* Notification */}
-                <button
+                {/* <button
                     type="button"
                     className="
                         rounded-2xl
@@ -93,7 +93,7 @@ export function Header({
                     "
                 >
                     <FaBell />
-                </button>
+                </button> */}
 
 
                 {/* Profile wrapper */}

@@ -1,0 +1,12 @@
+import express from 'express'
+import {protect, authorize} from '../middlewares/auth.middleware.js';
+
+const router = express.Router()
+
+router.post(
+    '/ticket',
+    protect,
+    createSupportTicket
+);
+
+export default router

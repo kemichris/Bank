@@ -65,7 +65,6 @@ export const changeTransactionPin = async (userId, currentPin, newPin) => {
   await user.save();
 };
 
-
 // verify email
 export const verifyEmail = async (emailData) => {
   const { email, verificationCode } = emailData;
