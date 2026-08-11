@@ -6,7 +6,8 @@ import {
 
 export function ProfileSidebar({
     activeSection = 'profile',
-    onSectionChange
+    onSectionChange,
+    profile
 }) {
     const menuItems = [
         {
@@ -101,11 +102,11 @@ export function ProfileSidebar({
 
 
                 <h2 className="mt-3 text-lg font-bold text-white">
-                    Maihi Ben
+                   {`${profile.firstName} ${profile.lastName} `}
                 </h2>
 
                 <p className="mt-1 text-sm text-white/80">
-                    Account #79698900208
+                    {profile.account.accountNumber}
                 </p>
 
             </div>

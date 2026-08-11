@@ -6,6 +6,7 @@ import { ProfileInformation } from './ProfileInformation';
 import { AssistanceCard } from './AssistanceCard';
 import { profileData } from '../../services/settings.service';
 import { PasswordSetting } from './PasswordSetting';
+import { ResetPin } from './ResetPin';
 
 
 export function Profile() {
@@ -53,8 +54,7 @@ export function Profile() {
                     <ProfileSidebar
                         activeSection={activeSection}
                         onSectionChange={setActiveSection}
-                        firstName={profile?.firstName}
-                        lastName={profile?.lastName}
+                        profile={profile}
                     />
 
                     <AssistanceCard
@@ -78,34 +78,8 @@ export function Profile() {
                         <PasswordSetting />
                     )}
 
-
-                    {activeSection === 'two-factor' && (
-                        <div className="rounded-2xl border border-border bg-surface-2 p-6">
-
-                            <h2 className="text-lg font-semibold text-text">
-                                Two-Factor Authentication
-                            </h2>
-
-                            <p className="mt-2 text-sm text-text-muted">
-                                Two-factor authentication settings will go here.
-                            </p>
-
-                        </div>
-                    )}
-
-
                     {activeSection === 'pin' && (
-                        <div className="rounded-2xl border border-border bg-surface-2 p-6">
-
-                            <h2 className="text-lg font-semibold text-text">
-                                Transaction PIN
-                            </h2>
-
-                            <p className="mt-2 text-sm text-text-muted">
-                                Transaction PIN settings will go here.
-                            </p>
-
-                        </div>
+                        <ResetPin />
                     )}
 
                 </div>

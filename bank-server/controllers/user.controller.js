@@ -36,6 +36,24 @@ export const changePassword = async (req, res, next) => {
     }
 };
 
+// Change Transaction pin
+export const changeTransactionPin = async (req, res, next) => {
+    try {
+        const userId = req.user._id;
+        const { currentPin, newPin } = req.body;
+
+        await userService.changeTransactionPin(userId, currentPin, newPin);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Pin changed successfully.'
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 // verify email
 export const verifyEmail = async (req, res, next) => {
     try {

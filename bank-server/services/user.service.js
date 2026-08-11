@@ -44,6 +44,28 @@ export const changePassword = async (userId, currentPassword, newPassword) => {
   await user.save();
 };
 
+// Change tansaction pin
+export const changeTransactionPin = async (userId, currentPin, newPin) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
+
+  const isMatch = await comparePassword(currentPin, user.transactionPin);
+
+  if (!isMatch) {
+    throw new ApiError(400, "Current Pin is incorrect.");
+  }
+
+  const hashedPin = await hashPassword(newPin);
+
+  user.transactionPin = hashedPin;
+
+  await user.save();
+};
+
+
 // verify email
 export const verifyEmail = async (emailData) => {
   const { email, verificationCode } = emailData;

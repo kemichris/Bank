@@ -13,3 +13,12 @@ export const changePassword = async passwordData => {
 
     return data;
 };
+
+export const changePin = async pinData => {
+    const { data } = await api.put(
+        '/user/change-pin',
+        pinData
+    );
+
+    return data;
+};
