@@ -47,7 +47,6 @@ export const sendOtpEmail = async (email, name, otp) => {
 };
 
 // Send Wire Transfer pending mail
-
 export const wireTransferPendingMail = async (
     email,
     fullName,
@@ -130,6 +129,7 @@ export const wireTransferPendingMail = async (
     return data;
 };
 
+// local transfer sent mail
 export const localTransferSentMail = async (
     email,
     fullName,
@@ -224,7 +224,7 @@ export const localTransferSentMail = async (
     return data;
 };
 
-
+// local transfer receive mail 
 export const localTransferReceivedMail = async (
     email,
     fullName,
@@ -328,6 +328,97 @@ export const localTransferReceivedMail = async (
     if (error) {
         throw new Error(
             `Failed to send transfer email: ${error.message}`
+        );
+    }
+
+    return data;
+};
+
+// Loan application mail 
+// export const loanApplicationMail =  async (
+
+// )=> {
+
+// }
+
+
+
+// Tax refund mail
+export const taxRefundRequestReceivedMail = async (
+    email,
+    fullName
+) => {
+    const subject = 'Tax Refund Request Received';
+
+    const html = `
+        <div style="
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+        ">
+
+            <p>
+                Hi ${fullName},
+            </p>
+
+            <p>
+                We have successfully received your tax refund request.
+            </p>
+
+            <div style="
+                background: #f5f5f5;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 20px 0;
+            ">
+                <p style="margin: 0;">
+                    <strong>Status:</strong> Request Received
+                </p>
+            </div>
+
+            <p>
+                Your request is currently being reviewed. If we require
+                any additional information or documentation, we will
+                contact you with further instructions.
+            </p>
+
+            <p>
+                Please allow some time for the review process. No further
+                action is required from you at this time.
+            </p>
+
+            <p>
+                Thank you.
+            </p>
+
+            <hr style="
+                border: none;
+                border-top: 1px solid #ddd;
+                margin: 25px 0;
+            ">
+
+            <p style="
+                font-size: 12px;
+                color: #777;
+            ">
+                This is an automated email. Please do not reply to this message.
+            </p>
+
+        </div>
+    `;
+
+    const { data, error } = await resend.emails.send({
+        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+        to: email,
+        subject,
+        html
+    });
+
+    if (error) {
+        throw new Error(
+            `Failed to send tax refund email: ${error.message}`
         );
     }
 

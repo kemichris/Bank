@@ -11,7 +11,6 @@ import { comparePassword } from "../utils/password.utils.js";
 import { wireTransferPendingMail, localTransferSentMail, localTransferReceivedMail } from "./mail.service.js";
 
 // Transfer funds service(local)
-
 export const transferFunds = async (senderId, transferData) => {
     const { recipientAccountNumber, amount, description, transactionPin } =
         transferData;
