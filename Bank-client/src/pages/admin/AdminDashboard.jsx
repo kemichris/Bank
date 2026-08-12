@@ -14,6 +14,7 @@ import { GiPayMoney } from "react-icons/gi";
 import formatMoney from "../../utils/formatMoney";
 
 import { StatsSection } from "../../components/dashboard/StatsSection";
+import { AdminRecentTransaction } from "../../components/adminDashboard/AdminRecentTransaction";
 import { PageLoader } from "../../components/common/PageLoader";
 
 import { getAdminDashboardData } from "../../services/dashboard.service";
@@ -53,56 +54,56 @@ export function AdminDashboard() {
     {
       icon: <FaUsers />,
       timeline: "All Time",
-      amount: 50,
+      amount: dashboardData.totalUsers,
       stat: "Total Users",
       bg: "bg-primary-2",
     },
     {
       icon: <FaMoneyBill />,
       timeline: "Total Holdings",
-      amount: formatMoney(544484),
+      amount: `$${formatMoney(dashboardData.totalAssets)}`,
       stat: "Assets",
       bg: "bg-blue-500",
     },
     {
       icon: <FaArrowDown />,
       timeline: "All Credits",
-      amount: formatMoney(40000),
+      amount: `$${formatMoney(dashboardData.completedCredits)}`,
       stat: "Total Deposits",
       bg: "bg-primary-3",
     },
     {
       icon: <FaArrowUp />,
       timeline: "All Debit",
-      amount: formatMoney(40000),
+      amount: `$${formatMoney(dashboardData.completedDebits)}`,
       stat: "Total Expenses",
       bg: "bg-primary-4",
     },
     {
       icon: <FaUsers />,
       timeline: "Active Users",
-      amount: 13,
+      amount: dashboardData.activeUsers,
       stat: "Users",
       bg: "bg-primary-5",
     },
     {
       icon: <FaUsersSlash />,
       timeline: "blocked Users",
-      amount: 3,
+      amount: dashboardData.blockedUsers,
       stat: "Users",
       bg: "bg-red-500",
     },
     {
       icon: <FaMoneyBillTrendUp />,
       timeline: "Pending",
-      amount: 5,
+      amount: dashboardData.pendingWithdrawals,
       stat: "Withdrawals",
       bg: "bg-orange-500",
     },
     {
       icon: <GiPayMoney />,
       timeline: "Pending",
-      amount: 7,
+      amount: dashboardData.pendingDeposits,
       stat: "Deposits",
       bg: "bg-primary-3",
     },
@@ -115,6 +116,8 @@ export function AdminDashboard() {
       <title>Columbia Merchant | Admin</title>
 
       <StatsSection statDatas={statDatas} />
+
+      <AdminRecentTransaction transactions={dashboardData.recentTransactions} />
     </>
   );
 }

@@ -12,9 +12,15 @@ export function AdminRecentTransaction({transactions}) {
         <div className="rounded-3xl border border-border bg-surface-1 p-5 shadow-sm mt-8">
             <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-text">Recent Transactions</h3>
-                <Link to="/dashboard/transactions" className="text-sm font-medium text-primary hover:underline">
-                    View All
+                <div className="flex items-center gap-2">
+                    <Link to="/admin/deposits" className="text-sm font-medium text-primary hover:underline">
+                    All credits
                 </Link>
+                <Link to="/dashboard/withdrawals" className="text-sm font-medium text-primary hover:underline">
+                    All debits
+                </Link>
+
+                </div>
             </div>
 
             <TransactionTable transactions={transactions} />

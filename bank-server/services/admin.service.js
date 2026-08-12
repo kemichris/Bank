@@ -86,6 +86,8 @@ export const getAdminDashboard = async () => {
       .limit(10)
       .populate("owner", "firstName lastName email")
       .populate("ownerAccount", "accountNumber")
+      .populate("counterParty", "firstName lastName")
+      .populate("counterPartyAccount", "accountNumber")
       .lean(),
   ]);
 

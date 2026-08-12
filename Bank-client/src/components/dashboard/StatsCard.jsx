@@ -8,7 +8,7 @@ export function StatsCard({icon, timeline, amount, stat, bg}) {
                 </div>
                 <p className="text-text-muted text-sm">{timeline}</p>
             </div>
-            <h4 className="text-xl text-white font-bold" >${amount}</h4>
+            <h4 className="text-xl text-white font-bold" >{amount}</h4>
             <small className="text-text-muted">{stat}</small>
         </div>
     )
