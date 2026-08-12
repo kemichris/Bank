@@ -115,8 +115,6 @@ export const getAdminDashboard = async () => {
 
 
 // Get all users 
-import User from '../models/user.model.js';
-import Role from '../models/role.model.js';
 
 export const getAllUsers = async () => {
     const userRole = await Role.findOne({
