@@ -20,6 +20,10 @@ export function TransactionModal({
             return 'Withdrawal';
         }
 
+        if (transaction.type === 'bank_charge') {
+            return 'Bank Charge';
+        }
+
         if (transaction.counterParty) {
             return `${transaction.counterParty.firstName} ${transaction.counterParty.lastName}`;
         }
