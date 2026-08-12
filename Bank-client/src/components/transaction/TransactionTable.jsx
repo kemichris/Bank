@@ -15,6 +15,10 @@ const transactionColumns = [
                 return 'Withdrawal';
             }
 
+            if (row.type === 'bank_charge') {
+                return 'Bank Charge';
+            }
+
             if (row.counterParty) {
                 return `${row.counterParty.firstName} ${row.counterParty.lastName}`;
             }
