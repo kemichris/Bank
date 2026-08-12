@@ -14,6 +14,7 @@ import {
     depositFunds,
     approveDeposit,
     getTransactionHistory,
+    chargeAccount
 } from "../controllers/transaction.controller.js";
 
 const router = express.Router();
@@ -63,5 +64,14 @@ router.patch(
 
 // Get transaction history
 router.get("/history", protect, authorize("user"), getTransactionHistory);
+
+
+// Bank Charge
+router.post(
+    '/:userId/bank-charge',
+    protect,
+    authorize('admin'),
+    chargeAccount
+);
 
 export default router;

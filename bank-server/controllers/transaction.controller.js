@@ -102,7 +102,6 @@ export const approveDeposit = async (req, res, next) => {
 };
 
 // Get transaction history
-// Get transaction history
 export const getTransactionHistory = async (req, res, next) => {
     try {
         const userId = req.user._id;
@@ -114,6 +113,28 @@ export const getTransactionHistory = async (req, res, next) => {
             success: true,
             message: 'Transaction history retrieved successfully.',
             data: transactionHistory
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+// Bank Charge
+export const chargeAccount = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+
+        const result = await transactionService.chargeAccount(
+            userId,
+            req.body
+        );
+
+        return res.status(201).json({
+            success: true,
+            message: 'Bank charge applied successfully.',
+            data: result
         });
 
     } catch (error) {
