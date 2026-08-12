@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import Account from "../models/account.model.js";
 import Transaction from "../models/transaction.model.js";
+import Role from "../models/role.model.js";
 import ApiError from "../utils/apiError.utils.js";
 
 // Admin Dashboard Data
@@ -110,4 +111,33 @@ export const getAdminDashboard = async () => {
 
     recentTransactions,
   };
+};
+
+
+// Get all users 
+import User from '../models/user.model.js';
+import Role from '../models/role.model.js';
+
+export const getAllUsers = async () => {
+    const userRole = await Role.findOne({
+        name: 'user'
+    });
+
+    const allUsers = await User.find({
+        role: userRole._id
+    })
+        .populate('role', 'name')
+        .populate(
+            'account',
+            'accountNumber balance'
+        )
+        .select(
+            '-password -verificationCode -resetPasswordCode'
+        )
+        .sort({
+            createdAt: -1
+        })
+        .lean();
+
+    return allUsers;
 };
