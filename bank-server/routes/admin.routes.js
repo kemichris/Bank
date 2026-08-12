@@ -12,6 +12,6 @@ const router = express.Router();
 router.get("/dashboard", protect, authorize("admin"), getAdminDashboard);
 
 // Get all users
-(router.get("/users", protect), authorize("admin", getAllUsers));
+router.get("/users", protect), authorize("admin", getAllUsers);
 
 export default router;
