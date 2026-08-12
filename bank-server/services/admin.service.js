@@ -72,12 +72,12 @@ export const getAdminDashboard = async () => {
     }),
 
     Transaction.countDocuments({
-      type: "withdrawal",
+      direction: "debit",
       status: "pending",
     }),
 
     Transaction.countDocuments({
-      type: "deposit",
+      direction: "credit",
       status: "pending",
     }),
 
