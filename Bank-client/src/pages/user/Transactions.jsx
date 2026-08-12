@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { TransactionTable } from '../../components/transaction/TransactionTable';
-import { getTransactionHistory } from '../../services/dashboard.service';
+import { getTransactionHistory } from '../../services/transaction.service';
 import { PageLoader } from '../../components/common/PageLoader';
 
 export function Transactions() {

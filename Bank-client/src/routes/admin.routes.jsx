@@ -1,8 +1,15 @@
-import { AdminDashboard } from '../pages/admin/AdminDashboard';
+import { AdminLayout } from "../pages/layout/AdminLayout";
+
+import { AdminDashboard } from "../pages/admin/AdminDashboard";
 
 export const adminRoutes = [
-    {
-        path: '/admin',
+  {
+    element: <AdminLayout />,
+    children: [
+      {
+        path: "/admin",
         element: <AdminDashboard />,
-    },
+      },
+    ]
+  }
 ];

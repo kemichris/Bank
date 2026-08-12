@@ -1,12 +1,17 @@
 import api from '../utils/axios';
 
+// users dashboard 
 export const getDashboardData = async () => {
     const { data } = await api.get('/user/dashboard');
     return data;
 };
 
-export const getTransactionHistory = async () => {
-    const response = await api.get('/transaction/history');
 
-    return response.data;
-};
+// Admin dashboad 
+export const getAdminDashboardData = async () => {
+    const {data} = await api.get('/admin/dashboard');
+    return data
+}
+
+
+

@@ -12,12 +12,16 @@ export function TransactionReceipt({ transaction }) {
   const isCredit = transaction.direction === "credit";
 
   const transactionName = () => {
-    if (transaction.type === "deposit") {
+   if (transaction.type === "deposit") {
       return "Deposit";
     }
 
     if (transaction.type === "withdrawal") {
       return "Withdrawal";
+    }
+
+    if (transaction.type === "bank_charge") {
+      return "Bank Charge";
     }
 
     if (transaction.counterParty) {

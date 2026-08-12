@@ -1,5 +1,13 @@
 import api from "../utils/axios";
 
+// get transaction history for user 
+export const getTransactionHistory = async () => {
+    const response = await api.get('/transaction/history');
+
+    return response.data;
+};
+
+// Get transfer receipts
 export const getTransferRecipient = async (accountNumber) => {
     const { data } = await api.get(
         `/transaction/recipient?accountNumber=${accountNumber}`,
