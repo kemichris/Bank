@@ -8,3 +8,5 @@ const router = express.Router()
 
 // Load dashboard data
 router.get("/dashboard", protect, authorize("admin"), getAdminDashboard);
+
+export default router
