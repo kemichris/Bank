@@ -1,6 +1,6 @@
 
 import { adminSidebarData } from "./adminSidebarData";
-import { AdminSidebarItem } from "./adminSidebarItem";
+import { AdminSidebarItem } from "./AdminSidebarItem";
 
 import Logo from "../../assets/cm-logo.png";
 
