@@ -9,8 +9,8 @@ export function Setting() {
         <>
             <title>Columbia Merchant | Setting </title>
             <UserPageHeader
-                cardHeader="Local Transfer"
-                headerDetail="Send money to any Columbia Merchant Bank securely and instantly"
+                cardHeader="Account Setting"
+                headerDetail="Manage your profile and security settings"
                 headerIcon={<IoMdSettings />}
                 to="/dashboard"
                 linkIcon={<FaArrowLeft />}
