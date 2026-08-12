@@ -650,6 +650,7 @@ export const chargeAccount = async (userId, chargeData) => {
 
           type: "bank_charge",
           direction: "debit",
+          method: 'bank_charge',
 
           reference,
 
@@ -669,6 +670,7 @@ export const chargeAccount = async (userId, chargeData) => {
       amount: transaction.amount,
       type: transaction.type,
       direction: transaction.direction,
+      method: transaction.method,
       status: transaction.status,
       description: transaction.description,
       createdAt: transaction.createdAt,
