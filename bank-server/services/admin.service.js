@@ -113,9 +113,7 @@ export const getAdminDashboard = async () => {
   };
 };
 
-
 // Get all users 
-
 export const getAllUsers = async () => {
     const userRole = await Role.findOne({
         name: 'user'
@@ -138,4 +136,24 @@ export const getAllUsers = async () => {
         .lean();
 
     return allUsers;
+};
+
+// Get user by id
+export const getUserById = async userId => {
+    const user = await User.findById(userId)
+        .populate('role', 'name')
+        .populate('account')
+        .select(
+            '-password -verificationCode -resetPasswordCode'
+        )
+        .lean();
+
+    if (!user) {
+        throw new ApiError(
+            404,
+            'User not found.'
+        );
+    }
+
+    return user;
 };
