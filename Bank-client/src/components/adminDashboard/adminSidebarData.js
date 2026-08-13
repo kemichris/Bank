@@ -3,6 +3,7 @@ import {
   FaChartLine,
   FaCreditCard,
   FaPaperPlane,
+  FaUserAlt,
   FaGlobe,
   FaPlus,
   // FaExchangeAlt,
@@ -23,21 +24,32 @@ export const adminSidebarData = [
         path: '/admin'
       },
       {
-        name: 'Deposits',
-        icon: FaChartLine,
-        path: '/admin/deposits'
+        name: 'Manage Users',
+        icon: FaUserAlt,
+        path: '/admin/manage-users'
       },
       {
-        name: 'Withdrawals',
-        icon: FaChartLine,
-        path: '/admin/withdrawals'
-      },
-      {
-        name: 'Cards',
+        name: 'Cards Services',
         icon: FaCreditCard,
         path: '/dashboard/card'
       }
     ]
+  },
+  {
+    title: 'TRANSACTIONS',
+    links: [
+     {
+        name: 'Manage Deposits',
+        icon: FaChartLine,
+        path: '/admin/deposits'
+      },
+      {
+        name: 'Manage Withdrawals',
+        icon: FaChartLine,
+        path: '/admin/withdrawals'
+      },
+    ]
+
   },
 
   {
