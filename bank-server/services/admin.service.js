@@ -240,8 +240,8 @@ export const creditDebitUser = async (userId, transactionData) => {
   let method;
 
   switch (type) {
-    case "bank-charge":
-      method = "internal-bank-debit";
+    case "bank_charge":
+      method = "internal bank debit";
       break;
 
     case "withdrawal":
