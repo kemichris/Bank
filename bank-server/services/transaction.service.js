@@ -15,7 +15,8 @@ import {
 } from "./mail.service.js";
 
 // Transfer funds service(local)
-export const transferFunds = async (senderId, transferData) => {
+export const transferFunds = async (senderId, transferData, options = {}) => {
+  const { bypassPin = false, sendEmails = true } = options;
   const { recipientAccountNumber, amount, description, transactionPin } =
     transferData;
 
@@ -46,28 +47,24 @@ export const transferFunds = async (senderId, transferData) => {
     }
 
     // -----------------------------------------
-    // 3. Make sure transaction PIN exists
-    // -----------------------------------------
-
-    if (!sender.transactionPin) {
-      throw new ApiError(400, "Transaction PIN has not been set.");
-    }
-
-    // -----------------------------------------
     // 4. Verify transaction PIN
     // -----------------------------------------
+    if (!bypassPin) {
+      if (!sender.transactionPin) {
+        throw new ApiError(400, "Transaction PIN has not been set.");
+      }
+      if (!transactionPin) {
+        throw new ApiError(400, "Transaction PIN is required.");
+      }
 
-    if (!transactionPin) {
-      throw new ApiError(400, "Transaction PIN is required.");
-    }
+      const isValidPin = await comparePassword(
+        transactionPin,
+        sender.transactionPin,
+      );
 
-    const isValidPin = await comparePassword(
-      transactionPin,
-      sender.transactionPin,
-    );
-
-    if (!isValidPin) {
-      throw new ApiError(400, "Invalid transaction PIN.");
+      if (!isValidPin) {
+        throw new ApiError(400, "Invalid transaction PIN.");
+      }
     }
 
     // -----------------------------------------
@@ -228,22 +225,24 @@ export const transferFunds = async (senderId, transferData) => {
 
     await session.commitTransaction();
 
-    await localTransferSentMail(
-      sender.email,
-      `${sender.firstName} ${sender.lastName}`,
-      amount,
-      `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
-      reference,
-    );
+    if (sendEmails) {
+  await localTransferSentMail(
+    sender.email,
+    `${sender.firstName} ${sender.lastName}`,
+    amount,
+    `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
+    reference
+  );
 
-    await localTransferReceivedMail(
-      receiverAccount.owner.email,
-      `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
-      amount,
-      `${sender.firstName} ${sender.lastName}`,
-      reference,
-      description,
-    );
+  await localTransferReceivedMail(
+    receiverAccount.owner.email,
+    `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
+    amount,
+    `${sender.firstName} ${sender.lastName}`,
+    reference,
+    description
+  );
+}
 
     // -----------------------------------------
     // 19. Return transfer details
