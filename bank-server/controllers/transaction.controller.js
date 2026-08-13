@@ -119,25 +119,3 @@ export const getTransactionHistory = async (req, res, next) => {
         next(error);
     }
 };
-
-
-// Bank Charge
-export const chargeAccount = async (req, res, next) => {
-    try {
-        const { userId } = req.params;
-
-        const result = await transactionService.chargeAccount(
-            userId,
-            req.body
-        );
-
-        return res.status(201).json({
-            success: true,
-            message: 'Bank charge applied successfully.',
-            data: result
-        });
-
-    } catch (error) {
-        next(error);
-    }
-};

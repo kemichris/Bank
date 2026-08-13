@@ -20,6 +20,9 @@ router.patch("/users/:userId/suspension", protect, authorize('admin'), adminCont
 // Toggle user status
 router.patch("/users/:userId/status", protect, authorize('admin'), adminController.toggleUserStatus);
 
+// Debit or Credit user
+router.post('/users/:userId/credit-debit', protect, authorize('admin'), adminController.creditDebitUser)
+
 
 
 export default router;

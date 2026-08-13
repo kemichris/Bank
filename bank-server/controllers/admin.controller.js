@@ -63,7 +63,6 @@ export const toggleSuspension = async (req, res, next) => {
 };
 
 // toggle user status
-
 export const toggleUserStatus = async (req, res, next) => {
   try {
     const { userId } = req.params;
@@ -82,3 +81,20 @@ export const toggleUserStatus = async (req, res, next) => {
     next(error)
   }
 };
+
+
+// Credit or debit user
+export const creditDebitUser = async (req, res, next) => {
+  try {
+    const {userId} = req.params;
+    const transaction= await adminService.creditDebitUser(userId, req.body)
+
+    res.status(201).json({
+      success: true,
+      message: transaction.direction === 'credit' ? 'Account credited succesfully' : 'Account debited succesffuly'
+    })
+
+  } catch (error) {
+    next(error)
+  }
+}

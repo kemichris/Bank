@@ -205,11 +205,10 @@ export const toggleSuspension = async (userId) => {
 
   await user.save();
 
-  return user
-    
+  return user;
 };
 
-// Toggle account status 
+// Toggle account status
 export const toggleUserStatus = async (userId) => {
   const user = await User.findById(userId);
 
@@ -218,18 +217,116 @@ export const toggleUserStatus = async (userId) => {
   }
 
   if (user.status === "suspended") {
-    throw new ApiError(
-      400,
-      "A suspended account cannot be modified."
-    );
+    throw new ApiError(400, "A suspended account cannot be modified.");
   }
 
-  user.status =
-    user.status === "active"
-      ? "inactive"
-      : "active";
+  user.status = user.status === "active" ? "inactive" : "active";
 
   await user.save();
 
   return user;
+};
+
+// Credit or debit user
+export const creditDebitUser = async (userId, transactionData) => {
+  const { amount, direction, type, description } = transactionData;
+
+  if (!amount || amount <= 0) {
+    throw new ApiError(400, "Transaction amount must be greater than zero.");
+  }
+
+  let method;
+
+  switch (type) {
+    case "bank-charge":
+      method = "internal-bank-debit";
+      break;
+
+    case "withdrawal":
+      method = "admin";
+      break;
+
+    case "deposit":
+      method = "bank";
+      break;
+
+    default:
+      method = "admin";
+  }
+
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    const account = await Account.findOne({
+      owner: userId,
+    }).session(session);
+
+    if (!account) {
+      throw new ApiError(404, "Account not found.");
+    }
+
+    if (account.status !== "active") {
+      throw new ApiError(400, "Account is not active.");
+    }
+
+    if (direction === "debit" && account.balance < amount) {
+      throw new ApiError(400, "Insufficient account balance.");
+    }
+
+    if (direction === "credit") {
+      account.balance += amount;
+    } else {
+      account.balance -= amount;
+    }
+
+    await account.save({ session });
+
+    const reference = generateTransactionReference();
+
+    const [transaction] = await Transaction.create(
+      [
+        {
+          owner: userId,
+          ownerAccount: account._id,
+
+          amount,
+
+          type,
+          direction,
+          method,
+
+          reference,
+
+          status: "completed",
+
+          description: description || "Internal Transaction",
+        },
+      ],
+      { session },
+    );
+
+    await session.commitTransaction();
+
+    return {
+      transactionId: transaction._id,
+      reference: transaction.reference,
+      amount: transaction.amount,
+      type: transaction.type,
+      direction: transaction.direction,
+      method: transaction.method,
+      status: transaction.status,
+      description: transaction.description,
+      createdAt: transaction.createdAt,
+    };
+  } catch (error) {
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
+
+    throw error;
+  } finally {
+    await session.endSession();
+  }
 };
