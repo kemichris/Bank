@@ -140,13 +140,13 @@ export const login = async (userData) => {
 
   if (user.status === "inactive") {
     throw new ApiError(
-      403,
+      423,
       "Your account is inactive. Please contact support.",
     );
   }
 
   if (user.status === "suspended") {
-    throw new ApiError(403, "Your account has been suspended.");
+    throw new ApiError(423, "Your account has been suspended.");
   }
 
   if (!user.emailVerified) {
