@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import User from "../models/user.model.js";
 import Account from "../models/account.model.js";
 import Transaction from "../models/transaction.model.js";
