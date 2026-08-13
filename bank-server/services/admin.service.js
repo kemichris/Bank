@@ -113,47 +113,78 @@ export const getAdminDashboard = async () => {
   };
 };
 
-// Get all users 
+// Get all users
 export const getAllUsers = async () => {
-    const userRole = await Role.findOne({
-        name: 'user'
-    });
+  const userRole = await Role.findOne({
+    name: "user",
+  });
 
-    const allUsers = await User.find({
-        role: userRole._id
+  const allUsers = await User.find({
+    role: userRole._id,
+  })
+    .populate("role", "name")
+    .populate("account", "accountNumber balance")
+    .select("-password -verificationCode -resetPasswordCode")
+    .sort({
+      createdAt: -1,
     })
-        .populate('role', 'name')
-        .populate(
-            'account',
-            'accountNumber balance'
-        )
-        .select(
-            '-password -verificationCode -resetPasswordCode'
-        )
-        .sort({
-            createdAt: -1
-        })
-        .lean();
+    .lean();
 
-    return allUsers;
+  return allUsers;
 };
 
-// Get user by id
-export const getUserById = async userId => {
-    const user = await User.findById(userId)
-        .populate('role', 'name')
-        .populate('account')
-        .select(
-            '-password -verificationCode -resetPasswordCode'
-        )
-        .lean();
+// Get user by id;
+export const getUserById = async (userId) => {
+  const user = await User.findById(userId)
+    .populate("role", "name")
+    .populate("account")
+    .select("-password -verificationCode -resetPasswordCode -transactionPin")
+    .lean();
 
-    if (!user) {
-        throw new ApiError(
-            404,
-            'User not found.'
-        );
-    }
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
 
-    return user;
+  const [depositStats, withdrawalStats] = await Promise.all([
+    Transaction.aggregate([
+      {
+        $match: {
+          owner: user._id,
+          direction: "credit",
+          status: "completed",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total: {
+            $sum: "$amount",
+          },
+        },
+      },
+    ]),
+    Transaction.aggregate([
+      {
+        $match: {
+          owner: user._id,
+          type: "withdrawal",
+          status: "completed",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total: {
+            $sum: "$amount",
+          },
+        },
+      },
+    ]),
+  ]);
+
+  return {
+    ...user,
+    totalDeposits: depositStats[0]?.total || 0,
+    totalWithdrawals: withdrawalStats[0]?.total || 0,
+  };
 };
