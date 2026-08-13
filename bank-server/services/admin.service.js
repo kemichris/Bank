@@ -138,8 +138,7 @@ export const getUserById = async (userId) => {
   const user = await User.findById(userId)
     .populate("role", "name")
     .populate("account")
-    .select("-password -verificationCode -resetPasswordCode -transactionPin")
-    .lean();
+    .select("-password -verificationCode -resetPasswordCode -transactionPin");
 
   if (!user) {
     throw new ApiError(404, "User not found.");
