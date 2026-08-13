@@ -13,8 +13,7 @@ import {
     internationalTransfer,
     depositFunds,
     approveDeposit,
-    getTransactionHistory,
-    chargeAccount
+    getTransactionHistory
 } from "../controllers/transaction.controller.js";
 
 const router = express.Router();
