@@ -4,6 +4,7 @@ import Account from "../models/account.model.js";
 import Transaction from "../models/transaction.model.js";
 import Role from "../models/role.model.js";
 import ApiError from "../utils/apiError.utils.js";
+import { generateTransactionReference } from "../utils/transaction.utils.js";
 
 // Admin Dashboard Data
 export const getAdminDashboard = async () => {
