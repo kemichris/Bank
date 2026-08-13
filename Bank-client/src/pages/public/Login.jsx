@@ -78,13 +78,20 @@ export function Login() {
       const status = error.response?.status;
       const message = error.response?.data?.message;
 
-      if (status === 403) {
+      if(status === 403) {
         toast.error("Email verification required.");
 
         setTimeout(() => {
-          navigate(`/verify-email?email=${encodeURIComponent(formData.email)}`);
+          navigate(
+            `/verify-email?email=${encodeURIComponent(formData.email)}`
+          );
         }, 1500);
 
+        return;
+      }
+
+      if (status === 423) {
+        toast.error(message);
         return;
       }
 
