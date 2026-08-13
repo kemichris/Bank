@@ -12,6 +12,6 @@ router.get("/dashboard", protect, authorize("admin"), adminController.getAdminDa
 router.get("/users", protect, authorize("admin"), adminController.getAllUsers);
 
 // Get user by id
-router.get("/users/:userId", protect, adminOnly, adminController.getUserById);
+router.get("/users/:userId", protect, authorize('admin'), adminController.getUserById);
 
 export default router;
