@@ -259,6 +259,18 @@ export const creditDebitUser = async (userId, transactionData) => {
   const session = await mongoose.startSession();
 
   try {
+    const validCombinations = {
+      credit: ["deposit"],
+
+      debit: ["withdrawal", "bank_charge"],
+    };
+
+    if (!validCombinations[direction]?.includes(type)) {
+      throw new ApiError(
+        400,
+        "Invalid transaction type for the selected action.",
+      );
+    }
     session.startTransaction();
 
     const account = await Account.findOne({

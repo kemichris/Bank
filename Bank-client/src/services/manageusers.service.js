@@ -12,3 +12,24 @@ export const getUser = async (userId) => {
 
   return data;
 };
+
+// Toggle suspention 
+export const toggleSuspension = async(userId) => { 
+    const {data} = await api.patch(`/admin/users/${userId}/suspension`) 
+
+    return data
+}
+
+// Toggle User Status 
+export const toggleStatus = async(userId) => { 
+    const {data} = await api.patch(`/admin/users/${userId}/status`) 
+
+    return data
+}
+
+// Credit - debit user 
+export const creditDebit = async(userId,trasactionData) => {
+    const {data} = await api.post(`/admin/users/${userId}/credit-debit`, trasactionData)
+
+    return data
+}
