@@ -138,6 +138,17 @@ export const login = async (userData) => {
     throw new ApiError(401, "Invalid email or password.");
   }
 
+  if (user.status === "inactive") {
+    throw new ApiError(
+      403,
+      "Your account is inactive. Please contact support.",
+    );
+  }
+
+  if (user.status === "suspended") {
+    throw new ApiError(403, "Your account has been suspended.");
+  }
+
   if (!user.emailVerified) {
     try {
       await resendVerificationCode(user.email);
@@ -172,7 +183,7 @@ export const login = async (userData) => {
       username: user.username,
       email: user.email,
       role: user.role.name,
-      profileImage: user.profileImage
+      profileImage: user.profileImage,
     },
   };
 };
@@ -222,86 +233,71 @@ export const forgotPassword = async (email) => {
 
 // verify rest code
 export const verifyResetCode = async (email, code) => {
-    const normalizedEmail =
-        email?.toLowerCase().trim();
+  const normalizedEmail = email?.toLowerCase().trim();
 
-    if (!normalizedEmail || !code) {
-        throw new ApiError(
-            400,
-            'Email and verification code are required.'
-        );
-    }
+  if (!normalizedEmail || !code) {
+    throw new ApiError(400, "Email and verification code are required.");
+  }
 
-    const user = await User.findOne({
-        email: normalizedEmail,
-        resetPasswordCode: code,
-        resetPasswordExpires: {
-            $gt: Date.now()
-        }
-    });
+  const user = await User.findOne({
+    email: normalizedEmail,
+    resetPasswordCode: code,
+    resetPasswordExpires: {
+      $gt: Date.now(),
+    },
+  });
 
-    if (!user) {
-        throw new ApiError(
-            400,
-            'Invalid or expired verification code.'
-        );
-    }
+  if (!user) {
+    throw new ApiError(400, "Invalid or expired verification code.");
+  }
 
-    /*
+  /*
         The code has now been successfully verified.
 
         Consume it immediately so it cannot be reused.
     */
-    user.resetPasswordCode = null;
-    user.resetPasswordExpires = null;
+  user.resetPasswordCode = null;
+  user.resetPasswordExpires = null;
 
-    await user.save();
+  await user.save();
 
-    /*
+  /*
         Create a temporary token that can ONLY
         be used for password resetting.
     */
-    const resetToken = generateResetToken({
-        id: user._id,
-        purpose: 'password-reset'
-    });
+  const resetToken = generateResetToken({
+    id: user._id,
+    purpose: "password-reset",
+  });
 
-    return {
-        resetToken
-    };
+  return {
+    resetToken,
+  };
 };
 
-export const resetPassword = async (
-    userId,
-    newPassword
-) => {
-    const user = await User.findById(userId);
+export const resetPassword = async (userId, newPassword) => {
+  const user = await User.findById(userId);
 
-    if (!user) {
-        throw new ApiError(
-            404,
-            'User not found.'
-        );
-    }
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
 
-    const hashedPassword =
-        await hashPassword(newPassword);
+  const hashedPassword = await hashPassword(newPassword);
 
-    user.password = hashedPassword;
+  user.password = hashedPassword;
 
-    user.passwordChangedAt = Date.now();
+  user.passwordChangedAt = Date.now();
 
-    /*
+  /*
         Make sure there is no remaining
         password-reset code.
     */
-    user.resetPasswordCode = null;
-    user.resetPasswordExpires = null;
+  user.resetPasswordCode = null;
+  user.resetPasswordExpires = null;
 
-    await user.save();
+  await user.save();
 
-    return {
-        message:
-            'Password reset successful. You can now log in.'
-    };
+  return {
+    message: "Password reset successful. You can now log in.",
+  };
 };
