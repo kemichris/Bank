@@ -2,7 +2,7 @@ import express from "express";
 import { protect, authorize } from "../middlewares/auth.middleware.js";
 
 import * as adminController from "../controllers/admin.controller.js";
-import { adminTransferFunds } from "../controllers/transaction.controller.js";
+import { adminTransferFunds, adminInternationalTransfer } from "../controllers/transaction.controller.js";
 
 const router = express.Router();
 
@@ -49,11 +49,20 @@ router.post(
   adminController.creditDebitUser,
 );
 
+// local transfer
 router.post(
   "/users/:userId/transfer",
   protect,
   authorize('admin'),
   adminTransferFunds
+);
+
+// internationa transfer 
+router.post(
+  "/users/:userId/international-transfer",
+  protect,
+  authorize('admin'),
+  adminInternationalTransfer
 );
 
 export default router;

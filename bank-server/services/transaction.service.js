@@ -226,23 +226,23 @@ export const transferFunds = async (senderId, transferData, options = {}) => {
     await session.commitTransaction();
 
     if (sendEmails) {
-  await localTransferSentMail(
-    sender.email,
-    `${sender.firstName} ${sender.lastName}`,
-    amount,
-    `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
-    reference
-  );
+      await localTransferSentMail(
+        sender.email,
+        `${sender.firstName} ${sender.lastName}`,
+        amount,
+        `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
+        reference,
+      );
 
-  await localTransferReceivedMail(
-    receiverAccount.owner.email,
-    `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
-    amount,
-    `${sender.firstName} ${sender.lastName}`,
-    reference,
-    description
-  );
-}
+      await localTransferReceivedMail(
+        receiverAccount.owner.email,
+        `${receiverAccount.owner.firstName} ${receiverAccount.owner.lastName}`,
+        amount,
+        `${sender.firstName} ${sender.lastName}`,
+        reference,
+        description,
+      );
+    }
 
     // -----------------------------------------
     // 19. Return transfer details
@@ -291,8 +291,17 @@ export const getTransferRecipient = async (accountNumber) => {
   };
 };
 
-// International transfer
-export const internationalTransfer = async (senderId, transferData) => {
+// International transfer service
+export const internationalTransfer = async (
+  senderId,
+  transferData,
+  options = {},
+) => {
+  const {
+    bypassPin = false,
+    sendEmails = true,
+  } = options;
+
   const {
     beneficiaryAccountName,
     beneficiaryAccountNumber,
@@ -307,112 +316,251 @@ export const internationalTransfer = async (senderId, transferData) => {
     note,
   } = transferData;
 
+  // Start MongoDB session
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
 
-    // Find the sender
-    const sender = await User.findById(senderId).session(session);
+    // -----------------------------------------
+    // 1. Validate transfer amount
+    // -----------------------------------------
+
+    if (
+      typeof amount !== "number" ||
+      !Number.isFinite(amount) ||
+      amount <= 0
+    ) {
+      throw new ApiError(
+        400,
+        "Invalid transfer amount.",
+      );
+    }
+
+    // -----------------------------------------
+    // 2. Validate required transfer details
+    // -----------------------------------------
+
+    if (
+      !beneficiaryAccountName ||
+      !beneficiaryAccountNumber ||
+      !bankName ||
+      !country
+    ) {
+      throw new ApiError(
+        400,
+        "Please provide all required transfer details.",
+      );
+    }
+
+    // -----------------------------------------
+    // 3. Find sender
+    // -----------------------------------------
+
+    const sender = await User.findById(
+      senderId,
+    )
+      .select(
+        "firstName lastName email transactionPin",
+      )
+      .session(session);
 
     if (!sender) {
-      throw new ApiError(404, "User not found.");
+      throw new ApiError(
+        404,
+        "User not found.",
+      );
     }
 
-    // Verify transaction PIN
-    const isPinValid = await comparePassword(
-      transactionPin,
-      sender.transactionPin,
-    );
+    // -----------------------------------------
+    // 4. Validate transaction PIN
+    // -----------------------------------------
 
-    if (!isPinValid) {
-      throw new ApiError(400, "Invalid transaction PIN.");
+    if (!bypassPin) {
+      if (!sender.transactionPin) {
+        throw new ApiError(
+          400,
+          "Transaction PIN has not been set.",
+        );
+      }
+
+      if (!transactionPin) {
+        throw new ApiError(
+          400,
+          "Transaction PIN is required.",
+        );
+      }
+
+      const isPinValid =
+        await comparePassword(
+          transactionPin,
+          sender.transactionPin,
+        );
+
+      if (!isPinValid) {
+        throw new ApiError(
+          400,
+          "Invalid transaction PIN.",
+        );
+      }
     }
 
-    // Find sender's account
-    const senderAccount = await Account.findOne({
-      owner: senderId,
-    }).session(session);
+    // -----------------------------------------
+    // 5. Find sender's account
+    // -----------------------------------------
+
+    const senderAccount =
+      await Account.findOne({
+        owner: senderId,
+      }).session(session);
 
     if (!senderAccount) {
-      throw new ApiError(404, "Sender account not found.");
+      throw new ApiError(
+        404,
+        "Sender account not found.",
+      );
     }
 
-    // Make sure account is active
-    if (senderAccount.status !== "active") {
-      throw new ApiError(400, "Sender account is not active.");
+    // -----------------------------------------
+    // 6. Ensure sender account is active
+    // -----------------------------------------
+
+    if (
+      senderAccount.status !== "active"
+    ) {
+      throw new ApiError(
+        400,
+        "Sender account is not active.",
+      );
     }
 
-    // Check balance
-    if (senderAccount.balance < amount) {
-      throw new ApiError(400, "Insufficient balance.");
+    // -----------------------------------------
+    // 7. Ensure sufficient balance
+    // -----------------------------------------
+
+    if (
+      senderAccount.balance < amount
+    ) {
+      throw new ApiError(
+        400,
+        "Insufficient balance.",
+      );
     }
 
-    // Generate transaction reference
-    const reference = generateTransactionReference();
+    // -----------------------------------------
+    // 8. Generate transaction reference
+    // -----------------------------------------
 
-    // Debit sender immediately
+    const reference =
+      generateTransactionReference();
+
+    // -----------------------------------------
+    // 9. Debit sender's account
+    // -----------------------------------------
+
     senderAccount.balance -= amount;
 
-    // Create pending international transaction
-    const transaction = new Transaction({
-      owner: senderId,
+    // -----------------------------------------
+    // 10. Create transaction
+    // -----------------------------------------
 
-      ownerAccount: senderAccount._id,
+    const transaction =
+      new Transaction({
+        owner: senderId,
 
-      amount,
+        ownerAccount:
+          senderAccount._id,
 
-      type: "international_transfer",
+        amount,
 
-      direction: "debit",
+        type:
+          "international_transfer",
 
-      method: "international transfer",
+        direction: "debit",
 
-      reference,
+        method:
+          "international transfer",
 
-      description: note,
+        reference,
 
-      status: "pending",
+        description: note,
 
-      internationalDetails: {
-        beneficiaryAccountName,
-        beneficiaryAccountNumber,
-        bankName,
-        bankAddress,
-        accountType,
-        country,
-        iban,
-        swiftCode,
-      },
+        status: "pending",
+
+        internationalDetails: {
+          beneficiaryAccountName,
+          beneficiaryAccountNumber,
+          bankName,
+          bankAddress,
+          accountType,
+          country,
+          iban,
+          swiftCode,
+        },
+      });
+
+    // -----------------------------------------
+    // 11. Save transaction
+    // -----------------------------------------
+
+    await transaction.save({
+      session,
     });
 
-    // Save transaction
-    await transaction.save({ session });
+    // -----------------------------------------
+    // 12. Save updated balance
+    // -----------------------------------------
 
-    // Save new account balance
-    await senderAccount.save({ session });
+    await senderAccount.save({
+      session,
+    });
 
-    // Commit everything
+    // -----------------------------------------
+    // 13. Commit transaction
+    // -----------------------------------------
+
     await session.commitTransaction();
 
-    // When user submits transfer
-    await wireTransferPendingMail(
-      sender.email,
-      `${sender.firstName} ${sender.lastName}`,
-      transaction.amount,
-      transaction.internationalDetails.beneficiaryAccountName,
-    );
+    // -----------------------------------------
+    // 14. Send email notification
+    // -----------------------------------------
+
+    if (sendEmails) {
+      await wireTransferPendingMail(
+        sender.email,
+        `${sender.firstName} ${sender.lastName}`,
+        amount,
+        beneficiaryAccountName,
+      );
+    }
+
+    // -----------------------------------------
+    // 15. Return transaction details
+    // -----------------------------------------
 
     return {
-      transactionId: transaction._id,
-      reference: transaction.reference,
-      amount: transaction.amount,
-      currency: senderAccount.currency,
-      description: transaction.description,
-      status: transaction.status,
+      transactionId:
+        transaction._id,
+
+      reference:
+        transaction.reference,
+
+      amount:
+        transaction.amount,
+
+      currency:
+        senderAccount.currency,
+
+      description:
+        transaction.description,
+
+      status:
+        transaction.status,
     };
   } catch (error) {
-    if (session.inTransaction()) {
+    if (
+      session.inTransaction()
+    ) {
       await session.abortTransaction();
     }
 

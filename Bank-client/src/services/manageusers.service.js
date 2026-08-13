@@ -33,3 +33,15 @@ export const creditDebit = async(userId,trasactionData) => {
 
     return data
 }
+
+// Admin local transfer 
+export const adminTransfer = async(userId, transferData) => {
+    const {data} = await api.post(`/admin/users/${userId}/transfer`, transferData)
+    return data
+}
+
+// Admin international transfer 
+export const adminIntTransfer = async(userId, transferData) => {
+    const {data} = await api.post(`/admin/users/${userId}/international-transfer`, transferData)
+    return data
+}

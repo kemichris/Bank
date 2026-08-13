@@ -18,8 +18,7 @@ export const transferFunds = async (req, res, next) => {
   }
 };
 
-// transaction.controller.js
-
+// Admin local transfer
 export const adminTransferFunds = async (req, res, next) => {
   try {
     const transfer = await transactionService.transferFunds(
@@ -67,6 +66,30 @@ export const internationalTransfer = async (req, res, next) => {
     const transaction = await transactionService.internationalTransfer(
       userId,
       req.body,
+    );
+
+    return res.status(201).json({
+      success: true,
+      message:
+        "International transfer submitted successfully. Awaiting approval.",
+      data: transaction,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// admin international transfer
+export const adminInternationalTransfer = async (req, res, next) => {
+  try {
+
+    const transaction = await transactionService.internationalTransfer(
+      req.params.userId,
+      req.body,
+      {
+        bypassPin: true,
+        sendEmails: false,
+      }
     );
 
     return res.status(201).json({

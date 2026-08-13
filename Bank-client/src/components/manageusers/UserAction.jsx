@@ -9,12 +9,16 @@ import {
   toggleSuspension,
   toggleStatus,
 } from "../../services/manageusers.service";
+import { TransferModal } from "./TransferModal";
+import { InternationalTransferModal } from "./InternationalTransferModal";
 
 export function UserAction({ user, reload }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
   const [showCreditDebitModal, setShowCreditDebitModal] = useState(false);
+  const [showTransferModal, setshowTransferModal] = useState(false);
+  const [showIntTransferModal, setshowIntTransferModal] = useState(false);
 
   const [modalMessage, setModalMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -108,10 +112,6 @@ export function UserAction({ user, reload }) {
               Edit
             </button>
 
-            <button className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border">
-              Toggle ROI Mode
-            </button>
-
             <button
               onClick={() => {
                 setShowCreditDebitModal(true);
@@ -121,6 +121,26 @@ export function UserAction({ user, reload }) {
               className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border"
             >
               Credit/Debit
+            </button>
+            <button
+              onClick={() => {
+                setshowTransferModal(true);
+
+                closeDropdown();
+              }}
+              className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border"
+            >
+              Local Transfer
+            </button>
+            <button
+              onClick={() => {
+                setshowIntTransferModal(true);
+
+                closeDropdown();
+              }}
+              className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border"
+            >
+              International Transfer
             </button>
 
             <button className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border">
@@ -141,6 +161,18 @@ export function UserAction({ user, reload }) {
       <CreditDebitModal
         isOpen={showCreditDebitModal}
         onClose={() => setShowCreditDebitModal(false)}
+        userId={user._id}
+        reload={reload}
+      />
+      <TransferModal
+        isOpen={showTransferModal}
+        onClose={() => setshowTransferModal(false)}
+        userId={user._id}
+        reload={reload}
+      />
+      <InternationalTransferModal
+        isOpen={showIntTransferModal}
+        onClose={() => setshowIntTransferModal(false)}
         userId={user._id}
         reload={reload}
       />
