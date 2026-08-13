@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
 
-export function UserAction({ username }) {
+export function UserAction({ user }) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div className='mb-4 flex items-center justify-between'>
-            <p>{username}</p>
+            <p className='text-text font-semibold text-xl'>{user.username}</p>
 
             <div className='relative'>
                 <button
@@ -49,7 +49,7 @@ export function UserAction({ username }) {
                         </button>
 
                         <button className='block w-full px-4 py-2 text-left text-sm text-text hover:bg-border'>
-                            Login as {username}
+                            Login as {user.username}
                         </button>
 
                         <button className='block w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-border'>

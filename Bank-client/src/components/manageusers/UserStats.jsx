@@ -1,37 +1,49 @@
-import {UserStatCard} from './UserStatCard';
+import { UserStatCard } from "./UserStatCard";
+import formatMoney from "../../utils/formatMoney";
 
-export const UserStats = () => {
-    return (
-        <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3 border border-border rounded-2xl p-4'>
-            <UserStatCard
-                title='Account Balance'
-                value='$6,000.00'
-            />
+export const UserStats = ({ user }) => {
+  return (
+    <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 border border-border rounded-2xl p-4">
+      <UserStatCard
+        title="Account Balance"
+        value={formatMoney(user.account.balance)}
+      />
 
-            <UserStatCard
-                title='Account Limit'
-                value='$50,000.00'
-            />
+      <UserStatCard
+        title="Account Limit"
+        value={formatMoney(user.account.limit)}
+      />
 
-            <UserStatCard
-                title='Deposits'
-                value='$12,500.00'
-            />
+      <UserStatCard title="Deposits" value={formatMoney(user.totalDeposits)} />
 
-            <UserStatCard
-                title='Withdrawals'
-                value='$6,500.00'
-            />
+      <UserStatCard
+        title="Withdrawals"
+        value={formatMoney(user.totalWithdrawals)}
+      />
 
-            <UserStatCard
-                title='Account Status'
-                badge='Active'
-            />
+      <UserStatCard
+        title="Account Status"
+        badge={
+          user.status === "active"
+            ? "Active"
+            : user.status === "inactive"
+              ? "Inactive"
+              : "Suspended"
+        }
+      />
 
-            <UserStatCard
-                title='KYC Status'
-                badge='Verified'
-            />
-        </div>
-    );
+      <UserStatCard
+        title="KYC"
+        badge={
+          user.kycStatus === "verified"
+            ? "Verified"
+            : user.kycStatus === "unverified"
+              ? "Unverified"
+              : user.kycStatus === "pending"
+                ? "Pending"
+                : 'Rejected'
+        }
+      />
+    </div>
+  );
 };
