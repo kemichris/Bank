@@ -14,4 +14,12 @@ router.get("/users", protect, authorize("admin"), adminController.getAllUsers);
 // Get user by id
 router.get("/users/:userId", protect, authorize('admin'), adminController.getUserById);
 
+// Toggle suspension
+router.patch("/users/:userId/suspension", protect, authorize('admin'), adminController.toggleSuspension);
+
+// Toggle user status
+router.patch("/users/:userId/status", protect, authorize('admin'), adminController.toggleUserStatus);
+
+
+
 export default router;

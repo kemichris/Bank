@@ -188,3 +188,48 @@ export const getUserById = async (userId) => {
     totalWithdrawals: withdrawalStats[0]?.total || 0,
   };
 };
+
+// toggle account suspension
+export const toggleSuspension = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
+
+  if (user.status === "suspended") {
+    user.status = "active";
+  } else {
+    user.status = "suspended";
+  }
+
+  await user.save();
+
+  return user
+    
+};
+
+// Toggle account status 
+export const toggleUserStatus = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
+
+  if (user.status === "suspended") {
+    throw new ApiError(
+      400,
+      "A suspended account cannot be modified."
+    );
+  }
+
+  user.status =
+    user.status === "active"
+      ? "inactive"
+      : "active";
+
+  await user.save();
+
+  return user;
+};

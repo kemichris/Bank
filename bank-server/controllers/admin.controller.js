@@ -42,3 +42,43 @@ export const getUserById = async (req, res, next) => {
     next(error);
   }
 };
+
+// toggle suspention
+export const toggleSuspension = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await adminService.toggleSuspension(userId);
+
+    res.status(200).json({
+      success:true,
+      message:
+        user.status === "active"
+          ? "User account activated successfully."
+          : "User account suspended successfully.",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// toggle user status
+
+export const toggleUserStatus = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+  const user = await adminService.toggleUserStatus(userId);
+
+  res.status(200).json({
+    success: true,
+    message:
+      user.status === "active"
+        ? "User account activated successfully."
+        : "User account deactivated successfully.",
+    data: user,
+  });
+  } catch (error) {
+    next(error)
+  }
+};
