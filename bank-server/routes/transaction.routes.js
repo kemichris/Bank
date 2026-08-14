@@ -3,65 +3,69 @@ import { protect, authorize } from "../middlewares/auth.middleware.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { upload } from "../middlewares/upload.middleware.js";
 import {
-    transferSchema,
-    depositSchema,
+  transferSchema,
+  depositSchema,
 } from "../validators/transaction.validator.js";
 
 import {
-    transferFunds,
-    getTransferRecipient,
-    internationalTransfer,
-    depositFunds,
-    approveDeposit,
-    getTransactionHistory
+  transferFunds,
+  getTransferRecipient,
+  internationalTransfer,
+  depositFunds,
+  approveDeposit,
+  getTransactionHistory,
+  rejectTransaction,
 } from "../controllers/transaction.controller.js";
 
 const router = express.Router();
 
 // Transfer funds route(local)
 router.post(
-    "/transfer",
-    protect,
-    authorize("user"),
-    validate(transferSchema),
-    transferFunds,
+  "/transfer",
+  protect,
+  authorize("user"),
+  validate(transferSchema),
+  transferFunds,
 );
 
-// confirm transfer recipient 
-router.get(
-    '/recipient',
-    protect,
-    authorize('user'),
-    getTransferRecipient
-);
+// confirm transfer recipient
+router.get("/recipient", protect, authorize("user"), getTransferRecipient);
 
-// international transfer 
+// international transfer
 router.post(
-    '/international-transfer',
-    protect,
-    authorize('user'),
-    internationalTransfer
+  "/international-transfer",
+  protect,
+  authorize("user"),
+  internationalTransfer,
 );
 
 // deposit funds route
 router.post(
-    "/deposit",
-    protect,
-    authorize("user"),
-    upload.single("receipt"),
-    validate(depositSchema),
-    depositFunds,
+  "/deposit",
+  protect,
+  authorize("user"),
+  upload.single("receipt"),
+  validate(depositSchema),
+  depositFunds,
 );
 
 // approve deposit
 router.patch(
-    "/deposit/:depositId/approve",
-    protect,
-    authorize("admin", "manager", "superadmin"),
-    approveDeposit,
+  "/deposit/:depositId/approve",
+  protect,
+  authorize("admin", "manager", "superadmin"),
+  approveDeposit,
 );
 
 // Get transaction history
 router.get("/history", protect, authorize("user"), getTransactionHistory);
+
+// Reject Transaction
+router.patch(
+  "/:transactionId/reject",
+  protect,
+  authorize("admin"),
+  rejectTransaction,
+);
 
 export default router;

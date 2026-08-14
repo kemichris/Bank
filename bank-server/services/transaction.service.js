@@ -750,3 +750,31 @@ export const getTransactionHistory = async (userId) => {
 
   return transactions;
 };
+
+
+// Reject transaction
+export const rejectTransaction = async (transactionId) => {
+  const transaction = await Transaction.findById(
+    transactionId
+  );
+
+  if (!transaction) {
+    throw new ApiError(
+      404,
+      'Transaction not found.'
+    );
+  }
+
+  if (transaction.status !== 'pending') {
+    throw new ApiError(
+      400,
+      'Only pending transactions can be rejected.'
+    );
+  }
+
+  transaction.status = 'rejected';
+
+  await transaction.save();
+
+  return transaction;
+};

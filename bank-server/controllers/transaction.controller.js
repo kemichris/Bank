@@ -156,3 +156,20 @@ export const getTransactionHistory = async (req, res, next) => {
     next(error);
   }
 };
+
+
+// Reject Trasaction
+export const rejectTransaction = async (req, res, next) => {
+  try {
+    const { transactionId } = req.params;
+
+    await transactionService.rejectTransaction(transactionId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Transaction rejected successfully.",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

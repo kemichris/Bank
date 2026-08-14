@@ -228,17 +228,17 @@ export const creditDebitUser = async (req, res, next) => {
   }
 };
 
-// Get credit transactions 
+// Get credit transactions
 export const CreditTransactions = async (req, res, next) => {
   try {
-    const transactions = await adminService.CreditTransactions()
+    const transactions = await adminService.CreditTransactions();
 
     return res.status(200).json({
       success: true,
       message: " Tranaction retrieved successfully",
-      data: transactions
-    })
+      data: transactions,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
