@@ -27,6 +27,11 @@ export const toggleStatus = async(userId) => {
     return data
 }
 
+export const verifyUserEmail = async (userId) => {
+    const {data} = await api.patch(`/admin/users/${userId}/verify-email`)
+    return data
+}
+
 // Credit - debit user 
 export const creditDebit = async(userId,trasactionData) => {
     const {data} = await api.post(`/admin/users/${userId}/credit-debit`, trasactionData)

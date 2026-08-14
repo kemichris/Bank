@@ -8,6 +8,7 @@ import { ConfirmationModal } from "../common/ConfirmationModal";
 import {
   toggleSuspension,
   toggleStatus,
+  verifyUserEmail
 } from "../../services/manageusers.service";
 import { TransferModal } from "./TransferModal";
 import { InternationalTransferModal } from "./InternationalTransferModal";
@@ -57,6 +58,19 @@ export function UserAction({ user, reload }) {
     }
   };
 
+  //   Account status Handle
+  const handleEmailVerify = async () => {
+    try {
+      const res = await verifyUserEmail(user._id);
+      await reload();
+      toast.success(res.message);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message);
+    }
+  };
+
+
   return (
     <div className="mb-4 flex items-center justify-between">
       <p className="text-text font-semibold text-xl">{user.username}</p>
@@ -100,7 +114,12 @@ export function UserAction({ user, reload }) {
                 : "Suspend Account"}
             </button>
 
-            <button className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border">
+            <button 
+            onClick={() => {
+                handleEmailVerify();
+                closeDropdown();
+              }}
+            className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border">
               Verify Email
             </button>
 

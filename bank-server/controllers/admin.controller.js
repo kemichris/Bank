@@ -88,7 +88,7 @@ export const verifyUserEmail = async (req, res, next) =>  {
     const {userId} = req.params
     const verifiedEmail = await adminService.verifyUserEmail(userId)
 
-    return(200).json({
+    return res.status(200).json({
       success:true,
       message: 'Email verified successfully',
       data: verifiedEmail
