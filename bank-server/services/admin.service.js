@@ -567,10 +567,17 @@ export const deleteUser = async (userId) => {
       throw new ApiError(404, "User not found.");
     }
 
-    // Save the image ID before deleting the user
-    profileImagePublicId = user.profileImagePublicId;
+    profileImagePublicId =
+      user.profileImagePublicId;
 
     session.startTransaction();
+
+    await Transaction.deleteMany({
+  $or: [
+    { owner: userId },
+    { counterParty: userId },
+  ],
+}).session(session);
 
     await Account.deleteOne({
       owner: userId,
@@ -584,9 +591,14 @@ export const deleteUser = async (userId) => {
 
     if (profileImagePublicId) {
       try {
-        await deleteImage(profileImagePublicId);
+        await deleteImage(
+          profileImagePublicId
+        );
       } catch (error) {
-        console.error("Failed to delete profile image:", error.message);
+        console.error(
+          "Failed to delete profile image:",
+          error.message
+        );
       }
     }
 
