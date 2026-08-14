@@ -20,7 +20,7 @@ export const handleConfirm = async (
     await reload()
 
     toast.success(res.message);
-    setShowModal;
+    setShowModal(false);
   } catch (error) {
     console.error(error);
 
