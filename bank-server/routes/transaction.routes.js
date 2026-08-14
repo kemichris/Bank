@@ -12,7 +12,6 @@ import {
   getTransferRecipient,
   internationalTransfer,
   depositFunds,
-  approveDeposit,
   getTransactionHistory,
   rejectTransaction,
   deleteTransaction,

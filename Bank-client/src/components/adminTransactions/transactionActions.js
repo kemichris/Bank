@@ -3,19 +3,30 @@ import toast from "react-hot-toast";
 import {
   rejectTransaction,
   deleteTransaction,
+  confirmTransaction
 } from "../../services/transaction.service";
 
-export const handleConfirm = async (transaction) => {
+export const handleConfirm = async (
+  transaction,
+  setLoading,
+  setShowModal,
+  reload,
+) => {
+  setLoading(true);
   try {
-    console.log("Confirm:", transaction);
 
-    // await confirmTransaction(transaction._id);
+    const res = await confirmTransaction(transaction._id);
 
-    toast.success("Transaction confirmed.");
+    await reload()
+
+    toast.success(res.message);
+    setShowModal;
   } catch (error) {
     console.error(error);
 
-    toast.error("Failed to confirm transaction.");
+    toast.error(error.response?.data?.message || "Failed to approve transaction.",);
+  }finally {
+    setLoading(false);
   }
 };
 

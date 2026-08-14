@@ -42,12 +42,20 @@ export const allCreditTransaction = async ()=> {
 }
 
 // Reject Transaction
+export const confirmTransaction = async (transactionId) => {
+    const {data} = await api.patch(`/transaction/${transactionId}/confirm`);
+
+    return data
+}
+
+// Reject Transaction
 export const rejectTransaction = async (transactionId) => {
     const {data} = await api.patch(`/transaction/${transactionId}/reject`);
 
     return data
 }
 
+// Delete transaction
 export const deleteTransaction = async (transactionId) => {
     const {data} = await api.delete(`/transaction/${transactionId}`);
 

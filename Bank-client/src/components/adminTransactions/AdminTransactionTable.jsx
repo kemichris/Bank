@@ -7,7 +7,11 @@ import { formatMoney } from "../../utils/formatMoney";
 import { ReceiptModal } from "./ReceiptModal";
 import { ConfirmationModal } from "../common/ConfirmationModal";
 
-import { handleReject, handleDelete } from "./transactionActions";
+import {
+  handleReject,
+  handleDelete,
+  handleConfirm,
+} from "./transactionActions";
 
 export function AdminTransactionTable({ transactions, reload }) {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
@@ -113,6 +117,14 @@ export function AdminTransactionTable({ transactions, reload }) {
                     e.stopPropagation();
 
                     // Confirm transaction function
+                    setModalMessage(
+                      "Once approved, this action cannot be undone.",
+                    );
+                    setModalAction(
+                      () => () =>
+                        handleConfirm(row, setLoading, setShowModal, reload),
+                    );
+                    setShowModal(true);
                   }}
                   className="rounded-lg bg-green-600 p-2 text-white"
                 >
