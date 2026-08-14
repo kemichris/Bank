@@ -51,7 +51,7 @@ export const toggleSuspension = async (req, res, next) => {
     const user = await adminService.toggleSuspension(userId);
 
     res.status(200).json({
-      success:true,
+      success: true,
       message:
         user.status === "active"
           ? "User account activated successfully."
@@ -67,67 +67,84 @@ export const toggleUserStatus = async (req, res, next) => {
   try {
     const { userId } = req.params;
 
-  const user = await adminService.toggleUserStatus(userId);
+    const user = await adminService.toggleUserStatus(userId);
 
-  res.status(200).json({
-    success: true,
-    message:
-      user.status === "active"
-        ? "User account activated successfully."
-        : "User account deactivated successfully.",
-    data: user,
-  });
+    res.status(200).json({
+      success: true,
+      message:
+        user.status === "active"
+          ? "User account activated successfully."
+          : "User account deactivated successfully.",
+      data: user,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 // Verify Email
-export const verifyUserEmail = async (req, res, next) =>  {
+export const verifyUserEmail = async (req, res, next) => {
   try {
-    const {userId} = req.params
-    const verifiedEmail = await adminService.verifyUserEmail(userId)
+    const { userId } = req.params;
+    const verifiedEmail = await adminService.verifyUserEmail(userId);
 
     return res.status(200).json({
-      success:true,
-      message: 'Email verified successfully',
-      data: verifiedEmail
-    })
-
+      success: true,
+      message: "Email verified successfully",
+      data: verifiedEmail,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 // verify Kyc
-export const VerifyUserKyc = async (req, res, next) =>  {
+export const VerifyUserKyc = async (req, res, next) => {
   try {
-    const {userId} = req.params
-    const kycVerified = await adminService.VerifyUserKyc(userId)
+    const { userId } = req.params;
+    const kycVerified = await adminService.VerifyUserKyc(userId);
 
     return res.status(200).json({
-      success:true,
-      message: 'KYC verified successfully',
-      data: kycVerified
-    })
-
+      success: true,
+      message: "KYC verified successfully",
+      data: kycVerified,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
+// Reset user password to default
+export const resetUserPassword = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const result = await adminService.resetUserPassword(userId);
+
+    return res.status(200).json({
+      success: true,
+      message: `Temporay password reset successful to ${result.temporaryPassword}`,
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Credit or debit user
 export const creditDebitUser = async (req, res, next) => {
   try {
-    const {userId} = req.params;
-    const transaction= await adminService.creditDebitUser(userId, req.body)
+    const { userId } = req.params;
+    const transaction = await adminService.creditDebitUser(userId, req.body);
 
     res.status(201).json({
       success: true,
-      message: transaction.direction === 'credit' ? 'Account credited succesfully' : 'Account debited succesffuly'
-    })
-
+      message:
+        transaction.direction === "credit"
+          ? "Account credited succesfully"
+          : "Account debited succesffuly",
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};

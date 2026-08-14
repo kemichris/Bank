@@ -5,6 +5,10 @@ import Transaction from "../models/transaction.model.js";
 import Role from "../models/role.model.js";
 import ApiError from "../utils/apiError.utils.js";
 import { generateTransactionReference } from "../utils/transaction.utils.js";
+import {
+  hashPassword,
+  generateTemporaryPassword,
+} from "../utils/password.utils.js";
 
 // Admin Dashboard Data
 export const getAdminDashboard = async () => {
@@ -245,7 +249,7 @@ export const verifyUserEmail = async (userId) => {
 
   await user.save();
 
-  return user
+  return user;
 };
 
 // verify Kyc
@@ -260,13 +264,36 @@ export const VerifyUserKyc = async (userId) => {
     throw new ApiError(400, "KYC is already verified");
   }
 
-  user.kycStatus = 'verified';
+  user.kycStatus = "verified";
 
   await user.save();
 
-  return user
+  return user;
 };
 
+// Reset user password to default
+export const resetUserPassword = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
+
+  const temporaryPassword = generateTemporaryPassword();
+
+  user.password = await hashPassword(temporaryPassword);
+
+  user.forcePasswordChange = true;
+
+  user.resetPasswordCode = null;
+  user.resetPasswordExpires = null;
+
+  await user.save();
+
+  return {
+    temporaryPassword,
+  };
+};
 
 // Credit or debit user
 export const creditDebitUser = async (userId, transactionData) => {

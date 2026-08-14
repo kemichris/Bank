@@ -57,6 +57,14 @@ router.patch(
     adminController.VerifyUserKyc
 );
 
+// Reset user password to default
+router.patch(
+    '/users/:userId/reset-password',
+    protect,
+    authorize('admin'),
+    adminController.resetUserPassword
+);
+
 // Debit or Credit user
 router.post(
   "/users/:userId/credit-debit",

@@ -9,6 +9,8 @@ import {
   toggleSuspension,
   toggleStatus,
   verifyUserEmail,
+  verifyUserKyc,
+  resetUserPassword,
 } from "../../services/manageusers.service";
 import { TransferModal } from "./TransferModal";
 import { InternationalTransferModal } from "./InternationalTransferModal";
@@ -68,7 +70,7 @@ export function UserAction({ user, reload }) {
     }
   };
 
-  //   Account status Handle
+  // verify user email
   const handleEmailVerify = async () => {
     const toastId = toast.loading("Performing Action");
     try {
@@ -82,6 +84,34 @@ export function UserAction({ user, reload }) {
       toast.error(error.response?.data?.message, {
         id: toastId,
       });
+    }
+  };
+
+  // verify user kyc
+  const handleKycVerify = async () => {
+    const toastId = toast.loading("Performing Action");
+    try {
+      const res = await verifyUserKyc(user._id);
+      await reload();
+      toast.success(res.message, {
+        id: toastId,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message, {
+        id: toastId,
+      });
+    }
+  };
+
+  // handle password reset
+  const handleUserPasswordReset = async () => {
+    try {
+      const res = await resetUserPassword(user._id);
+      toast.success(res.message);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message);
     }
   };
 
@@ -138,7 +168,13 @@ export function UserAction({ user, reload }) {
               Verify Email
             </button>
 
-            <button className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border">
+            <button
+              onClick={() => {
+                handleKycVerify();
+                closeDropdown();
+              }}
+              className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border"
+            >
               Verify KYC
             </button>
 
@@ -177,7 +213,18 @@ export function UserAction({ user, reload }) {
               International Transfer
             </button>
 
-            <button className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border">
+            <button
+              onClick={() => {
+                setModalMessage(
+                  " Are you sure you want to reset this user password to default",
+                );
+                setModalAction(() => handleUserPasswordReset);
+
+                setShowModal(true);
+                closeDropdown();
+              }}
+              className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border"
+            >
               Reset Password
             </button>
 

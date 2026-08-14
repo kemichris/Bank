@@ -27,13 +27,21 @@ export const toggleStatus = async(userId) => {
     return data
 }
 
+// Verify user email
 export const verifyUserEmail = async (userId) => {
     const {data} = await api.patch(`/admin/users/${userId}/verify-email`)
     return data
 }
 
+// Verfiy user kyc
 export const verifyUserKyc = async (userId) => {
     const {data} = await api.patch(`/admin/users/${userId}/verify-kyc`)
+    return data
+}
+
+// Reset user password to default
+export const resetUserPassword = async (userId) => {
+    const {data} = await api.patch(`/admin/users/${userId}/reset-password`)
     return data
 }
 

@@ -75,6 +75,10 @@ export const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    forcePasswordChange: {
+      type: Boolean,
+      default: false,
+    },
     passwordChangedAt: {
       type: Date,
       default: null,
