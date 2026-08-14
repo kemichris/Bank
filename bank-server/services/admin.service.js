@@ -720,31 +720,3 @@ export const creditDebitUser = async (userId, transactionData) => {
     await session.endSession();
   }
 };
-
-
-// Get Credit transactions
-export const CreditTransactions = async () => {
-  const transactions = await Transaction.find({
-    direction: 'credit',
-  })
-    .sort({ createdAt: -1 })
-    .populate(
-      'owner',
-      'firstName lastName email',
-    )
-    .populate(
-      'ownerAccount',
-      'accountNumber',
-    )
-    .populate(
-      'counterParty',
-      'firstName lastName',
-    )
-    .populate(
-      'counterPartyAccount',
-      'accountNumber',
-    )
-    .lean();
-
-  return transactions;
-};

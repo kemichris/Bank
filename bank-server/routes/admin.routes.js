@@ -130,12 +130,4 @@ router.post(
   adminInternationalTransfer,
 );
 
-// Get credit transactions
-router.get(
-  "/transactions/credit",
-  protect,
-  authorize("admin"),
-  adminController.CreditTransactions,
-);
-
 export default router;

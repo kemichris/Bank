@@ -36,7 +36,13 @@ export const internationalTransfer = async (formData) => {
 
 // Get all credit transactions 
 export const allCreditTransaction = async ()=> {
-    const {data} = await api.get('/admin/transactions/credit');
+    const {data} = await api.get('/transaction//history/credit');
+
+    return data 
+}
+
+export const allDebitTransaction = async ()=> {
+    const {data} = await api.get('/transaction//history/debit');
 
     return data 
 }

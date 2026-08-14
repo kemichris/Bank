@@ -16,6 +16,8 @@ import {
   rejectTransaction,
   deleteTransaction,
   confirmTransaction,
+  creditTransactions,
+  debitTransactions
 } from "../controllers/transaction.controller.js";
 
 const router = express.Router();
@@ -50,16 +52,24 @@ router.post(
   depositFunds,
 );
 
-// // approve deposit
-// router.patch(
-//   "/deposit/:depositId/approve",
-//   protect,
-//   authorize("admin", "manager", "superadmin"),
-//   approveDeposit,
-// );
-
 // Get transaction history
 router.get("/history", protect, authorize("user"), getTransactionHistory);
+
+// Get credit transactions
+router.get(
+  "/history/credit",
+  protect,
+  authorize("admin"),
+  creditTransactions,
+);
+
+// Get debit transactions
+router.get(
+  "/history/debit",
+  protect,
+  authorize("admin"),
+  debitTransactions,
+);
 
 // Approve Transaction
 router.patch(

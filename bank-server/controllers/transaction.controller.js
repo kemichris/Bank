@@ -139,7 +139,7 @@ export const depositFunds = async (req, res, next) => {
 //   }
 // };
 
-// Get transaction history
+// Get transaction history for users
 export const getTransactionHistory = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -151,6 +151,36 @@ export const getTransactionHistory = async (req, res, next) => {
       success: true,
       message: "Transaction history retrieved successfully.",
       data: transactionHistory,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get credit transactions for admin
+export const creditTransactions = async (req, res, next) => {
+  try {
+    const transactions = await transactionService.creditTransactions();
+
+    return res.status(200).json({
+      success: true,
+      message: " Transaction retrieved successfully",
+      data: transactions,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get debit transactions for admin
+export const debitTransactions = async (req, res, next) => {
+  try {
+    const transactions = await transactionService.debitTransactions();
+
+    return res.status(200).json({
+      success: true,
+      message: " Transaction retrieved successfully",
+      data: transactions,
     });
   } catch (error) {
     next(error);

@@ -610,79 +610,7 @@ export const depositFunds = async (userId, depositData, receiptFile) => {
   }
 };
 
-// // Approve Deposit
-// export const approveDeposit = async (depositId) => {
-//   const session = await mongoose.startSession();
-
-//   try {
-//     session.startTransaction();
-
-//     // Find the pending deposit
-//     const deposit = await Transaction.findById(depositId).session(session);
-
-//     if (!deposit) {
-//       throw new ApiError(404, "Deposit transaction not found.");
-//     }
-
-//     // Ensure this is actually a deposit
-//     if (deposit.type !== "deposit") {
-//       throw new ApiError(400, "This transaction is not a deposit.");
-//     }
-
-//     // Only pending deposits can be approved
-//     if (deposit.status !== "pending") {
-//       throw new ApiError(400, "Only pending deposits can be approved.");
-//     }
-
-//     // Find the account associated with the deposit
-//     const account = await Account.findById(deposit.ownerAccount).session(
-//       session,
-//     );
-
-//     if (!account) {
-//       throw new ApiError(404, "Account not found.");
-//     }
-
-//     // Ensure the account is active
-//     if (account.status !== "active") {
-//       throw new ApiError(400, "Account is not active.");
-//     }
-
-//     // Credit the deposit amount to the account
-//     account.balance += deposit.amount;
-
-//     await account.save({ session });
-
-//     // Mark the deposit as completed
-//     deposit.status = "completed";
-
-//     await deposit.save({ session });
-
-//     // Commit both changes together
-//     await session.commitTransaction();
-
-//     return {
-//       transactionId: deposit._id,
-//       reference: deposit.reference,
-//       amount: deposit.amount,
-//       paymentMethod: deposit.paymentMethod,
-//       status: deposit.status,
-//       accountId: account._id,
-//       newBalance: account.balance,
-//       completedAt: deposit.updatedAt,
-//     };
-//   } catch (error) {
-//     if (session.inTransaction()) {
-//       await session.abortTransaction();
-//     }
-
-//     throw error;
-//   } finally {
-//     await session.endSession();
-//   }
-// };
-
-// Get transaction history
+// Get transaction history for user
 export const getTransactionHistory = async (userId) => {
   const transactions = await Transaction.find({
     owner: userId,
@@ -691,6 +619,60 @@ export const getTransactionHistory = async (userId) => {
     .populate("counterParty", "firstName lastName")
     .populate("counterPartyAccount", "accountNumber")
     .sort({ createdAt: -1 });
+
+  return transactions;
+};
+
+// Get Credit transactions for admin
+export const creditTransactions = async () => {
+  const transactions = await Transaction.find({
+    direction: 'credit',
+  })
+    .sort({ createdAt: -1 })
+    .populate(
+      'owner',
+      'firstName lastName email',
+    )
+    .populate(
+      'ownerAccount',
+      'accountNumber',
+    )
+    .populate(
+      'counterParty',
+      'firstName lastName',
+    )
+    .populate(
+      'counterPartyAccount',
+      'accountNumber',
+    )
+    .lean();
+
+  return transactions;
+};
+
+// Get Debit transactions for admin
+export const debitTransactions = async () => {
+  const transactions = await Transaction.find({
+    direction: 'debit',
+  })
+    .sort({ createdAt: -1 })
+    .populate(
+      'owner',
+      'firstName lastName email',
+    )
+    .populate(
+      'ownerAccount',
+      'accountNumber',
+    )
+    .populate(
+      'counterParty',
+      'firstName lastName',
+    )
+    .populate(
+      'counterPartyAccount',
+      'accountNumber',
+    )
+    .lean();
 
   return transactions;
 };
