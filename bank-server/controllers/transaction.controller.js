@@ -104,40 +104,40 @@ export const adminInternationalTransfer = async (req, res, next) => {
 };
 
 // Deposit funds
-// export const depositFunds = async (req, res, next) => {
-//   try {
-//     const deposit = await transactionService.depositFunds(
-//       req.user._id,
-//       req.body,
-//       req.file,
-//     );
-
-//     res.status(201).json({
-//       success: true,
-//       message: "Deposit submitted successfully.",
-//       data: deposit,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// Approve Deposit
-export const approveDeposit = async (req, res, next) => {
+export const depositFunds = async (req, res, next) => {
   try {
-    const { depositId } = req.params;
+    const deposit = await transactionService.depositFunds(
+      req.user._id,
+      req.body,
+      req.file,
+    );
 
-    const approvedDeposit = await transactionService.approveDeposit(depositId);
-
-    return res.status(200).json({
+    res.status(201).json({
       success: true,
-      message: "Deposit approved successfully.",
-      data: approvedDeposit,
+      message: "Deposit submitted successfully.",
+      data: deposit,
     });
   } catch (error) {
     next(error);
   }
 };
+
+// Approve Deposit
+// export const approveDeposit = async (req, res, next) => {
+//   try {
+//     const { depositId } = req.params;
+
+//     const approvedDeposit = await transactionService.approveDeposit(depositId);
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Deposit approved successfully.",
+//       data: approvedDeposit,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 // Get transaction history
 export const getTransactionHistory = async (req, res, next) => {
