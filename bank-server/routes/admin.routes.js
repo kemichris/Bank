@@ -49,6 +49,14 @@ router.patch(
     adminController.verifyUserEmail
 );
 
+// Verify Kyc
+router.patch(
+    '/users/:userId/verify-kyc',
+    protect,
+    authorize('admin'),
+    adminController.VerifyUserKyc
+);
+
 // Debit or Credit user
 router.post(
   "/users/:userId/credit-debit",

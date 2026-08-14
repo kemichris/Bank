@@ -99,6 +99,22 @@ export const verifyUserEmail = async (req, res, next) =>  {
   }
 }
 
+// verify Kyc
+export const VerifyUserKyc = async (req, res, next) =>  {
+  try {
+    const {userId} = req.params
+    const kycVerified = await adminService.VerifyUserKyc(userId)
+
+    return res.status(200).json({
+      success:true,
+      message: 'KYC verified successfully',
+      data: kycVerified
+    })
+
+  } catch (error) {
+    next(error)
+  }
+}
 
 // Credit or debit user
 export const creditDebitUser = async (req, res, next) => {

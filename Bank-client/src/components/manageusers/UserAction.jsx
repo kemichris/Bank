@@ -8,7 +8,7 @@ import { ConfirmationModal } from "../common/ConfirmationModal";
 import {
   toggleSuspension,
   toggleStatus,
-  verifyUserEmail
+  verifyUserEmail,
 } from "../../services/manageusers.service";
 import { TransferModal } from "./TransferModal";
 import { InternationalTransferModal } from "./InternationalTransferModal";
@@ -30,29 +30,39 @@ export function UserAction({ user, reload }) {
 
   //   Account status Handle
   const handleStatus = async () => {
+    const toastId = toast.loading("Performing Action");
     try {
       const res = await toggleStatus(user._id);
       await reload();
-      toast.success(res.message);
+      toast.success(res.message, {
+        id: toastId,
+      });
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message, {
+        id: toastId,
+      });
     }
   };
 
   // Suspend handle
   const handleSuspend = async () => {
+    const toastId = toast.loading("Performing Action");
     setLoading(true);
     try {
       const res = await toggleSuspension(user._id);
       await reload();
 
-      toast.success(res.message);
+      toast.success(res.message, {
+        id: toastId,
+      });
 
       setShowModal(false);
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message, {
+        id: toastId,
+      });
     } finally {
       setLoading(false);
     }
@@ -60,16 +70,20 @@ export function UserAction({ user, reload }) {
 
   //   Account status Handle
   const handleEmailVerify = async () => {
+    const toastId = toast.loading("Performing Action");
     try {
       const res = await verifyUserEmail(user._id);
       await reload();
-      toast.success(res.message);
+      toast.success(res.message, {
+        id: toastId,
+      });
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message, {
+        id: toastId,
+      });
     }
   };
-
 
   return (
     <div className="mb-4 flex items-center justify-between">
@@ -114,12 +128,13 @@ export function UserAction({ user, reload }) {
                 : "Suspend Account"}
             </button>
 
-            <button 
-            onClick={() => {
+            <button
+              onClick={() => {
                 handleEmailVerify();
                 closeDropdown();
               }}
-            className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border">
+              className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border"
+            >
               Verify Email
             </button>
 

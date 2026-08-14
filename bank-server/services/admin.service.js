@@ -248,6 +248,26 @@ export const verifyUserEmail = async (userId) => {
   return user
 };
 
+// verify Kyc
+export const VerifyUserKyc = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  if (user.kycStatus === "verified") {
+    throw new ApiError(400, "KYC is already verified");
+  }
+
+  user.kycStatus = 'verified';
+
+  await user.save();
+
+  return user
+};
+
+
 // Credit or debit user
 export const creditDebitUser = async (userId, transactionData) => {
   const { amount, direction, type, description } = transactionData;
