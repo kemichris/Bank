@@ -32,7 +32,19 @@ router.get(
 router.post("/users", protect, authorize("admin"), adminController.createUser);
 
 // update user
-router.patch("/users/:userId", adminController.updateUser);
+router.patch(
+  "/users/:userId",
+  protect,
+  authorize("admin"),
+  adminController.updateUser,
+);
+
+router.patch(
+  "/users/:userId/update-limit",
+  protect,
+  authorize("admin"),
+  adminController.updateLimit,
+);
 
 // impersonate user
 router.post(

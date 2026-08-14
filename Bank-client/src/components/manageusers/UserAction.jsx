@@ -18,6 +18,7 @@ import {
 import { TransferModal } from "./TransferModal";
 import { InternationalTransferModal } from "./InternationalTransferModal";
 import { UpdateUserModal } from "./UpdateUserModal";
+import { UpdateLimitModal } from "./UpdateLimitModal";
 
 export function UserAction({ user, reload }) {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export function UserAction({ user, reload }) {
   const [showCreditDebitModal, setShowCreditDebitModal] = useState(false);
   const [showTransferModal, setshowTransferModal] = useState(false);
   const [showIntTransferModal, setshowIntTransferModal] = useState(false);
+  const [showUpdateLimitModal, setShowUpdateLimitModal] = useState(false);
 
   const [modalMessage, setModalMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -299,6 +301,16 @@ export function UserAction({ user, reload }) {
 
             <button
               onClick={() => {
+                setShowUpdateLimitModal(true);
+                closeDropdown();
+              }}
+              className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border"
+            >
+              Account Limit
+            </button>
+
+            <button
+              onClick={() => {
                 setShowCreditDebitModal(true);
 
                 closeDropdown();
@@ -375,6 +387,12 @@ export function UserAction({ user, reload }) {
         isOpen={showUpdateUserModal}
         onClose={() => setshowUpdateUserModal(false)}
         user={user}
+        reload={reload}
+      />
+      <UpdateLimitModal
+        isOpen={showUpdateLimitModal}
+        onClose={() => setShowUpdateLimitModal(false)}
+        userId={user._id}
         reload={reload}
       />
 

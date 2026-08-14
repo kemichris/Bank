@@ -75,6 +75,23 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
+// Update account limit
+export const updateLimit = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const result = await adminService.updateLimit(userId, req.body);
+
+    return res.status(200).json({
+      success: true,
+      message: "Account limit updated successfully.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // impersonate user
 export const loginAsUser = async (req, res, next) => {
   try {

@@ -383,6 +383,31 @@ export const updateUser = async (userId, userData) => {
   return user;
 };
 
+// Update account limit
+export const updateLimit = async (userId, limitData) => {
+  const { amount } = limitData;
+
+  if (!amount || amount <= 0) {
+    throw new ApiError(400, "Invalid limit amount.");
+  }
+
+  const account = await Account.findOne({
+    owner: userId,
+  });
+
+  if (!account) {
+    throw new ApiError(404, "Account not found.");
+  }
+
+  account.limit = amount;
+
+  await account.save();
+
+  return {
+    accountLimit: account.limit,
+  };
+};
+
 // Impersonate user
 export const loginAsUser = async (adminId, userId) => {
   // Find the admin

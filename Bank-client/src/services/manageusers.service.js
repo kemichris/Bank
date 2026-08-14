@@ -26,6 +26,14 @@ export const updateUser = async (userId, userData) => {
   return data;
 };
 
+// Update Limit
+export const updateLimit = async (userId, userData) => {
+  const { data } = await api.patch(`/admin/users/${userId}/update-limit`, userData);
+
+  return data;
+};
+
+
 // impersonate user
 export const loginAsUser = async (userId) => {
   const { data } = await api.post(`/admin/users/${userId}/login`);
