@@ -40,3 +40,10 @@ export const allCreditTransaction = async ()=> {
 
     return data 
 }
+
+// Reject Transaction
+export const rejectTransaction = async (transactionId) => {
+    const {data} = await api.patch(`/transaction/${transactionId}/reject`);
+
+    return data
+}

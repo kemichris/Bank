@@ -15,6 +15,7 @@ import {
   approveDeposit,
   getTransactionHistory,
   rejectTransaction,
+  deleteTransaction,
 } from "../controllers/transaction.controller.js";
 
 const router = express.Router();
@@ -67,5 +68,8 @@ router.patch(
   authorize("admin"),
   rejectTransaction,
 );
+
+// Delete transacton 
+router.delete('/:transactionId', protect, authorize('admin'), deleteTransaction)
 
 export default router;

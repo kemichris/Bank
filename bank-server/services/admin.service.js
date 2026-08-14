@@ -555,7 +555,6 @@ export const resetUserPassword = async (userId) => {
 };
 
 // Delete user and associated data.
-// Transactions are intentionally preserved for auditing.
 export const deleteUser = async (userId) => {
   const session = await mongoose.startSession();
 

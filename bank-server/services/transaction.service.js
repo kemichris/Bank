@@ -297,10 +297,7 @@ export const internationalTransfer = async (
   transferData,
   options = {},
 ) => {
-  const {
-    bypassPin = false,
-    sendEmails = true,
-  } = options;
+  const { bypassPin = false, sendEmails = true } = options;
 
   const {
     beneficiaryAccountName,
@@ -326,15 +323,8 @@ export const internationalTransfer = async (
     // 1. Validate transfer amount
     // -----------------------------------------
 
-    if (
-      typeof amount !== "number" ||
-      !Number.isFinite(amount) ||
-      amount <= 0
-    ) {
-      throw new ApiError(
-        400,
-        "Invalid transfer amount.",
-      );
+    if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
+      throw new ApiError(400, "Invalid transfer amount.");
     }
 
     // -----------------------------------------
@@ -347,29 +337,19 @@ export const internationalTransfer = async (
       !bankName ||
       !country
     ) {
-      throw new ApiError(
-        400,
-        "Please provide all required transfer details.",
-      );
+      throw new ApiError(400, "Please provide all required transfer details.");
     }
 
     // -----------------------------------------
     // 3. Find sender
     // -----------------------------------------
 
-    const sender = await User.findById(
-      senderId,
-    )
-      .select(
-        "firstName lastName email transactionPin",
-      )
+    const sender = await User.findById(senderId)
+      .select("firstName lastName email transactionPin")
       .session(session);
 
     if (!sender) {
-      throw new ApiError(
-        404,
-        "User not found.",
-      );
+      throw new ApiError(404, "User not found.");
     }
 
     // -----------------------------------------
@@ -378,30 +358,20 @@ export const internationalTransfer = async (
 
     if (!bypassPin) {
       if (!sender.transactionPin) {
-        throw new ApiError(
-          400,
-          "Transaction PIN has not been set.",
-        );
+        throw new ApiError(400, "Transaction PIN has not been set.");
       }
 
       if (!transactionPin) {
-        throw new ApiError(
-          400,
-          "Transaction PIN is required.",
-        );
+        throw new ApiError(400, "Transaction PIN is required.");
       }
 
-      const isPinValid =
-        await comparePassword(
-          transactionPin,
-          sender.transactionPin,
-        );
+      const isPinValid = await comparePassword(
+        transactionPin,
+        sender.transactionPin,
+      );
 
       if (!isPinValid) {
-        throw new ApiError(
-          400,
-          "Invalid transaction PIN.",
-        );
+        throw new ApiError(400, "Invalid transaction PIN.");
       }
     }
 
@@ -409,50 +379,35 @@ export const internationalTransfer = async (
     // 5. Find sender's account
     // -----------------------------------------
 
-    const senderAccount =
-      await Account.findOne({
-        owner: senderId,
-      }).session(session);
+    const senderAccount = await Account.findOne({
+      owner: senderId,
+    }).session(session);
 
     if (!senderAccount) {
-      throw new ApiError(
-        404,
-        "Sender account not found.",
-      );
+      throw new ApiError(404, "Sender account not found.");
     }
 
     // -----------------------------------------
     // 6. Ensure sender account is active
     // -----------------------------------------
 
-    if (
-      senderAccount.status !== "active"
-    ) {
-      throw new ApiError(
-        400,
-        "Sender account is not active.",
-      );
+    if (senderAccount.status !== "active") {
+      throw new ApiError(400, "Sender account is not active.");
     }
 
     // -----------------------------------------
     // 7. Ensure sufficient balance
     // -----------------------------------------
 
-    if (
-      senderAccount.balance < amount
-    ) {
-      throw new ApiError(
-        400,
-        "Insufficient balance.",
-      );
+    if (senderAccount.balance < amount) {
+      throw new ApiError(400, "Insufficient balance.");
     }
 
     // -----------------------------------------
     // 8. Generate transaction reference
     // -----------------------------------------
 
-    const reference =
-      generateTransactionReference();
+    const reference = generateTransactionReference();
 
     // -----------------------------------------
     // 9. Debit sender's account
@@ -464,40 +419,36 @@ export const internationalTransfer = async (
     // 10. Create transaction
     // -----------------------------------------
 
-    const transaction =
-      new Transaction({
-        owner: senderId,
+    const transaction = new Transaction({
+      owner: senderId,
 
-        ownerAccount:
-          senderAccount._id,
+      ownerAccount: senderAccount._id,
 
-        amount,
+      amount,
 
-        type:
-          "international_transfer",
+      type: "international_transfer",
 
-        direction: "debit",
+      direction: "debit",
 
-        method:
-          "international transfer",
+      method: "international transfer",
 
-        reference,
+      reference,
 
-        description: note,
+      description: note,
 
-        status: "pending",
+      status: "pending",
 
-        internationalDetails: {
-          beneficiaryAccountName,
-          beneficiaryAccountNumber,
-          bankName,
-          bankAddress,
-          accountType,
-          country,
-          iban,
-          swiftCode,
-        },
-      });
+      internationalDetails: {
+        beneficiaryAccountName,
+        beneficiaryAccountNumber,
+        bankName,
+        bankAddress,
+        accountType,
+        country,
+        iban,
+        swiftCode,
+      },
+    });
 
     // -----------------------------------------
     // 11. Save transaction
@@ -539,28 +490,20 @@ export const internationalTransfer = async (
     // -----------------------------------------
 
     return {
-      transactionId:
-        transaction._id,
+      transactionId: transaction._id,
 
-      reference:
-        transaction.reference,
+      reference: transaction.reference,
 
-      amount:
-        transaction.amount,
+      amount: transaction.amount,
 
-      currency:
-        senderAccount.currency,
+      currency: senderAccount.currency,
 
-      description:
-        transaction.description,
+      description: transaction.description,
 
-      status:
-        transaction.status,
+      status: transaction.status,
     };
   } catch (error) {
-    if (
-      session.inTransaction()
-    ) {
+    if (session.inTransaction()) {
       await session.abortTransaction();
     }
 
@@ -751,30 +694,32 @@ export const getTransactionHistory = async (userId) => {
   return transactions;
 };
 
-
 // Reject transaction
 export const rejectTransaction = async (transactionId) => {
-  const transaction = await Transaction.findById(
-    transactionId
-  );
+  const transaction = await Transaction.findById(transactionId);
 
   if (!transaction) {
-    throw new ApiError(
-      404,
-      'Transaction not found.'
-    );
+    throw new ApiError(404, "Transaction not found.");
   }
 
-  if (transaction.status !== 'pending') {
-    throw new ApiError(
-      400,
-      'Only pending transactions can be rejected.'
-    );
+  if (transaction.status !== "pending") {
+    throw new ApiError(400, "Only pending transactions can be rejected.");
   }
 
-  transaction.status = 'rejected';
+  transaction.status = "rejected";
 
   await transaction.save();
 
   return transaction;
+};
+
+// Delete Transaction
+export const deleteTransaction = async (transactionId) => {
+  const transaction = await Transaction.findByIdAndDelete(transactionId);
+
+  if (!transaction) {
+    throw new ApiError(404, "Transaction not found.");
+  }
+
+  return true;
 };

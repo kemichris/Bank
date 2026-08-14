@@ -4,9 +4,19 @@ import { FaEye, FaCheck, FaTimes, FaTrash } from "react-icons/fa";
 import { Table } from "../common/Table";
 import { TransactionModal } from "../transaction/TransactionModal";
 import { formatMoney } from "../../utils/formatMoney";
+import { ReceiptModal } from "./ReceiptModal";
+import { ConfirmationModal } from "../common/ConfirmationModal";
 
-export function AdminTransactionTable({ transactions }) {
+import { handleReject } from "./transactionActions";
+
+export function AdminTransactionTable({ transactions, reload }) {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [selectedReceipt, setSelectedReceipt] = useState(null);
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalAction, setModalAction] = useState(null);
+  const [modalMessage, setModalMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const transactionColumns = [
     {
@@ -67,6 +77,11 @@ export function AdminTransactionTable({ transactions }) {
       },
     },
     {
+      key: "status",
+      label: "Status",
+      render: (row) => (row.status)
+    },
+    {
       key: "action",
       label: "Action",
       render: (row) => {
@@ -77,11 +92,11 @@ export function AdminTransactionTable({ transactions }) {
             {hasImage && (
               <button
                 type="button"
-                title='View image'
+                title="View image"
                 onClick={(e) => {
                   e.stopPropagation();
 
-                  // View image function
+                  setSelectedReceipt(row.receipt);
                 }}
                 className="rounded-lg bg-primary p-2 text-white"
               >
@@ -111,6 +126,13 @@ export function AdminTransactionTable({ transactions }) {
                     e.stopPropagation();
 
                     // Reject transaction function
+                    setModalMessage(
+                      "Are you sure you want to reject this transaction? this action cannot be undone.",
+                    );
+                    setModalAction(
+                      () => () => handleReject(row, setLoading, setShowModal, reload ),
+                    );
+                    setShowModal(true);
                   }}
                   className="rounded-lg bg-red-500 p-2 text-white"
                 >
@@ -147,6 +169,19 @@ export function AdminTransactionTable({ transactions }) {
       <TransactionModal
         transaction={selectedTransaction}
         onClose={() => setSelectedTransaction(null)}
+      />
+      <ReceiptModal
+        isOpen={Boolean(selectedReceipt)}
+        image={selectedReceipt}
+        onClose={() => setSelectedReceipt(null)}
+      />
+
+      <ConfirmationModal
+        isOpen={showModal}
+        message={modalMessage}
+        onConfirm={modalAction}
+        onCancel={() => setShowModal(false)}
+        loading={loading}
       />
     </div>
   );

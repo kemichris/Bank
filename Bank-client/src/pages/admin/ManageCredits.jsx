@@ -13,21 +13,24 @@ export function ManageCredits() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadTransactions = async () => {
-      try {
-        const res = await allCreditTransaction();
-        console.log(res.data);
+  const loadTransactions = async () => {
+    try {
+      const res = await allCreditTransaction();
+      console.log(res.data);
 
-        setTransactions(res.data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      setTransactions(res.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+
 
     loadTransactions();
+    
   }, []);
   if (loading) {
     return <PageLoader />;
@@ -46,7 +49,7 @@ export function ManageCredits() {
         linkText="Dashboard"
       />
 
-      <AdminTransactionTable transactions={transactions} />
+      <AdminTransactionTable transactions={transactions} reload={loadTransactions} />
     </>
   );
 }

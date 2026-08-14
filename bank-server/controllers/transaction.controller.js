@@ -173,3 +173,16 @@ export const rejectTransaction = async (req, res, next) => {
     next(error);
   }
 };
+
+// Delete transaction
+export const deleteTransaction = async (req, res, next) => {
+  try {
+    await transactionService.deleteTransaction(
+      req.params.transactionId
+    );
+
+    return res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
