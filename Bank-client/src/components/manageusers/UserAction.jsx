@@ -264,7 +264,7 @@ export function UserAction({ user, reload }) {
             <button
               onClick={() => {
                 setModalMessage(
-                  " Are you sure you delete this user, this action cannot be reversed",
+                  " Are you sure you want to delete this user? this action cannot be reversed",
                 );
                 setModalAction(() => handleDeleteUser);
 
