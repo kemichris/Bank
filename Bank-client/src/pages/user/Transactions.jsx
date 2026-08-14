@@ -13,6 +13,8 @@ export function Transactions() {
             try {
                 const res = await getTransactionHistory();
 
+                console.log(res.data)
+
                 setTransactions(res.data);
             } catch (error) {
                 console.error(
