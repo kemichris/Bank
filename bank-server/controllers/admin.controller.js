@@ -43,6 +43,23 @@ export const getUserById = async (req, res, next) => {
   }
 };
 
+// update user
+export const updateUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const updatedUser = await adminService.updateUser(userId, req.body);
+
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully.",
+      data: updatedUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // toggle suspention
 export const toggleSuspension = async (req, res, next) => {
   try {

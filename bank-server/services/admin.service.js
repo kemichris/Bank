@@ -197,6 +197,79 @@ export const getUserById = async (userId) => {
   };
 };
 
+// Update user
+export const updateUser = async (userId, userData) => {
+  const {
+    firstName,
+    lastName,
+    middleName,
+    username,
+    email,
+    phoneNumber,
+    dateOfBirth,
+    country,
+  } = userData;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
+
+  // Prevent duplicate usernames
+  if (username && username !== user.username) {
+    const existingUsername = await User.findOne({
+      username,
+    });
+
+    if (existingUsername) {
+      throw new ApiError(409, "Username already exists.");
+    }
+  }
+
+  // Prevent duplicate emails
+  if (email && email !== user.email) {
+    const existingEmail = await User.findOne({
+      email,
+    });
+
+    if (existingEmail) {
+      throw new ApiError(409, "Email already exists.");
+    }
+  }
+
+  // Prevent duplicate phone numbers
+  if (phoneNumber && phoneNumber !== user.phoneNumber) {
+    const existingPhone = await User.findOne({
+      phoneNumber,
+    });
+
+    if (existingPhone) {
+      throw new ApiError(409, "Phone number already exists.");
+    }
+  }
+
+  user.firstName = firstName ?? user.firstName;
+
+  user.lastName = lastName ?? user.lastName;
+
+  user.middleName = middleName ?? user.middleName;
+
+  user.username = username ?? user.username;
+
+  user.email = email ?? user.email;
+
+  user.phoneNumber = phoneNumber ?? user.phoneNumber;
+
+  user.dateOfBirth = dateOfBirth ?? user.dateOfBirth;
+
+  user.country = country ?? user.country;
+
+  await user.save();
+
+  return user;
+};
+
 // toggle account suspension
 export const toggleSuspension = async (userId) => {
   const user = await User.findById(userId);
@@ -308,7 +381,7 @@ export const deleteUser = async (userId) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      throw new ApiError(404, 'User not found.');
+      throw new ApiError(404, "User not found.");
     }
 
     // Save the image ID before deleting the user
@@ -330,10 +403,7 @@ export const deleteUser = async (userId) => {
       try {
         await deleteImage(profileImagePublicId);
       } catch (error) {
-        console.error(
-          'Failed to delete profile image:',
-          error.message
-        );
+        console.error("Failed to delete profile image:", error.message);
       }
     }
 
@@ -348,7 +418,6 @@ export const deleteUser = async (userId) => {
     await session.endSession();
   }
 };
-
 
 // Credit or debit user
 export const creditDebitUser = async (userId, transactionData) => {

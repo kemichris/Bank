@@ -25,6 +25,12 @@ router.get(
   adminController.getUserById,
 );
 
+// update user 
+router.patch(
+  '/users/:userId',
+  adminController.updateUser
+);
+
 // Toggle suspension
 router.patch(
   "/users/:userId/suspension",

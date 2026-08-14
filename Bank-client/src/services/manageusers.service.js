@@ -13,6 +13,12 @@ export const getUser = async (userId) => {
   return data;
 };
 
+export const updateUser = async (userId, userData) => {
+  const { data } = await api.patch(`/admin/users/${userId}`, userData);
+
+  return data;
+};
+
 // Toggle suspention
 export const toggleSuspension = async (userId) => {
   const { data } = await api.patch(`/admin/users/${userId}/suspension`);
