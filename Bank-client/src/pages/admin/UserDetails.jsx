@@ -12,7 +12,6 @@ export function UserDetails() {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
 
   const loadUser = async () => {
     try {
@@ -27,12 +26,29 @@ export function UserDetails() {
   };
 
   useEffect(() => {
+    if (!userId) {
+      setLoading(false);
+
+      return;
+    }
+
     loadUser();
   }, [userId]);
 
   if (loading) {
     return <PageLoader />;
   }
+
+  if (!user) {
+    return (
+      <div className='p-6'>
+        <h2 className='text-text text-xl'>
+          User not found.
+        </h2>
+      </div>
+    );
+  }
+  
   console.log(user);
 
   return (

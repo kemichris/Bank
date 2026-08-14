@@ -50,7 +50,7 @@ const userColumns = [
     label: "Action",
     render: (row) => (
       <Link
-        to={`/admin/users/${row._id}`}
+        to={`/admin/manage-users/${row._id}`}
         className="
                 rounded-lg
                 bg-primary

@@ -17,7 +17,7 @@ export const adminRoutes = [
         element: <ManageUsers />,
       },
       {
-        path: "/admin/users/:userId",
+        path: "/admin/manage-users/:userId",
         element: <UserDetails />,
       },
     ],
