@@ -135,6 +135,7 @@ export function CreditDebitModal({ isOpen, onClose, userId, reload }) {
                   <option value="withdrawal">Withdrawal</option>
 
                   <option value="bank-charge">Bank Charge</option>
+                  <option value="reversal">Reversal</option>
                 </>
               )}
             </select>

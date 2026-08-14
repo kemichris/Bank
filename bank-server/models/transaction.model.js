@@ -43,7 +43,8 @@ const transactionSchema = new mongoose.Schema(
                 'international_transfer',
                 'deposit',
                 'withdrawal',
-                'bank_charge'
+                'bank_charge',
+                'reversal'
             ],
             required: true,
         },

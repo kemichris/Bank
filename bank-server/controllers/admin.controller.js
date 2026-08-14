@@ -43,6 +43,21 @@ export const getUserById = async (req, res, next) => {
   }
 };
 
+// Create user
+export const createUser = async (req, res, next) => {
+  try {
+    const user = await adminService.createUser(req.body);
+
+    return res.status(201).json({
+      success: true,
+      message: "User created successfully.",
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // update user
 export const updateUser = async (req, res, next) => {
   try {

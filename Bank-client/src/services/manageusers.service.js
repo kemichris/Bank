@@ -13,6 +13,12 @@ export const getUser = async (userId) => {
   return data;
 };
 
+// Create user
+export const createUser = async (formData) => {
+  const {data} = await api.post("/admin/users", formData);
+  return data;
+};
+
 // update user
 export const updateUser = async (userId, userData) => {
   const { data } = await api.patch(`/admin/users/${userId}`, userData);

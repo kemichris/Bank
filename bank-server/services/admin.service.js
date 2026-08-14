@@ -9,6 +9,7 @@ import {
   hashPassword,
   generateTemporaryPassword,
 } from "../utils/password.utils.js";
+import { generateAccountNumber } from "../utils/account.utils.js";
 import { generateAccessToken } from "../utils/jwt.utils.js";
 
 import { deleteImage } from "../utils/cloudinary.utils.js";
@@ -198,6 +199,117 @@ export const getUserById = async (userId) => {
   };
 };
 
+// Admin create user service
+export const createUser = async (userData) => {
+  const {
+    firstName,
+    lastName,
+    middleName,
+    username,
+    email,
+    transactionPin,
+    phoneNumber,
+    dateOfBirth,
+    country,
+    password,
+    accountType,
+  } = userData;
+
+  // Check for existing email, phone number, and username
+  const [existingEmail, existingPhone, existingUsername] = await Promise.all([
+    User.findOne({ email }),
+    User.findOne({ phoneNumber }),
+    User.findOne({ username }),
+  ]);
+
+  if (existingEmail) {
+    throw new ApiError(409, "Email already exists.");
+  }
+
+  if (existingPhone) {
+    throw new ApiError(409, "Phone number already exists.");
+  }
+
+  if (existingUsername) {
+    throw new ApiError(409, "Username already exists.");
+  }
+
+  // Find the default role
+  const userRole = await Role.findOne({
+    name: "user",
+  });
+
+  if (!userRole) {
+    throw new ApiError(500, "Default user role not found.");
+  }
+
+  const accountName = `${firstName} ${lastName}`.trim();
+
+  // Hash password
+  const hashedPassword = await hashPassword(password);
+
+  // Hash transaction PIN
+  const hashedPin = await hashPassword(transactionPin);
+
+  // Start MongoDB session
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    // Create user
+    const user = new User({
+      firstName,
+      lastName,
+      middleName,
+      username,
+      email,
+      phoneNumber,
+      dateOfBirth,
+      country,
+      password: hashedPassword,
+      transactionPin: hashedPin,
+      role: userRole._id,
+
+      emailVerified: true,
+
+      forcePasswordChange: true,
+    });
+
+    await user.save({ session });
+
+    // Generate account number
+    const accountNumber = await generateAccountNumber(session);
+
+    // Create account
+    const account = new Account({
+      owner: user._id,
+      accountName,
+      accountNumber,
+      accountType,
+    });
+
+    await account.save({ session });
+
+    // Commit changes
+    await session.commitTransaction();
+
+    return {
+      userId: user._id,
+      email: user.email,
+      accountNumber: account.accountNumber,
+    };
+  } catch (error) {
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
+
+    throw error;
+  } finally {
+    await session.endSession();
+  }
+};
+
 // Update user
 export const updateUser = async (userId, userData) => {
   const {
@@ -272,65 +384,36 @@ export const updateUser = async (userId, userData) => {
 };
 
 // Impersonate user
-export const loginAsUser = async (
-  adminId,
-  userId
-) => {
+export const loginAsUser = async (adminId, userId) => {
   // Find the admin
-  const admin = await User.findById(
-    adminId
-  ).populate('role');
+  const admin = await User.findById(adminId).populate("role");
 
   if (!admin) {
-    throw new ApiError(
-      404,
-      'Administrator not found.'
-    );
+    throw new ApiError(404, "Administrator not found.");
   }
 
   // Only administrators can impersonate users
-  if (
-    ![
-      'admin',
-      'manager',
-      'superadmin',
-    ].includes(admin.role.name)
-  ) {
-    throw new ApiError(
-      403,
-      'Unauthorized.'
-    );
+  if (!["admin", "manager", "superadmin"].includes(admin.role.name)) {
+    throw new ApiError(403, "Unauthorized.");
   }
 
   // Find the target user
-  const user = await User.findById(
-    userId
-  ).populate('role');
+  const user = await User.findById(userId).populate("role");
 
   if (!user) {
-    throw new ApiError(
-      404,
-      'User not found.'
-    );
+    throw new ApiError(404, "User not found.");
   }
 
   // Prevent admins from impersonating themselves
-  if (
-    admin._id.toString() ===
-    user._id.toString()
-  ) {
-    throw new ApiError(
-      400,
-      'You cannot impersonate yourself.'
-    );
+  if (admin._id.toString() === user._id.toString()) {
+    throw new ApiError(400, "You cannot impersonate yourself.");
   }
 
-  const accessToken =
-    generateAccessToken({
-      id: user._id,
-      role: user.role.name,
-      impersonatedBy: admin._id,
-    });
+  const accessToken = generateAccessToken({
+    id: user._id,
+    role: user.role.name,
+    impersonatedBy: admin._id,
+  });
 
   return {
     accessToken,
@@ -341,8 +424,7 @@ export const loginAsUser = async (
       username: user.username,
       email: user.email,
       role: user.role.name,
-      profileImage:
-        user.profileImage,
+      profileImage: user.profileImage,
     },
   };
 };
@@ -509,6 +591,9 @@ export const creditDebitUser = async (userId, transactionData) => {
   switch (type) {
     case "bank_charge":
       method = "internal bank debit";
+      break;
+    case "reversal":
+      method = "Bank Reversal";
       break;
 
     case "withdrawal":

@@ -28,6 +28,9 @@ router.get(
   adminController.getUserById,
 );
 
+// create new user
+router.post("/users", protect, authorize("admin"), adminController.createUser);
+
 // update user
 router.patch("/users/:userId", adminController.updateUser);
 

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
-// import { useState } from "react";
+import { useState } from "react";
+import { FaUserPlus } from "react-icons/fa";
 import { Table } from "../common/Table";
+import { AddUserModal } from "./AddUserModal";
 import formatMoney from "../../utils/formatMoney";
 
 const userColumns = [
@@ -70,12 +72,24 @@ const userColumns = [
 ];
 
 export function UsersTable({ users }) {
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
 
   return (
     <div>
-      <Table
-        columns={userColumns}
-        data={users}
+      <button
+        type="button"
+        onClick={() => setShowAddUserModal(true)}
+        className="mb-3 text-text flex items-center gap-2 p-2 bg-primary-1 rounded-lg text-sm hover:scale-[.9] transition-transform"
+      >
+        <FaUserPlus /> New User
+      </button>
+      <Table columns={userColumns} data={users} />
+      <AddUserModal
+        isOpen={showAddUserModal}
+        onClose={() =>
+          setShowAddUserModal(false)
+        }
+        
       />
     </div>
   );
