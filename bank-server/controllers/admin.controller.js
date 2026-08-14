@@ -82,6 +82,23 @@ export const toggleUserStatus = async (req, res, next) => {
   }
 };
 
+// Verify Email
+export const verifyUserEmail = async (req, res, next) =>  {
+  try {
+    const {userId} = req.params
+    const verifiedEmail = await adminService.verifyUserEmail(userId)
+
+    return(200).json({
+      success:true,
+      message: 'Email verified successfully',
+      data: verifiedEmail
+    })
+
+  } catch (error) {
+    next(error)
+  }
+}
+
 
 // Credit or debit user
 export const creditDebitUser = async (req, res, next) => {

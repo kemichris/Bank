@@ -41,6 +41,14 @@ router.patch(
   adminController.toggleUserStatus,
 );
 
+// Verify user email 
+router.patch(
+    '/users/:userId/verify-email',
+    protect,
+    authorize('admin'),
+    adminController.verifyUserEmail
+);
+
 // Debit or Credit user
 router.post(
   "/users/:userId/credit-debit",

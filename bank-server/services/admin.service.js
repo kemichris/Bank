@@ -229,6 +229,25 @@ export const toggleUserStatus = async (userId) => {
   return user;
 };
 
+// Verify Email
+export const verifyUserEmail = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  if (user.emailVerified) {
+    throw new ApiError(400, "Email already verified");
+  }
+
+  user.emailVerified = true;
+
+  await user.save();
+
+  return user
+};
+
 // Credit or debit user
 export const creditDebitUser = async (userId, transactionData) => {
   const { amount, direction, type, description } = transactionData;
