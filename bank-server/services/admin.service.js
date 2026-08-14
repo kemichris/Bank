@@ -10,6 +10,8 @@ import {
   generateTemporaryPassword,
 } from "../utils/password.utils.js";
 
+import { deleteImage } from "../utils/cloudinary.utils.js";
+
 // Admin Dashboard Data
 export const getAdminDashboard = async () => {
   const [
@@ -294,6 +296,59 @@ export const resetUserPassword = async (userId) => {
     temporaryPassword,
   };
 };
+
+// Delete user and associated data.
+// Transactions are intentionally preserved for auditing.
+export const deleteUser = async (userId) => {
+  const session = await mongoose.startSession();
+
+  let profileImagePublicId = null;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new ApiError(404, 'User not found.');
+    }
+
+    // Save the image ID before deleting the user
+    profileImagePublicId = user.profileImagePublicId;
+
+    session.startTransaction();
+
+    await Account.deleteOne({
+      owner: userId,
+    }).session(session);
+
+    await User.deleteOne({
+      _id: userId,
+    }).session(session);
+
+    await session.commitTransaction();
+
+    if (profileImagePublicId) {
+      try {
+        await deleteImage(profileImagePublicId);
+      } catch (error) {
+        console.error(
+          'Failed to delete profile image:',
+          error.message
+        );
+      }
+    }
+
+    return true;
+  } catch (error) {
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
+
+    throw error;
+  } finally {
+    await session.endSession();
+  }
+};
+
 
 // Credit or debit user
 export const creditDebitUser = async (userId, transactionData) => {

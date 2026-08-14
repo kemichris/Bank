@@ -65,6 +65,14 @@ router.patch(
     adminController.resetUserPassword
 );
 
+// Delet user 
+router.delete(
+  '/users/:userId',
+  protect,
+  authorize('admin'),
+  adminController.deleteUser
+);
+
 // Debit or Credit user
 router.post(
   "/users/:userId/credit-debit",
@@ -88,5 +96,7 @@ router.post(
   authorize('admin'),
   adminInternationalTransfer
 );
+
+
 
 export default router;

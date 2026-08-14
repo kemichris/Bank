@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { FaCaretDown } from "react-icons/fa";
@@ -11,11 +12,14 @@ import {
   verifyUserEmail,
   verifyUserKyc,
   resetUserPassword,
+  deleteUser,
 } from "../../services/manageusers.service";
 import { TransferModal } from "./TransferModal";
 import { InternationalTransferModal } from "./InternationalTransferModal";
 
 export function UserAction({ user, reload }) {
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
@@ -106,12 +110,37 @@ export function UserAction({ user, reload }) {
 
   // handle password reset
   const handleUserPasswordReset = async () => {
+    setLoading(true);
     try {
       const res = await resetUserPassword(user._id);
+
       toast.success(res.message);
+
+      setShowModal(false);
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //   handle delete user
+  const handleDeleteUser = async () => {
+    setLoading(true);
+    try {
+      await deleteUser(user._id);
+
+      toast.success("user deleted successfully");
+
+      setShowModal(false);
+      navigate("/admin/manage-users");
+    } catch (error) {
+      console.error(error);
+
+      toast.error(error.response?.data?.message || "Failed to delete user.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -232,7 +261,18 @@ export function UserAction({ user, reload }) {
               Login as {user.username}
             </button>
 
-            <button className="block w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-border">
+            <button
+              onClick={() => {
+                setModalMessage(
+                  " Are you sure you delete this user, this action cannot be reversed",
+                );
+                setModalAction(() => handleDeleteUser);
+
+                setShowModal(true);
+                closeDropdown();
+              }}
+              className="block w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-border"
+            >
               Delete User
             </button>
           </div>

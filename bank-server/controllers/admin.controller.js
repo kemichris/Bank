@@ -131,6 +131,19 @@ export const resetUserPassword = async (req, res, next) => {
   }
 };
 
+// Delete user
+export const deleteUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    await adminService.deleteUser(userId);
+
+    return res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Credit or debit user
 export const creditDebitUser = async (req, res, next) => {
   try {

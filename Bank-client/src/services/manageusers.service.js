@@ -13,53 +13,69 @@ export const getUser = async (userId) => {
   return data;
 };
 
-// Toggle suspention 
-export const toggleSuspension = async(userId) => { 
-    const {data} = await api.patch(`/admin/users/${userId}/suspension`) 
+// Toggle suspention
+export const toggleSuspension = async (userId) => {
+  const { data } = await api.patch(`/admin/users/${userId}/suspension`);
 
-    return data
-}
+  return data;
+};
 
-// Toggle User Status 
-export const toggleStatus = async(userId) => { 
-    const {data} = await api.patch(`/admin/users/${userId}/status`) 
+// Toggle User Status
+export const toggleStatus = async (userId) => {
+  const { data } = await api.patch(`/admin/users/${userId}/status`);
 
-    return data
-}
+  return data;
+};
 
 // Verify user email
 export const verifyUserEmail = async (userId) => {
-    const {data} = await api.patch(`/admin/users/${userId}/verify-email`)
-    return data
-}
+  const { data } = await api.patch(`/admin/users/${userId}/verify-email`);
+  return data;
+};
 
 // Verfiy user kyc
 export const verifyUserKyc = async (userId) => {
-    const {data} = await api.patch(`/admin/users/${userId}/verify-kyc`)
-    return data
-}
+  const { data } = await api.patch(`/admin/users/${userId}/verify-kyc`);
+  return data;
+};
 
 // Reset user password to default
 export const resetUserPassword = async (userId) => {
-    const {data} = await api.patch(`/admin/users/${userId}/reset-password`)
-    return data
-}
+  const { data } = await api.patch(`/admin/users/${userId}/reset-password`);
+  return data;
+};
 
-// Credit - debit user 
-export const creditDebit = async(userId,trasactionData) => {
-    const {data} = await api.post(`/admin/users/${userId}/credit-debit`, trasactionData)
+// Delet user
+export const deleteUser = async (userId) => {
+  const { data } = await api.delete(`/admin/users/${userId}`);
 
-    return data
-}
+  return data;
+};
 
-// Admin local transfer 
-export const adminTransfer = async(userId, transferData) => {
-    const {data} = await api.post(`/admin/users/${userId}/transfer`, transferData)
-    return data
-}
+// Credit - debit user
+export const creditDebit = async (userId, trasactionData) => {
+  const { data } = await api.post(
+    `/admin/users/${userId}/credit-debit`,
+    trasactionData,
+  );
 
-// Admin international transfer 
-export const adminIntTransfer = async(userId, transferData) => {
-    const {data} = await api.post(`/admin/users/${userId}/international-transfer`, transferData)
-    return data
-}
+  return data;
+};
+
+// Admin local transfer
+export const adminTransfer = async (userId, transferData) => {
+  const { data } = await api.post(
+    `/admin/users/${userId}/transfer`,
+    transferData,
+  );
+  return data;
+};
+
+// Admin international transfer
+export const adminIntTransfer = async (userId, transferData) => {
+  const { data } = await api.post(
+    `/admin/users/${userId}/international-transfer`,
+    transferData,
+  );
+  return data;
+};
