@@ -13,8 +13,16 @@ export const getUser = async (userId) => {
   return data;
 };
 
+// update user
 export const updateUser = async (userId, userData) => {
   const { data } = await api.patch(`/admin/users/${userId}`, userData);
+
+  return data;
+};
+
+// impersonate user
+export const loginAsUser = async (userId) => {
+  const { data } = await api.post(`/admin/users/${userId}/login`);
 
   return data;
 };

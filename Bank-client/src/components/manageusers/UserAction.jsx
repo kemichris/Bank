@@ -13,6 +13,7 @@ import {
   verifyUserKyc,
   resetUserPassword,
   deleteUser,
+  loginAsUser,
 } from "../../services/manageusers.service";
 import { TransferModal } from "./TransferModal";
 import { InternationalTransferModal } from "./InternationalTransferModal";
@@ -146,6 +147,28 @@ export function UserAction({ user, reload }) {
     }
   };
 
+  //   inpersonate user
+  const handleLoginAsUser = async () => {
+    const toastId = toast.loading(`Logging in as ${user.firstName}`);
+    try {
+      const res = await loginAsUser(user._id);
+
+      const token = res.data.accessToken;
+
+      localStorage.setItem("token", token);
+
+      localStorage.setItem("role", res.data.user.role);
+
+      localStorage.setItem("username", res.data.user.username);
+
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(error.response?.data?.message, {
+        id: toastId,
+      });
+    }
+  };
+
   return (
     <div className="mb-4 flex items-center justify-between">
       <p className="text-text font-semibold text-xl">{user.username}</p>
@@ -265,7 +288,13 @@ export function UserAction({ user, reload }) {
               Reset Password
             </button>
 
-            <button className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border">
+            <button
+              onClick={() => {
+                handleLoginAsUser
+                closeDropdown();
+              }}
+              className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border"
+            >
               Login as {user.username}
             </button>
 

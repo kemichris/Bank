@@ -9,6 +9,7 @@ import {
   hashPassword,
   generateTemporaryPassword,
 } from "../utils/password.utils.js";
+import { generateAccessToken } from "../utils/jwt.utils.js";
 
 import { deleteImage } from "../utils/cloudinary.utils.js";
 
@@ -268,6 +269,82 @@ export const updateUser = async (userId, userData) => {
   await user.save();
 
   return user;
+};
+
+// Impersonate user
+export const loginAsUser = async (
+  adminId,
+  userId
+) => {
+  // Find the admin
+  const admin = await User.findById(
+    adminId
+  ).populate('role');
+
+  if (!admin) {
+    throw new ApiError(
+      404,
+      'Administrator not found.'
+    );
+  }
+
+  // Only administrators can impersonate users
+  if (
+    ![
+      'admin',
+      'manager',
+      'superadmin',
+    ].includes(admin.role.name)
+  ) {
+    throw new ApiError(
+      403,
+      'Unauthorized.'
+    );
+  }
+
+  // Find the target user
+  const user = await User.findById(
+    userId
+  ).populate('role');
+
+  if (!user) {
+    throw new ApiError(
+      404,
+      'User not found.'
+    );
+  }
+
+  // Prevent admins from impersonating themselves
+  if (
+    admin._id.toString() ===
+    user._id.toString()
+  ) {
+    throw new ApiError(
+      400,
+      'You cannot impersonate yourself.'
+    );
+  }
+
+  const accessToken =
+    generateAccessToken({
+      id: user._id,
+      role: user.role.name,
+      impersonatedBy: admin._id,
+    });
+
+  return {
+    accessToken,
+    user: {
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      email: user.email,
+      role: user.role.name,
+      profileImage:
+        user.profileImage,
+    },
+  };
 };
 
 // toggle account suspension

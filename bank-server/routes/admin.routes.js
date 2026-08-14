@@ -2,7 +2,10 @@ import express from "express";
 import { protect, authorize } from "../middlewares/auth.middleware.js";
 
 import * as adminController from "../controllers/admin.controller.js";
-import { adminTransferFunds, adminInternationalTransfer } from "../controllers/transaction.controller.js";
+import {
+  adminTransferFunds,
+  adminInternationalTransfer,
+} from "../controllers/transaction.controller.js";
 
 const router = express.Router();
 
@@ -25,10 +28,15 @@ router.get(
   adminController.getUserById,
 );
 
-// update user 
-router.patch(
-  '/users/:userId',
-  adminController.updateUser
+// update user
+router.patch("/users/:userId", adminController.updateUser);
+
+// impersonate user
+router.post(
+  "/users/:userId/login",
+  protect,
+  authorize("admin"),
+  adminController.loginAsUser,
 );
 
 // Toggle suspension
@@ -47,36 +55,36 @@ router.patch(
   adminController.toggleUserStatus,
 );
 
-// Verify user email 
+// Verify user email
 router.patch(
-    '/users/:userId/verify-email',
-    protect,
-    authorize('admin'),
-    adminController.verifyUserEmail
+  "/users/:userId/verify-email",
+  protect,
+  authorize("admin"),
+  adminController.verifyUserEmail,
 );
 
 // Verify Kyc
 router.patch(
-    '/users/:userId/verify-kyc',
-    protect,
-    authorize('admin'),
-    adminController.VerifyUserKyc
+  "/users/:userId/verify-kyc",
+  protect,
+  authorize("admin"),
+  adminController.VerifyUserKyc,
 );
 
 // Reset user password to default
 router.patch(
-    '/users/:userId/reset-password',
-    protect,
-    authorize('admin'),
-    adminController.resetUserPassword
+  "/users/:userId/reset-password",
+  protect,
+  authorize("admin"),
+  adminController.resetUserPassword,
 );
 
-// Delet user 
+// Delet user
 router.delete(
-  '/users/:userId',
+  "/users/:userId",
   protect,
-  authorize('admin'),
-  adminController.deleteUser
+  authorize("admin"),
+  adminController.deleteUser,
 );
 
 // Debit or Credit user
@@ -91,18 +99,16 @@ router.post(
 router.post(
   "/users/:userId/transfer",
   protect,
-  authorize('admin'),
-  adminTransferFunds
+  authorize("admin"),
+  adminTransferFunds,
 );
 
-// internationa transfer 
+// internationa transfer
 router.post(
   "/users/:userId/international-transfer",
   protect,
-  authorize('admin'),
-  adminInternationalTransfer
+  authorize("admin"),
+  adminInternationalTransfer,
 );
-
-
 
 export default router;

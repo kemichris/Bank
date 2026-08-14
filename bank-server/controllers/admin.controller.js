@@ -60,6 +60,23 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
+// impersonate user
+export const loginAsUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const result = await adminService.loginAsUser(req.user._id, userId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Impersonation started.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // toggle suspention
 export const toggleSuspension = async (req, res, next) => {
   try {
