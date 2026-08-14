@@ -24,7 +24,6 @@ export const getProfile = async (userId) => {
 
 // Upload profile photo
 export const updateProfileImage = async (userId, imageFile) => {
-  
   if (!imageFile) {
     throw new ApiError(400, "Profile image is required.");
   }
@@ -40,13 +39,9 @@ export const updateProfileImage = async (userId, imageFile) => {
   try {
     uploadedImage = await uploadImage(imageFile.buffer, "neon/profile-images");
   } catch (error) {
-    console.error(
-        'CLOUDINARY PROFILE IMAGE ERROR:',
-        error
-    );
+    console.error("CLOUDINARY PROFILE IMAGE ERROR:", error);
     throw new ApiError(500, "Unable to upload profile image.");
   }
-
 
   const oldPublicId = user.profileImagePublicId;
 
@@ -286,6 +281,7 @@ export const getDashboardData = async (userId) => {
         owner: userId,
         status: "completed",
       })
+        .populate("owner", "firstName lastName")
         .populate("counterParty", "firstName lastName")
         .populate("counterPartyAccount", "accountNumber")
         .sort({ createdAt: -1 })
@@ -314,5 +310,3 @@ export const getDashboardData = async (userId) => {
     recentTransactions,
   };
 };
-
-

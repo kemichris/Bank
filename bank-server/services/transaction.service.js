@@ -687,7 +687,7 @@ export const getTransactionHistory = async (userId) => {
   const transactions = await Transaction.find({
     owner: userId,
   })
-  .populate("owner", " firstName lastName")
+    .populate("owner", " firstName lastName")
     .populate("counterParty", "firstName lastName")
     .populate("counterPartyAccount", "accountNumber")
     .sort({ createdAt: -1 });
@@ -695,32 +695,28 @@ export const getTransactionHistory = async (userId) => {
   return transactions;
 };
 
-// Confirm Transaction 
+// Confirm Transaction
 export const confirmTransaction = async (transactionId) => {
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
 
-    const transaction = await Transaction.findById(transactionId).session(
-      session
-    );
+    const transaction =
+      await Transaction.findById(transactionId).session(session);
 
     if (!transaction) {
       throw new ApiError(404, "Transaction not found.");
     }
 
     if (transaction.status !== "pending") {
-      throw new ApiError(
-        400,
-        "Only pending transactions can be confirmed."
-      );
+      throw new ApiError(400, "Only pending transactions can be confirmed.");
     }
 
     if (transaction.direction === "credit") {
-      const account = await Account.findById(
-        transaction.ownerAccount
-      ).session(session);
+      const account = await Account.findById(transaction.ownerAccount).session(
+        session,
+      );
 
       if (!account) {
         throw new ApiError(404, "Account not found.");
@@ -760,29 +756,25 @@ export const rejectTransaction = async (transactionId) => {
   try {
     session.startTransaction();
 
-    const transaction = await Transaction.findById(transactionId).session(
-      session
-    );
+    const transaction =
+      await Transaction.findById(transactionId).session(session);
 
     if (!transaction) {
-      throw new ApiError(404, 'Transaction not found.');
+      throw new ApiError(404, "Transaction not found.");
     }
 
-    if (transaction.status !== 'pending') {
-      throw new ApiError(
-        400,
-        'Only pending transactions can be rejected.'
-      );
+    if (transaction.status !== "pending") {
+      throw new ApiError(400, "Only pending transactions can be rejected.");
     }
 
     // Only refund debits
-    if (transaction.direction === 'debit') {
-      const account = await Account.findById(
-        transaction.ownerAccount
-      ).session(session);
+    if (transaction.direction === "debit") {
+      const account = await Account.findById(transaction.ownerAccount).session(
+        session,
+      );
 
       if (!account) {
-        throw new ApiError(404, 'Account not found.');
+        throw new ApiError(404, "Account not found.");
       }
 
       account.balance += transaction.amount;
@@ -790,7 +782,7 @@ export const rejectTransaction = async (transactionId) => {
       await account.save({ session });
     }
 
-    transaction.status = 'rejected';
+    transaction.status = "rejected";
 
     await transaction.save({ session });
 
