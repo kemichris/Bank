@@ -104,23 +104,23 @@ export const adminInternationalTransfer = async (req, res, next) => {
 };
 
 // Deposit funds
-export const depositFunds = async (req, res, next) => {
-  try {
-    const deposit = await transactionService.depositFunds(
-      req.user._id,
-      req.body,
-      req.file,
-    );
+// export const depositFunds = async (req, res, next) => {
+//   try {
+//     const deposit = await transactionService.depositFunds(
+//       req.user._id,
+//       req.body,
+//       req.file,
+//     );
 
-    res.status(201).json({
-      success: true,
-      message: "Deposit submitted successfully.",
-      data: deposit,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+//     res.status(201).json({
+//       success: true,
+//       message: "Deposit submitted successfully.",
+//       data: deposit,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 // Approve Deposit
 export const approveDeposit = async (req, res, next) => {

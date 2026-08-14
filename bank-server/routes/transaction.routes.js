@@ -51,13 +51,13 @@ router.post(
   depositFunds,
 );
 
-// approve deposit
-router.patch(
-  "/deposit/:depositId/approve",
-  protect,
-  authorize("admin", "manager", "superadmin"),
-  approveDeposit,
-);
+// // approve deposit
+// router.patch(
+//   "/deposit/:depositId/approve",
+//   protect,
+//   authorize("admin", "manager", "superadmin"),
+//   approveDeposit,
+// );
 
 // Get transaction history
 router.get("/history", protect, authorize("user"), getTransactionHistory);
