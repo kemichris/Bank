@@ -614,7 +614,7 @@ export const creditDebitUser = async (userId, transactionData) => {
     const validCombinations = {
       credit: ["deposit"],
 
-      debit: ["withdrawal", "bank_charge"],
+      debit: ["withdrawal", "bank_charge", "reversal"],
     };
 
     if (!validCombinations[direction]?.includes(type)) {
