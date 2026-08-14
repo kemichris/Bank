@@ -7,7 +7,7 @@ import { formatMoney } from "../../utils/formatMoney";
 import { ReceiptModal } from "./ReceiptModal";
 import { ConfirmationModal } from "../common/ConfirmationModal";
 
-import { handleReject } from "./transactionActions";
+import { handleReject, handleDelete } from "./transactionActions";
 
 export function AdminTransactionTable({ transactions, reload }) {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
@@ -79,7 +79,7 @@ export function AdminTransactionTable({ transactions, reload }) {
     {
       key: "status",
       label: "Status",
-      render: (row) => (row.status)
+      render: (row) => row.status,
     },
     {
       key: "action",
@@ -130,7 +130,8 @@ export function AdminTransactionTable({ transactions, reload }) {
                       "Are you sure you want to reject this transaction? this action cannot be undone.",
                     );
                     setModalAction(
-                      () => () => handleReject(row, setLoading, setShowModal, reload ),
+                      () => () =>
+                        handleReject(row, setLoading, setShowModal, reload),
                     );
                     setShowModal(true);
                   }}
@@ -148,6 +149,14 @@ export function AdminTransactionTable({ transactions, reload }) {
                 e.stopPropagation();
 
                 // Delete transaction function
+                setModalMessage(
+                  "Are you sure you want to delete this transaction? this action cannot be undone.",
+                );
+                setModalAction(
+                  () => () =>
+                    handleDelete(row, setLoading, setShowModal, reload),
+                );
+                setShowModal(true);
               }}
               className="rounded-lg bg-red-700 p-2 text-white"
             >
