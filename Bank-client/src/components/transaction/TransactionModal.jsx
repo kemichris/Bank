@@ -21,6 +21,10 @@ export function TransactionModal({ transaction, onClose }) {
       return "Bank Charge";
     }
 
+    if (transaction.type === "reversal") {
+      return "Reversal";
+    }
+
     if (transaction.counterParty) {
       return `${transaction.counterParty.firstName} ${transaction.counterParty.lastName}`;
     }

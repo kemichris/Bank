@@ -19,6 +19,10 @@ const transactionColumns = [
         return "Bank Charge";
       }
 
+      if (row.type === "reversal") {
+        return "Reversal";
+      }
+
       if (row.counterParty) {
         return `${row.counterParty.firstName} ${row.counterParty.lastName}`;
       }
