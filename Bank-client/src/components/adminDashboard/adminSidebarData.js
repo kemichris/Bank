@@ -39,14 +39,14 @@ export const adminSidebarData = [
     title: 'TRANSACTIONS',
     links: [
      {
-        name: 'Manage Deposits',
+        name: 'Manage Credits',
         icon: FaChartLine,
-        path: '/admin/deposits'
+        path: '/admin/credits'
       },
       {
-        name: 'Manage Withdrawals',
+        name: 'Manage Debits',
         icon: FaChartLine,
-        path: '/admin/withdrawals'
+        path: '/admin/debits'
       },
     ]
 

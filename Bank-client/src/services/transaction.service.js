@@ -32,3 +32,11 @@ export const internationalTransfer = async (formData) => {
 
     return data
 };
+
+
+// Get all credit transactions 
+export const allCreditTransaction = async ()=> {
+    const {data} = await api.get('/admin/transactions/credit');
+
+    return data 
+}

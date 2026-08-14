@@ -227,3 +227,18 @@ export const creditDebitUser = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get credit transactions 
+export const CreditTransactions = async (req, res, next) => {
+  try {
+    const transactions = await adminService.CreditTransactions()
+
+    return res.status(200).json({
+      success: true,
+      message: " Tranaction retrieved successfully",
+      data: transactions
+    })
+  } catch (error) {
+    next(error)
+  }
+}

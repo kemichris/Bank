@@ -9,6 +9,8 @@ import {
 
 const router = express.Router();
 
+// ─── USERS ───────────────────────────────────
+
 // Load dashboard data
 router.get(
   "/dashboard",
@@ -39,6 +41,7 @@ router.patch(
   adminController.updateUser,
 );
 
+// update users limit
 router.patch(
   "/users/:userId/update-limit",
   protect,
@@ -102,6 +105,7 @@ router.delete(
   adminController.deleteUser,
 );
 
+// ─── TRANSACTION ───────────────────────────────────
 // Debit or Credit user
 router.post(
   "/users/:userId/credit-debit",
@@ -124,6 +128,14 @@ router.post(
   protect,
   authorize("admin"),
   adminInternationalTransfer,
+);
+
+// Get credit transactions
+router.get(
+  "/transactions/credit",
+  protect,
+  authorize("admin"),
+  adminController.CreditTransactions,
 );
 
 export default router;
