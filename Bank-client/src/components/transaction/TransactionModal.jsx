@@ -14,15 +14,15 @@ export function TransactionModal({ transaction, onClose }) {
         }
 
     if (transaction.type === "withdrawal") {
-      return "Withdrawal";
+      return `${transaction.owner.firstName} ${transaction.owner.lastName}`;
     }
 
     if (transaction.type === "bank_charge") {
-      return "Bank Charge";
+      return `${transaction.owner.firstName} ${transaction.owner.lastName}`;
     }
 
     if (transaction.type === "reversal") {
-      return "Reversal";
+      return `${transaction.owner.firstName} ${transaction.owner.lastName}`;
     }
 
     if (transaction.counterParty) {
