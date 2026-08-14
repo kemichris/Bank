@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { Table } from "../common/Table"
+import { Table } from "../common/Table";
 import { TransactionModal } from "./TransactionModal";
-import {formatMoney} from "../../utils/formatMoney";
+import { formatMoney } from "../../utils/formatMoney";
 const transactionColumns = [
   {
     key: "name",
     label: "Name",
     render: (row) => {
       if (row.type === "deposit") {
-        return "Deposit";
+        return `${row.owner.firstName} ${row.owner.lastName}`;
       }
 
       if (row.type === "withdrawal") {
@@ -63,21 +63,19 @@ const transactionColumns = [
 ];
 
 export function TransactionTable({ transactions }) {
-    const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
 
-    return (
-        <div>
-            <Table
-                columns={transactionColumns}
-                data={transactions}
-                onRowClick={setSelectedTransaction}
-            />
-            <TransactionModal
-                transaction={selectedTransaction}
-                onClose={() => setSelectedTransaction(null)}
-            />
-        </div>
-    )
+  return (
+    <div>
+      <Table
+        columns={transactionColumns}
+        data={transactions}
+        onRowClick={setSelectedTransaction}
+      />
+      <TransactionModal
+        transaction={selectedTransaction}
+        onClose={() => setSelectedTransaction(null)}
+      />
+    </div>
+  );
 }
-
-
