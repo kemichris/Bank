@@ -12,7 +12,7 @@ const transactionColumns = [
       }
 
       if (row.type === "withdrawal") {
-        return "Withdrawal";
+        return `${row.owner.firstName} ${row.owner.lastName}`;
       }
 
       if (row.type === "bank_charge") {
