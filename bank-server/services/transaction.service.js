@@ -687,6 +687,7 @@ export const getTransactionHistory = async (userId) => {
   const transactions = await Transaction.find({
     owner: userId,
   })
+  .populate("owner", " firstName lastName")
     .populate("counterParty", "firstName lastName")
     .populate("counterPartyAccount", "accountNumber")
     .sort({ createdAt: -1 });
