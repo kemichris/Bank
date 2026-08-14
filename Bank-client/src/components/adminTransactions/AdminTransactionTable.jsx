@@ -32,7 +32,7 @@ export function AdminTransactionTable({ transactions, reload }) {
         }
 
         if (row.type === "withdrawal") {
-          return "Withdrawal";
+          return `${row.owner.firstName} ${row.owner.lastName}`;
         }
 
         if (row.type === "bank_charge") {
