@@ -36,11 +36,11 @@ export function AdminTransactionTable({ transactions, reload }) {
         }
 
         if (row.type === "bank_charge") {
-          return "Bank Charge";
+          return `${row.owner.firstName} ${row.owner.lastName}`;
         }
 
         if (row.type === "reversal") {
-          return "Reversal";
+          return `${row.owner.firstName} ${row.owner.lastName}`;
         }
 
         if (row.counterParty) {
