@@ -184,7 +184,7 @@ export const wireTransferPendingMail = async (
         </p>
 
         <p style="margin: 0 0 10px 0;">
-          <strong>Transfer Charge:</strong>
+          <strong>Transfer Charge (0.93%):</strong>
           $${transferCharge.toFixed(2)}
         </p>
 
