@@ -156,10 +156,12 @@ export function UserAction({ user, reload }) {
       const token = res.data.accessToken;
 
       localStorage.setItem("token", token);
-
       localStorage.setItem("role", res.data.user.role);
-
       localStorage.setItem("username", res.data.user.username);
+
+      toast.success("Login successful.", {
+        id: toastId,
+      });
 
       navigate("/dashboard");
     } catch (error) {
@@ -168,6 +170,59 @@ export function UserAction({ user, reload }) {
       });
     }
   };
+
+// const handleLoginAsUser = async () => {
+//   const toastId = toast.loading(`Logging in as ${user.firstName}`);
+
+//   try {
+//     const res = await loginAsUser(user._id);
+
+//     // Only save the admin session once
+//     if (!localStorage.getItem('isImpersonating')) {
+//       localStorage.setItem(
+//         'adminSession',
+//         JSON.stringify({
+//           token: localStorage.getItem('token'),
+//           role: localStorage.getItem('role'),
+//           username: localStorage.getItem('username'),
+//         }),
+//       );
+//     }
+
+//     localStorage.setItem(
+//       'token',
+//       res.data.accessToken
+//     );
+
+//     localStorage.setItem(
+//       'role',
+//       res.data.user.role
+//     );
+
+//     localStorage.setItem(
+//       'username',
+//       res.data.user.username
+//     );
+
+//     localStorage.setItem(
+//       'isImpersonating',
+//       'true'
+//     );
+
+//     toast.success('Login successful.', {
+//       id: toastId,
+//     });
+
+//     navigate('/dashboard');
+//   } catch (error) {
+//     toast.error(
+//       error.response?.data?.message,
+//       {
+//         id: toastId,
+//       },
+//     );
+//   }
+// };
 
   return (
     <div className="mb-4 flex items-center justify-between">
@@ -290,7 +345,7 @@ export function UserAction({ user, reload }) {
 
             <button
               onClick={() => {
-                handleLoginAsUser
+                handleLoginAsUser();
                 closeDropdown();
               }}
               className="block w-full px-4 py-2 text-left text-sm text-text hover:bg-border"
