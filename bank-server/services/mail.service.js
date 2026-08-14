@@ -139,87 +139,104 @@ export const sendPasswordResetMail = async (
     return data;
 };
 
+
 // Send Wire Transfer pending mail
 export const wireTransferPendingMail = async (
-    email,
-    fullName,
-    amount,
-    recipient
+  email,
+  fullName,
+  amount,
+  recipient,
 ) => {
-    const subject = 'Wire Transfer Pending Approval';
+  const transferCharge = amount * 0.0093;
 
-    const html = `
-        <div style="
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-        ">
+  const subject =
+    'Wire Transfer Pending Approval';
 
-            <p>
-                Hi ${fullName},
-            </p>
+  const html = `
+    <div style="
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+    ">
 
-            <p>
-                Your wire transfer of
-                <strong>$${Number(amount).toFixed(2)}</strong>
-                to <strong>${recipient}</strong>
-                has been submitted successfully.
-            </p>
+      <p>
+        Hi ${fullName},
+      </p>
 
-            <div style="
-                background: #f5f5f5;
-                padding: 15px;
-                border-radius: 8px;
-                margin: 20px 0;
-            ">
-                <p style="margin: 0;">
-                    <strong>Status:</strong> Pending Approval
-                </p>
-            </div>
+      <p>
+        Your wire transfer of
+        <strong>$${Number(amount).toFixed(2)}</strong>
+        to <strong>${recipient}</strong>
+        has been submitted successfully.
+      </p>
 
-            <p>
-                Your transfer is currently awaiting approval.
-                You will be contacted with further updates once
-                your transaction has been reviewed.
-            </p>
+      <div style="
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 20px 0;
+      ">
+        <p style="margin: 0 0 10px 0;">
+          <strong>Transfer Amount:</strong>
+          $${Number(amount).toFixed(2)}
+        </p>
 
-            <p>
-                Thank you for trusting
-                <strong>Global Merchant Bank</strong>.
-            </p>
+        <p style="margin: 0 0 10px 0;">
+          <strong>Transfer Charge:</strong>
+          $${transferCharge.toFixed(2)}
+        </p>
 
-            <hr style="
-                border: none;
-                border-top: 1px solid #ddd;
-                margin: 25px 0;
-            ">
+        <p style="margin: 0;">
+          <strong>Status:</strong>
+          Pending Approval
+        </p>
+      </div>
 
-            <p style="
-                font-size: 12px;
-                color: #777;
-            ">
-                This is an automated email. Please do not reply to this message.
-            </p>
+      <p>
+        Your transfer is currently awaiting approval.
+        You will be contacted with further updates once
+        your  transfer charge has been payed and your transaction has been reviewed.
+      </p>
 
-        </div>
-    `;
+      <p>
+        Thank you for trusting
+        <strong>Global Merchant Bank</strong>.
+      </p>
 
-    const { data, error } = await resend.emails.send({
-        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
-        to: email,
-        subject,
-        html
+      <hr style="
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 25px 0;
+      ">
+
+      <p style="
+        font-size: 12px;
+        color: #777;
+      ">
+        This is an automated email.
+        Please do not reply to this message.
+      </p>
+
+    </div>
+  `;
+
+  const { data, error } =
+    await resend.emails.send({
+      from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+      to: email,
+      subject,
+      html,
     });
 
-    if (error) {
-        throw new Error(
-            `Failed to send wire transfer email: ${error.message}`
-        );
-    }
+  if (error) {
+    throw new Error(
+      `Failed to send wire transfer email: ${error.message}`,
+    );
+  }
 
-    return data;
+  return data;
 };
 
 // local transfer sent mail
