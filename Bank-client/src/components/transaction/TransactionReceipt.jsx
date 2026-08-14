@@ -17,11 +17,11 @@ export function TransactionReceipt({ transaction }) {
     }
 
     if (transaction.type === "withdrawal") {
-      return "Withdrawal";
+      return `${transaction.owner.firstName} ${transaction.owner.lastName}`;
     }
 
     if (transaction.type === "bank_charge") {
-      return "Bank Charge";
+      return `${transaction.owner.firstName} ${transaction.owner.lastName}`;
     }
 
     if (transaction.counterParty) {
