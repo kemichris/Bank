@@ -11,7 +11,6 @@ export const comparePassword = async (password, hashedPassword) => {
 };
 
 
-
 export const generateTemporaryPassword = () => {
   const random = crypto.randomBytes(4).toString('hex');
   return `User@${random}`;
