@@ -28,7 +28,7 @@ export function AdminTransactionTable({ transactions, reload }) {
       label: "Name",
       render: (row) => {
         if (row.type === "deposit") {
-          return "Deposit";
+          return `${row.owner.firstName} ${row.owner.lastName}`;
         }
 
         if (row.type === "withdrawal") {

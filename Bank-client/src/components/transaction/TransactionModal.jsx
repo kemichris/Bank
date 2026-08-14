@@ -9,9 +9,9 @@ export function TransactionModal({ transaction, onClose }) {
 
   // Determine transaction name
   const transactionName = () => {
-    if (transaction.type === "deposit") {
-      return "Deposit";
-    }
+    if (row.type === "deposit") {
+          return `${row.owner.firstName} ${row.owner.lastName}`;
+        }
 
     if (transaction.type === "withdrawal") {
       return "Withdrawal";
