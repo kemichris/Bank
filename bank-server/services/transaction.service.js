@@ -694,23 +694,117 @@ export const getTransactionHistory = async (userId) => {
   return transactions;
 };
 
+// Confirm Transaction 
+export const confirmTransaction = async (transactionId) => {
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    const transaction = await Transaction.findById(transactionId).session(
+      session
+    );
+
+    if (!transaction) {
+      throw new ApiError(404, "Transaction not found.");
+    }
+
+    if (transaction.status !== "pending") {
+      throw new ApiError(
+        400,
+        "Only pending transactions can be confirmed."
+      );
+    }
+
+    if (transaction.direction === "credit") {
+      const account = await Account.findById(
+        transaction.ownerAccount
+      ).session(session);
+
+      if (!account) {
+        throw new ApiError(404, "Account not found.");
+      }
+
+      if (account.status !== "active") {
+        throw new ApiError(400, "Account is not active.");
+      }
+
+      account.balance += transaction.amount;
+
+      await account.save({ session });
+    }
+
+    transaction.status = "completed";
+
+    await transaction.save({ session });
+
+    await session.commitTransaction();
+
+    return transaction;
+  } catch (error) {
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
+
+    throw error;
+  } finally {
+    await session.endSession();
+  }
+};
+
 // Reject transaction
 export const rejectTransaction = async (transactionId) => {
-  const transaction = await Transaction.findById(transactionId);
+  const session = await mongoose.startSession();
 
-  if (!transaction) {
-    throw new ApiError(404, "Transaction not found.");
+  try {
+    session.startTransaction();
+
+    const transaction = await Transaction.findById(transactionId).session(
+      session
+    );
+
+    if (!transaction) {
+      throw new ApiError(404, 'Transaction not found.');
+    }
+
+    if (transaction.status !== 'pending') {
+      throw new ApiError(
+        400,
+        'Only pending transactions can be rejected.'
+      );
+    }
+
+    // Only refund debits
+    if (transaction.direction === 'debit') {
+      const account = await Account.findById(
+        transaction.ownerAccount
+      ).session(session);
+
+      if (!account) {
+        throw new ApiError(404, 'Account not found.');
+      }
+
+      account.balance += transaction.amount;
+
+      await account.save({ session });
+    }
+
+    transaction.status = 'rejected';
+
+    await transaction.save({ session });
+
+    await session.commitTransaction();
+
+    return transaction;
+  } catch (error) {
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
+
+    throw error;
+  } finally {
+    await session.endSession();
   }
-
-  if (transaction.status !== "pending") {
-    throw new ApiError(400, "Only pending transactions can be rejected.");
-  }
-
-  transaction.status = "rejected";
-
-  await transaction.save();
-
-  return transaction;
 };
 
 // Delete Transaction

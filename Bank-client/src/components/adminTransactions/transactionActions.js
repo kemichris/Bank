@@ -1,6 +1,9 @@
 import toast from "react-hot-toast";
 
-import { rejectTransaction } from "../../services/transaction.service";
+import {
+  rejectTransaction,
+  deleteTransaction,
+} from "../../services/transaction.service";
 
 export const handleConfirm = async (transaction) => {
   try {
@@ -16,14 +19,17 @@ export const handleConfirm = async (transaction) => {
   }
 };
 
-export const handleReject = async (transaction, setLoading, setShowModal, reload) => {
+export const handleReject = async (
+  transaction,
+  setLoading,
+  setShowModal,
+  reload,
+) => {
   setLoading(true);
   try {
-    console.log("Reject:", transaction);
-
     const res = await rejectTransaction(transaction._id);
 
-    await reload()
+    await reload();
 
     toast.success(res.message);
 
@@ -35,20 +41,27 @@ export const handleReject = async (transaction, setLoading, setShowModal, reload
       error.response?.data?.message || "Failed to reject transaction.",
     );
   } finally {
-    setLoading(false)
+    setLoading(false);
   }
 };
 
-export const handleDelete = async (transaction) => {
+export const handleDelete = async (
+  transaction,
+  setLoading,
+  setShowModal,
+  reload,
+) => {
+  setLoading(true);
   try {
-    console.log("Delete:", transaction);
-
-    // await deleteTransaction(transaction._id);
-
+    await deleteTransaction(transaction._id);
+    await reload();
     toast.success("Transaction deleted.");
+    setShowModal(false);
   } catch (error) {
     console.error(error);
 
     toast.error("Failed to delete transaction.");
+  } finally {
+    setLoading(false);
   }
 };

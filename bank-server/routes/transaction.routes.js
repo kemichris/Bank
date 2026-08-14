@@ -16,6 +16,7 @@ import {
   getTransactionHistory,
   rejectTransaction,
   deleteTransaction,
+  confirmTransaction,
 } from "../controllers/transaction.controller.js";
 
 const router = express.Router();
@@ -60,6 +61,14 @@ router.patch(
 
 // Get transaction history
 router.get("/history", protect, authorize("user"), getTransactionHistory);
+
+// Approve Transaction
+router.patch(
+  "/:transactionId/confirm",
+  protect,
+  authorize("admin"),
+  confirmTransaction,
+);
 
 // Reject Transaction
 router.patch(

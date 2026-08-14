@@ -47,3 +47,9 @@ export const rejectTransaction = async (transactionId) => {
 
     return data
 }
+
+export const deleteTransaction = async (transactionId) => {
+    const {data} = await api.delete(`/transaction/${transactionId}`);
+
+    return data
+}

@@ -157,6 +157,23 @@ export const getTransactionHistory = async (req, res, next) => {
   }
 };
 
+// approve transaction
+export const confirmTransaction = async (req, res, next) => {
+  try {
+    const { transactionId } = req.params;
+
+    const transaction = await transactionService.confirmTransaction(transactionId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Transaction Approved successfully.",
+      data: transaction
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 // Reject Trasaction
 export const rejectTransaction = async (req, res, next) => {
