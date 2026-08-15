@@ -1,12 +1,12 @@
 import {
   FaHome,
   FaChartLine,
-  FaCreditCard,
+  // FaCreditCard,
   FaUserAlt,
-  FaUniversity,
-  FaFileInvoice,
-  FaHeadset,
-  FaEnvelope
+  // FaUniversity,
+  // FaFileInvoice,
+  // FaHeadset,
+  // FaEnvelope
 } from 'react-icons/fa';
 
 import { LuSettings2 } from "react-icons/lu";
@@ -25,11 +25,11 @@ export const adminSidebarData = [
         icon: FaUserAlt,
         path: '/admin/manage-users'
       },
-      {
-        name: 'Cards Services',
-        icon: FaCreditCard,
-        path: '/dashboard/card'
-      }
+      // {
+      //   name: 'Cards Services',
+      //   icon: FaCreditCard,
+      //   path: '/dashboard/card'
+      // }
     ]
   },
   {
@@ -49,26 +49,26 @@ export const adminSidebarData = [
 
   },
 
-  {
-    title: 'SERVICES',
-    links: [
-      {
-        name: 'Loans',
-        icon: FaUniversity,
-        path: '/dashboard/loan'
-      },
-      {
-        name: 'Tax Refund',
-        icon: FaFileInvoice,
-        path: '/dashboard/tax-refund'
-      },
-      // {
-      //   name: 'Grants',
-      //   icon: FaHandHoldingUsd,
-      //   path: '/dashboard/grants'
-      // }
-    ]
-  },
+  // {
+  //   title: 'SERVICES',
+  //   links: [
+  //     {
+  //       name: 'Loans',
+  //       icon: FaUniversity,
+  //       path: '/dashboard/loan'
+  //     },
+  //     {
+  //       name: 'Tax Refund',
+  //       icon: FaFileInvoice,
+  //       path: '/dashboard/tax-refund'
+  //     },
+  //     // {
+  //     //   name: 'Grants',
+  //     //   icon: FaHandHoldingUsd,
+  //     //   path: '/dashboard/grants'
+  //     // }
+  //   ]
+  // },
   {
     title: 'SETTING',
     links: [
@@ -80,19 +80,14 @@ export const adminSidebarData = [
     ]
   },
 
-  {
-    title: 'Email',
-    links: [
-      {
-        name: 'Send Mail',
-        icon: FaEnvelope,
-        path: '/dashboard/settings'
-      },
-      {
-        name: 'Support',
-        icon: FaHeadset,
-        path: '/dashboard/support'
-      }
-    ]
-  }
+  // {
+  //   title: 'Email',
+  //   links: [
+  //     {
+  //       name: 'Send Mail',
+  //       icon: FaEnvelope,
+  //       path: '/dashboard/settings'
+  //     }
+  //   ]
+  // }
 ];

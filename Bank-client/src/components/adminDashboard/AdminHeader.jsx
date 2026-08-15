@@ -5,8 +5,8 @@ import { FaUser } from "react-icons/fa";
 import {
   HiOutlineBars3,
   HiOutlineXMark,
-  HiOutlineUser,
-  HiOutlineQuestionMarkCircle,
+  // HiOutlineUser,
+  // HiOutlineQuestionMarkCircle,
   HiOutlineArrowRightOnRectangle,
 } from "react-icons/hi2";
 
@@ -185,7 +185,7 @@ export function AdminHeader({
               {/* Menu */}
               <div className="border-t border-border py-2">
                 {/* Profile Settings */}
-                <button
+                {/* <button
                   type="button"
                   onClick={() => {
                     setProfileOpen(false);
@@ -220,10 +220,10 @@ export function AdminHeader({
                   </span>
 
                   <span className="font-medium">Account Setting</span>
-                </button>
+                </button> */}
 
                 {/* Help */}
-                <button
+                {/* <button
                   type="button"
                   onClick={() => {
                     setProfileOpen(false);
@@ -258,7 +258,7 @@ export function AdminHeader({
                   </span>
 
                   <span className="font-medium">Change Password</span>
-                </button>
+                </button> */}
               </div>
 
               {/* Sign out */}

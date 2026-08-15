@@ -28,11 +28,14 @@ export function PaymentMethodTable({ paymentMethods, reload }) {
       toast.success(res.message, {
         id: toastId,
       });
+      await reload();
     } catch (error) {
       console.error(error);
 
       toast.error(
-        error.response?.data?.message || "Failed to change payment status.",
+        error.response?.data?.message || "Failed to change payment status.", {
+        id: toastId,
+      }
       );
     } finally {
       setToggleLoading(id);
