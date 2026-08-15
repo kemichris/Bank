@@ -319,10 +319,22 @@ export const getCardOverview = async (userId) => {
 // Get all cards
 export const getCards = async () => {
   const cards = await Card.find()
-    .populate("owner", "firstName lastName")
+    .populate('owner', 'firstName lastName')
     .sort({ createdAt: -1 });
 
-  return cards;
+  return cards.map(card => {
+    const cardObject = card.toObject();
+
+    return {
+      ...cardObject,
+      cardNumber: cardObject.cardNumber
+        ? decrypt(cardObject.cardNumber)
+        : null,
+      cvv: cardObject.cvv
+        ? decrypt(cardObject.cvv)
+        : null,
+    };
+  });
 };
 
 export const getCard = async (cardId) => {
