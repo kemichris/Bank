@@ -111,9 +111,10 @@ export function CardsTable({ cards, reload }) {
               setModalMessage(
                 "Are you sure you want to delete this card? This action cannot be undone.",
               );
-
-              (handleDelete(row, setLoading, setShowModal, reload),
-                setShowModal(true));
+              setModalAction(
+                () => () => handleDelete(row, setLoading, setShowModal, reload),
+              );
+              setShowModal(true);
             }}
             className="rounded-lg bg-red-500 p-2 text-white"
           >
