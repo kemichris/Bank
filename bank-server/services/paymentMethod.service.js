@@ -30,14 +30,14 @@ export const createPaymentMethod = async (
   let qrCode = '';
 
   if (qrCodeFile) {
-    const uploadedImage =
-      await uploadImage(
-        qrCodeFile.path,
-        'neon/payment-methods',
-      );
+  const uploadedImage =
+    await uploadImage(
+      qrCodeFile.buffer,
+      'neon/payment-methods',
+    );
 
-    qrCode = uploadedImage.secure_url;
-  }
+  qrCode = uploadedImage.secure_url;
+}
 
   const paymentMethod =
     await PaymentMethod.create({
