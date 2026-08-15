@@ -17,8 +17,14 @@ export const deposit = async (formData) => {
   return data;
 };
 
+export const togglePaymentStatus = async (methodId) => {
+    const {data} = await api.patch(`/payment-method/${methodId}/toggle`)
+
+    return data
+}
+
 export const deletePaymentMethod = async (methodId) => {
-  const { data } = await api.delete(`/transaction/${methodId}`);
+  const { data } = await api.delete(`/payment-method/${methodId}`);
   return data;
 };
 

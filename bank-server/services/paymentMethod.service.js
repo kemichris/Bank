@@ -67,3 +67,21 @@ export const deletePaymentMethod = async (methodId) => {
 
   return true;
 }
+
+// Toggle Payment Method Status
+export const togglePaymentMethodStatus = async (methodId) => {
+    const paymentMethod = await PaymentMethod.findById(methodId);
+
+    if (!paymentMethod) {
+    throw new ApiError(404, "Payment method not found.");
+  }
+
+    // Toggle status
+    paymentMethod.status = paymentMethod.status === "enabled" ? "disabled" : "enabled";
+
+    await paymentMethod.save();
+
+    return paymentMethod
+
+  
+};

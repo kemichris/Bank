@@ -13,21 +13,28 @@ router.post(
   protect,
   authorize("admin"),
   upload.single("qrCode"),
-  paymentMethodController.createPaymentMethod,
+  paymentMethodController.createPaymentMethod
 );
 
 router.get(
   "/",
   protect,
   authorize("user", "admin"),
-  paymentMethodController.getPaymentMethods,
+  paymentMethodController.getPaymentMethods
+);
+
+router.patch(
+  "/:methodId/toggle",
+  protect,
+  authorize("admin"),
+  paymentMethodController.togglePaymentMethodStatus
 );
 
 router.delete(
   "/:methodId",
   protect,
   authorize("admin"),
-  paymentMethodController.deletePaymentMethod,
+  paymentMethodController.deletePaymentMethod
 );
 
 export default router;
