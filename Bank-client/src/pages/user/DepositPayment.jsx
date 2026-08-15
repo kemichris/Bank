@@ -19,9 +19,9 @@ export function DepositPayment() {
                 cardHeader='Make Deposit'
                 headerDetail='Complete your payment securely'
                 headerIcon={<FaPiggyBank />}
-                to='/dashboard'
+                to='/dashboard/deposit'
                 linkIcon={<FaArrowLeft />}
-                linkText='Back to Dashboard'
+                linkText='Back'
             />
 
             <DepositPaymentForm

@@ -38,6 +38,8 @@ export function DepositForm({paymentMethods =[]}) {
             method => method._id === formData.paymentMethod
         );
 
+        console.log(selectedMethod);
+
         if (!selectedMethod) {
             toast.error('Selected payment method was not found.');
             return;
