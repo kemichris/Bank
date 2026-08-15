@@ -1,19 +1,26 @@
-import express from 'express'
-import {protect, authorize} from '../middlewares/auth.middleware.js';
+import express from "express";
+import { protect, authorize } from "../middlewares/auth.middleware.js";
 
-import { upload } from '../middlewares/upload.middleware.js';
+import { upload } from "../middlewares/upload.middleware.js";
 
-import { createPaymentMethod } from '../controllers/paymentMethod.controller.js';
+import * as paymentMethodController from "../controllers/paymentMethod.controller.js";
 
-const router = express.Router()
+const router = express.Router();
 
 // create payment method
 router.post(
-    '/create',
-    protect,
-    authorize('admin'),
-    upload.single('qrCode'),
-    createPaymentMethod
+  "/create",
+  protect,
+  authorize("admin"),
+  upload.single("qrCode"),
+  paymentMethodController.createPaymentMethod,
 );
 
-export default router
+router.get(
+  "/",
+  protect,
+  authorize("user", "admin"),
+  paymentMethodController.getPaymentMethods,
+);
+
+export default router;
