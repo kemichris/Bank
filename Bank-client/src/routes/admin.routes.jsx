@@ -7,6 +7,7 @@ import { ManageCredits } from "../pages/admin/ManageCredits";
 import { ManageDebits } from "../pages/admin/ManageDebits";
 import { PaymentSetting } from "../pages/admin/PaymentSetting";
 import { AddPaymentMethod } from "../pages/admin/AddPaymentMethod";
+import { EditPaymentMethod } from "../pages/admin/EditPaymentMethod";
 
 export const adminRoutes = [
   {
@@ -39,6 +40,10 @@ export const adminRoutes = [
       {
         path: "/admin/settings/payment/add",
         element: <AddPaymentMethod /> ,
+      },
+      {
+        path: "/admin/settings/payment/edit/:id",
+        element: <EditPaymentMethod /> ,
       },
     ],
   },

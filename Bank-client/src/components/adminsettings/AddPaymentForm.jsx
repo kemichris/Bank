@@ -2,36 +2,37 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import { addPaymentMethod } from "../../services/paymentSetting.service";
+import {
+  addPaymentMethod,
+  updatePaymentMethod,
+} from "../../services/paymentSetting.service";
 
-export function AddPaymentForm() {
-  const navigate = useNavigate()
+export function AddPaymentForm({ initialData = null }) {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    type: "",
-    name: "",
-    network: "",
-    paymentAddress: "",
-    accountName: "",
-    bankName: "",
-    swiftCode: "",
-    icon: "",
+    type: initialData?.type || "",
+    name: initialData?.name || "",
+    network: initialData?.network || "",
+    paymentAddress: initialData?.paymentAddress || "",
+    accountName: initialData?.accountName || "",
+    bankName: initialData?.bankName || "",
+    swiftCode: initialData?.swiftCode || "",
+    icon: initialData?.icon || "",
     qrCode: null,
-    instructions: "",
-    status: "enabled",
+    instructions: initialData?.instructions || "",
+    status: initialData?.status || "enabled",
   });
 
- const handleChange = (e) => {
-  const { name, value, files } = e.target;
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
 
-  setFormData((prev) => ({
-    ...prev,
-    [name]: files?.length
-      ? files[0]
-      : value,
-  }));
-};
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files?.length ? files[0] : value,
+    }));
+  };
 
   const resetForm = () => {
     setFormData({
@@ -49,41 +50,46 @@ export function AddPaymentForm() {
     });
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    const payload = new FormData();
+    try {
+      const payload = new FormData();
 
-    Object.entries(formData).forEach(
-      ([key, value]) => {
+      Object.entries(formData).forEach(([key, value]) => {
         if (value !== null && value !== "") {
           payload.append(key, value);
         }
-      },
-    );
+      });
 
-    const res = await addPaymentMethod(payload);
+      let res;
 
-    toast.success(res.message);
+      if (initialData) {
+        res = await updatePaymentMethod(initialData._id, payload);
+      } else {
+        res = await addPaymentMethod(payload);
+      }
 
-    resetForm();
-    setTimeout(()=> {
-        navigate('/admin/settings/payment')
-      }, 1500)
-  } catch (error) {
-    console.error(error);
+      toast.success(res.message);
 
-    toast.error(
-      error.response?.data?.message ||
-        "Failed to create payment method.",
-    );
-  } finally {
-    setLoading(false);
-  }
-};
+      resetForm();
+
+      setTimeout(() => {
+        navigate("/admin/settings/payment");
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        error.response?.data?.message ||
+          `Failed to ${initialData ? "update" : "create"} payment method.`,
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const isCrypto = formData.type === "crypto";
 
@@ -190,14 +196,20 @@ export function AddPaymentForm() {
       )}
 
       {isOthers && (
-        <input
-          type="text"
-          name="paymentAddress"
-          value={formData.paymentAddress}
-          onChange={handleChange}
-          placeholder="Payment address"
-          className="w-full rounded-lg border border-border bg-transparent px-4 py-3 text-text"
-        />
+        <>
+          <input
+            type="text"
+            name="paymentAddress"
+            value={formData.paymentAddress}
+            onChange={handleChange}
+            placeholder="Payment address"
+            className="w-full rounded-lg border border-border bg-transparent px-4 py-3 text-text"
+          />
+
+          <span className="block text-sm text-text-muted">
+            This can either be an email address, phone number, or a tag.
+          </span>
+        </>
       )}
 
       <input
@@ -234,7 +246,13 @@ export function AddPaymentForm() {
         disabled={loading || !formData.type || !formData.name}
         className="rounded-lg bg-primary px-6 py-3 text-white disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {loading ? "Creating..." : "Create Payment Method"}
+        {loading
+          ? initialData
+            ? "Updating..."
+            : "Creating..."
+          : initialData
+            ? "Update Payment Method"
+            : "Create Payment Method"}
       </button>
     </form>
   );

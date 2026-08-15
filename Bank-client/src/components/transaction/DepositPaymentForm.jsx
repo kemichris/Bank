@@ -137,24 +137,7 @@ export function DepositPaymentForm({ paymentMethod, amount }) {
         </div>
       </div>
 
-      {/* Instructions */}
-
-      <div className="mb-6 rounded-2xl border border-blue-500/40 bg-blue-500/10 px-5 py-5">
-        <div className="flex gap-4">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-blue-400">
-            <span className="text-sm font-bold">i</span>
-          </div>
-
-          <div>
-            <h2 className="font-semibold text-text">Payment Instructions</h2>
-
-            <p className="mt-1 text-sm leading-6 text-text-muted">
-              {paymentMethod.instructions ||
-                `You are to make payment of $${Number(amount).toLocaleString()} using your selected payment method. Screenshot and upload the proof of payment.`}
-            </p>
-          </div>
-        </div>
-      </div>
+      
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Payment Details */}
@@ -317,6 +300,25 @@ export function DepositPaymentForm({ paymentMethod, amount }) {
             {loading ? "Submitting..." : "Submit Payment Proof"}
           </button>
         </form>
+      </div>
+
+      {/* Instructions */}
+
+      <div className="my-6 rounded-2xl border border-blue-500/40 bg-blue-500/10 px-3 py-3">
+        <div className="flex gap-4 items-center">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-blue-400">
+            <span className="text-sm font-bold">i</span>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-text text-lg">Payment Instructions</h3>
+
+            <p className="mt-1 text-sm leading-6 text-text-muted">
+              {paymentMethod.instructions ||
+                `You are to make payment of $${Number(amount).toLocaleString()} using your selected payment method. Screenshot and upload the proof of payment.`}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

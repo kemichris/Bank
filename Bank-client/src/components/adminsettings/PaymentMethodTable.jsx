@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import { FaPlus, FaPen, FaTrash } from "react-icons/fa";
@@ -12,6 +13,7 @@ import {
 } from "../../services/paymentSetting.service";
 
 export function PaymentMethodTable({ paymentMethods, reload }) {
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalAction, setModalAction] = useState(null);
@@ -33,9 +35,10 @@ export function PaymentMethodTable({ paymentMethods, reload }) {
       console.error(error);
 
       toast.error(
-        error.response?.data?.message || "Failed to change payment status.", {
-        id: toastId,
-      }
+        error.response?.data?.message || "Failed to change payment status.",
+        {
+          id: toastId,
+        },
       );
     } finally {
       setToggleLoading(id);
@@ -87,6 +90,11 @@ export function PaymentMethodTable({ paymentMethods, reload }) {
         <div className="flex items-center justify-between gap-2">
           <button
             type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+
+              navigate(`/admin/settings/payment/edit/${row._id}`);
+            }}
             className="rounded-lg bg-primary-1 p-2 text-white"
           >
             <FaPen />
