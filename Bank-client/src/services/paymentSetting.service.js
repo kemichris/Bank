@@ -12,8 +12,13 @@ export const getPaymentMethods = async () => {
 };
 
 // Create deposit
-
 export const deposit = async (formData) => {
   const { data } = await api.post("/transaction/deposit", formData);
   return data;
 };
+
+export const deletePaymentMethod = async (methodId) => {
+  const { data } = await api.delete(`/transaction/${methodId}`);
+  return data;
+};
+

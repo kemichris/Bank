@@ -57,3 +57,13 @@ export const getPaymentMethods = async () => {
 
   return paymentMethods;
 };
+
+// Delete payment method
+export const deletePaymentMethod = async (methodId) => {
+    const paymentMethod = await PaymentMethod.findByIdAndDelete(methodId)
+  if (!paymentMethod) {
+    throw new ApiError(404, "Payment method not found.");
+  }
+
+  return true;
+}

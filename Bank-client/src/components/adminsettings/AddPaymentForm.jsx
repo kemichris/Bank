@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { addPaymentMethod } from "../../services/paymentSetting.service";
 
 export function AddPaymentForm() {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -68,6 +70,9 @@ export function AddPaymentForm() {
     toast.success(res.message);
 
     resetForm();
+    setTimeout(()=> {
+        navigate('/admin/settings/payment')
+      }, 1500)
   } catch (error) {
     console.error(error);
 

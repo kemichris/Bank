@@ -31,3 +31,15 @@ export const getPaymentMethods = async (req, res, next) => {
     next(error)
   }
 };
+
+
+// Delete payment method
+export const deletePaymentMethod = async (req, res, next) => {
+    try {
+        const {methodId} = req.params;
+        await paymentMethodService.deletePaymentMethod(methodId)
+        return res.sendStatus(204);
+    } catch (error) {
+        next(error)
+    }
+}

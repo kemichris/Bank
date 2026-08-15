@@ -23,4 +23,11 @@ router.get(
   paymentMethodController.getPaymentMethods,
 );
 
+router.delete(
+  "/:methodId",
+  protect,
+  authorize("admin"),
+  paymentMethodController.deletePaymentMethod,
+);
+
 export default router;
