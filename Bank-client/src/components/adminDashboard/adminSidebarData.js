@@ -1,7 +1,7 @@
 import {
   FaHome,
   FaChartLine,
-  // FaCreditCard,
+  FaCreditCard,
   FaUserAlt,
   // FaUniversity,
   // FaFileInvoice,
@@ -25,11 +25,11 @@ export const adminSidebarData = [
         icon: FaUserAlt,
         path: '/admin/manage-users'
       },
-      // {
-      //   name: 'Cards Services',
-      //   icon: FaCreditCard,
-      //   path: '/dashboard/card'
-      // }
+      {
+        name: 'Cards Services',
+        icon: FaCreditCard,
+        path: '/admin/cards'
+      }
     ]
   },
   {
@@ -86,7 +86,7 @@ export const adminSidebarData = [
   //     {
   //       name: 'Send Mail',
   //       icon: FaEnvelope,
-  //       path: '/dashboard/settings'
+  //       path: '/admin/email'
   //     }
   //   ]
   // }
