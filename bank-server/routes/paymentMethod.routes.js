@@ -32,7 +32,7 @@ router.get(
   paymentMethodController.getPaymentMethod,
 );
 
-router.put(
+router.patch(
   "/:id",
   protect,
   authorize("admin"),
