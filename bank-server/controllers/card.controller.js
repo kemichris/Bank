@@ -1,6 +1,36 @@
 
 import * as cardService from '../services/card.service.js'
 
+
+// get all cards 
+export const getCards = async (req, res, next) => {
+    try {
+        const cards = await cardService.getCards()
+        return res.status(200).json({
+            success:true,
+            message: ' cards retrieved successfully',
+            data: cards 
+        })
+    } catch (error) {
+        
+    }
+}
+
+export const getCard = async (req, res, next) => {
+    try {
+        const {cardId} = req.params
+        const card = await cardService.getCard(cardId)
+        return res.status(200).json({
+            success:true,
+            message: ' card retrieved successfully',
+            data: card
+        })
+    } catch (error) {
+        
+    }
+}
+
+
 // Card request
 export const cardRequest = async (req, res, next) => {
     try {
