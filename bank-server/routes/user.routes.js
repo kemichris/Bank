@@ -28,7 +28,7 @@ router.put(
 router.put(
   "/change-password",
   protect,
-  authorize("user"),
+  authorize("user", "admin"),
   validate(changePasswordSchema),
   changePassword,
 );
