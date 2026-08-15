@@ -8,6 +8,7 @@ import { ManageDebits } from "../pages/admin/ManageDebits";
 import { PaymentSetting } from "../pages/admin/PaymentSetting";
 import { AddPaymentMethod } from "../pages/admin/AddPaymentMethod";
 import { EditPaymentMethod } from "../pages/admin/EditPaymentMethod";
+import { CardsService } from "../pages/admin/CardsService";
 
 export const adminRoutes = [
   {
@@ -24,6 +25,10 @@ export const adminRoutes = [
       {
         path: "/admin/manage-users/:userId",
         element: <UserDetails />,
+      },
+      {
+        path: "/admin/cards",
+        element: <CardsService />,
       },
       {
         path: "/admin/transactions/credits",

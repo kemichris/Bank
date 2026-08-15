@@ -15,9 +15,11 @@ router.post('/request', protect, authorize('user'), validate(cardRequestSchema),
 router.get('/', protect, authorize('admin'), cardController.getCards);
 router.get('/:cardId', protect, authorize('admin'), cardController.getCard);
 
-
 // approve card request
 router.patch('/approve/:id', protect, authorize('admin', 'manager', 'superadmin'), cardController.approveCardRequest);
+
+// reject card request
+router.patch('/reject/:id', protect, authorize('admin', 'manager', 'superadmin'), cardController.rejectCardRequest);
 
 // block card
 router.patch('/block/:id', protect, authorize('user', 'admin', 'manager', 'superadmin'), cardController.blockCard);
@@ -30,5 +32,8 @@ router.patch('/cancel/:id', protect, authorize('user', 'admin', 'manager', 'supe
 
 // Get active card 
 router.get('/overview', protect, authorize('user'), cardController.getCardOverview )
+
+// delete card
+router.delete('/:id', protect, authorize('admin'), cardController.deleteCard);
 
 export default router;

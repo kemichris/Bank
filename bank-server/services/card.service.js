@@ -137,6 +137,31 @@ export const approveCardRequest = async (cardId) => {
   }
 };
 
+// Reject card request
+export const rejectCardRequest = async (cardId) => {
+  const card = await Card.findById(cardId);
+
+  if (!card) {
+    throw new ApiError(404, "Card not found.");
+  }
+
+  if (card.status !== "pending") {
+    throw new ApiError(400, "Only pending card requests can be rejected.");
+  }
+
+  card.status = "rejected";
+
+  await card.save();
+
+  return {
+    cardId: card._id,
+    owner: card.owner,
+    brand: card.brand,
+    status: card.status,
+  };
+};
+
+
 // ─── BLOCK CARD ────────────────────────────────────────────────
 export const blockCard = async (cardId, currentUser) => {
   const card = await Card.findById(cardId);
@@ -319,20 +344,16 @@ export const getCardOverview = async (userId) => {
 // Get all cards
 export const getCards = async () => {
   const cards = await Card.find()
-    .populate('owner', 'firstName lastName')
+    .populate("owner", "firstName lastName")
     .sort({ createdAt: -1 });
 
-  return cards.map(card => {
+  return cards.map((card) => {
     const cardObject = card.toObject();
 
     return {
       ...cardObject,
-      cardNumber: cardObject.cardNumber
-        ? decrypt(cardObject.cardNumber)
-        : null,
-      cvv: cardObject.cvv
-        ? decrypt(cardObject.cvv)
-        : null,
+      cardNumber: cardObject.cardNumber ? decrypt(cardObject.cardNumber) : null,
+      cvv: cardObject.cvv ? decrypt(cardObject.cvv) : null,
     };
   });
 };
@@ -348,4 +369,17 @@ export const getCard = async (cardId) => {
   }
 
   return card;
+};
+
+// Delete card 
+export const deleteCard = async (cardId) => {
+  const card = await Card.findById(cardId);
+
+  if (!card) {
+    throw new ApiError(404, "Card not found.");
+  }
+
+  await Card.findByIdAndDelete(cardId);
+
+  return true
 };

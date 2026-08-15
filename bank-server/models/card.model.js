@@ -83,7 +83,8 @@ const cardSchema = new mongoose.Schema(
                 'active',
                 'blocked',
                 'expired',
-                'cancelled'
+                'cancelled',
+                'rejected'
             ],
             default: 'pending'
         },

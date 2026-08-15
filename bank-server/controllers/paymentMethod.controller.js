@@ -77,6 +77,8 @@ export const deletePaymentMethod = async (req, res, next) => {
     next(error);
   }
 };
+
+
 export const togglePaymentMethodStatus = async (req, res, next) => {
   try {
     const { methodId } = req.params;
