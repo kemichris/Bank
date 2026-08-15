@@ -1,12 +1,19 @@
-import api from '../utils/axios';
+import api from "../utils/axios";
 
 export const addPaymentMethod = async (formData) => {
-    const {data} = await api.post('/payment-method/create', formData)
-    return data
-}
+  const { data } = await api.post("/payment-method/create", formData);
+  return data;
+};
 
-// Get payment methods 
+// Get payment methods
 export const getPaymentMethods = async () => {
-    const {data} = await api.get('/payment-method')
-    return data
-}
+  const { data } = await api.get("/payment-method");
+  return data;
+};
+
+// Create deposit
+
+export const deposit = async (formData) => {
+  const { data } = await api.post("/transaction/deposit", formData);
+  return data;
+};
