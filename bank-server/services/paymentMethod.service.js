@@ -1,40 +1,58 @@
 import PaymentMethod from '../models/paymentMethod.model.js';
 import { uploadImage } from '../utils/cloudinary.utils.js';
 
+import ApiError from '../utils/ApiError.js';
+
 export const createPaymentMethod = async (
-    paymentMethodData,
-    qrCodeFile
+  paymentData,
+  qrCodeFile,
 ) => {
+  const {
+    name,
+    network,
+    type,
+    paymentAddress,
+    accountName,
+    bankName,
+    swiftCode,
+    icon,
+    instructions,
+    status,
+  } = paymentData;
 
-    let qrCode = '';
+  if (!name || !type) {
+    throw new ApiError(
+      400,
+      'Payment method name and type are required.',
+    );
+  }
 
-    // Upload QR code if one was provided
-    if (qrCodeFile) {
-        const uploadedQR = await uploadImage(
-            qrCodeFile.path
-        );
+  let qrCode = '';
 
-        qrCode = uploadedQR.secure_url;
-    }
+  if (qrCodeFile) {
+    const uploadedImage =
+      await uploadImage(
+        qrCodeFile.path,
+        'neon/payment-methods',
+      );
 
-    const paymentMethod = await PaymentMethod.create({
-        ...paymentMethodData,
-        qrCode
+    qrCode = uploadedImage.secure_url;
+  }
+
+  const paymentMethod =
+    await PaymentMethod.create({
+      name,
+      network,
+      type,
+      paymentAddress,
+      accountName,
+      bankName,
+      swiftCode,
+      icon,
+      qrCode,
+      instructions,
+      status,
     });
 
-    return {
-        id: paymentMethod._id,
-        name: paymentMethod.name,
-        network: paymentMethod.network,
-        type: paymentMethod.type,
-        walletAddress: paymentMethod.walletAddress,
-        accountNumber: paymentMethod.accountNumber,
-        accountName: paymentMethod.accountName,
-        bankName: paymentMethod.bankName,
-        swiftCode: paymentMethod.swiftCode,
-        icon: paymentMethod.icon,
-        qrCode: paymentMethod.qrCode,
-        status: paymentMethod.status,
-        instructions: paymentMethod.instructions
-    };
+  return paymentMethod;
 };

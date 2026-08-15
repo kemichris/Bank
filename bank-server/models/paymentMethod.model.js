@@ -1,81 +1,69 @@
 import mongoose from "mongoose";
 
 const paymentMethodSchema = new mongoose.Schema({
-// BTC, ETH, Bank Transfer, USDT....
     name: {
-        type: String,
-        required: true,
-        trim: true
+      type: String,
+      required: true,
+      trim: true,
     },
 
-    // bitcoin, ethereum, erc20, trc20
     network: {
-        type: String,
-        default: ''
-
+      type: String,
+      default: "",
     },
-    
-    // crypto | bank
+
     type: {
-        type: String,
-        enum: ["crypto", "bank", "card"],
-        required: true
+      type: String,
+      enum: ["crypto", "bank", "others"],
+      required: true,
     },
 
-    // Wallet address
-    walletAddress: {
-        type: String,
-        default: '',
-        trim: true
+    paymentAddress: {
+      type: String,
+      default: "",
+      trim: true,
     },
 
-    accountNumber: {
-        type: String,
-        default: '',
-        trim: true
-    },
-
-    // Optional account holder
     accountName: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
 
-    // Optional bank name
     bankName: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
 
-    // optional swift code 
     swiftCode: {
-        type: String,
-        default: ''
+      type: String,
+      default: "",
     },
 
-    // Used for displaying logo
     icon: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
 
     qrCode: {
-        type: String,
-        default: ''
+      type: String,
+      default: "",
     },
 
     status: {
-        type: String,
-        enum: ['enabled', 'disabled'],
-        default: 'enabled'
+      type: String,
+      enum: ["enabled", "disabled"],
+      default: "enabled",
     },
 
     instructions: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
-}, { timestamps: true }
+  },
+  {
+    timestamps: true,
+  },
 );
-const PaymentMethod = mongoose.model('PaymentMethod', paymentMethodSchema);
+const PaymentMethod = mongoose.model("PaymentMethod", paymentMethodSchema);
 
 export default PaymentMethod;

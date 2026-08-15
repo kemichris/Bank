@@ -5,12 +5,15 @@ import { upload } from '../middlewares/upload.middleware.js';
 
 import { createPaymentMethod } from '../controllers/paymentMethod.controller.js';
 
+const router = express.Router()
 
 // create payment method
 router.post(
-    '/payment-method',
+    '/create',
     protect,
     authorize('admin'),
     upload.single('qrCode'),
     createPaymentMethod
 );
+
+export default router

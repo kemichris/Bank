@@ -7,6 +7,7 @@ import loanRoutes from './loan.routes.js'
 import taxRefundRoutes from './taxRefund.routes.js'
 import supportRoutes from './support.routes.js'
 import adminRoutes from './admin.routes.js'
+import paymentmethodRoutes from './paymentMethod.routes.js'
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.use('/loan', loanRoutes);
 router.use('/tax', taxRefundRoutes);
 router.use('/support', supportRoutes);
 router.use('/admin', adminRoutes)
+router.use('/payment-method', paymentmethodRoutes)
 
 
 

@@ -2,17 +2,14 @@ import {
   FaHome,
   FaChartLine,
   FaCreditCard,
-  FaPaperPlane,
   FaUserAlt,
-  FaGlobe,
-  FaPlus,
-  // FaExchangeAlt,
   FaUniversity,
   FaFileInvoice,
-  // FaHandHoldingUsd,
-  FaCog,
-  FaHeadset
+  FaHeadset,
+  FaEnvelope
 } from 'react-icons/fa';
+
+import { LuSettings2 } from "react-icons/lu";
 
 export const adminSidebarData = [
   {
@@ -41,41 +38,15 @@ export const adminSidebarData = [
      {
         name: 'Manage Credits',
         icon: FaChartLine,
-        path: '/admin/credits'
+        path: '/admin/transactions/credits'
       },
       {
         name: 'Manage Debits',
         icon: FaChartLine,
-        path: '/admin/debits'
+        path: '/admin/transactions/debits'
       },
     ]
 
-  },
-
-  {
-    title: 'TRANSFERS',
-    links: [
-      {
-        name: 'Local Transfer',
-        icon: FaPaperPlane,
-        path: '/dashboard/local-transfer'
-      },
-      {
-        name: 'International',
-        icon: FaGlobe,
-        path: '/dashboard/international'
-      },
-      {
-        name: 'Deposit',
-        icon: FaPlus,
-        path: '/dashboard/deposit'
-      }
-      // {
-      //   name: 'Currency Swap',
-      //   icon: FaExchangeAlt,
-      //   path: '/dashboard/swap'
-      // }
-    ]
   },
 
   {
@@ -98,13 +69,23 @@ export const adminSidebarData = [
       // }
     ]
   },
-
   {
-    title: 'ACCOUNT',
+    title: 'SETTING',
     links: [
       {
-        name: 'Settings',
-        icon: FaCog,
+        name: 'Payment Settings',
+        icon: LuSettings2,
+        path: '/admin/settings/payment'
+      }
+    ]
+  },
+
+  {
+    title: 'Email',
+    links: [
+      {
+        name: 'Send Mail',
+        icon: FaEnvelope,
         path: '/dashboard/settings'
       },
       {
