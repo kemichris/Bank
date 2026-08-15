@@ -33,7 +33,7 @@ export const getPaymentMethods = async (req, res, next) => {
 };
 
 // get payment method by id
-export const getPaymentMethod = asyncHandler(async (req, res) => {
+export const getPaymentMethod = async (req, res) => {
   const paymentMethod = await paymentMethodService.getPaymentMethod(req.params.id);
 
   res.status(200).json({
@@ -43,7 +43,7 @@ export const getPaymentMethod = asyncHandler(async (req, res) => {
 });
 
 //   Update payment method
-export const updatePaymentMethod = asyncHandler(async (req, res) => {
+export const updatePaymentMethod = async (req, res) => {
   const paymentMethod = await paymentMethodService.updatePaymentMethod(
     req.params.id,
     req.body,
