@@ -33,29 +33,39 @@ export const getPaymentMethods = async (req, res, next) => {
 };
 
 // get payment method by id
-export const getPaymentMethod = async (req, res) => {
-  const paymentMethod = await paymentMethodService.getPaymentMethod(req.params.id);
+export const getPaymentMethod = async (req, res, next) => {
+  try {
+    const paymentMethod = await paymentMethodService.getPaymentMethod(
+      req.params.id,
+    );
 
-  res.status(200).json({
-    success: true,
-    data: paymentMethod,
-  });
-});
+    res.status(200).json({
+      success: true,
+      data: paymentMethod,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 //   Update payment method
-export const updatePaymentMethod = async (req, res) => {
-  const paymentMethod = await paymentMethodService.updatePaymentMethod(
-    req.params.id,
-    req.body,
-    req.file,
-  );
+export const updatePaymentMethod = async (req, res, next) => {
+  try {
+    const paymentMethod = await paymentMethodService.updatePaymentMethod(
+      req.params.id,
+      req.body,
+      req.file,
+    );
 
-  res.status(200).json({
-    success: true,
-    message: "Payment method updated successfully.",
-    data: paymentMethod,
-  });
-});
+    res.status(200).json({
+      success: true,
+      message: "Payment method updated successfully.",
+      data: paymentMethod,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Delete payment method
 export const deletePaymentMethod = async (req, res, next) => {
