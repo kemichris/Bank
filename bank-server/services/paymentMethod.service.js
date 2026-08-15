@@ -1,7 +1,7 @@
 import PaymentMethod from '../models/paymentMethod.model.js';
 import { uploadImage } from '../utils/cloudinary.utils.js';
 
-import ApiError from '../utils/ApiError.js';
+import ApiError from '../utils/apiError.utils.js';
 
 export const createPaymentMethod = async (
   paymentData,
