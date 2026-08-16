@@ -65,7 +65,7 @@ export function SendEmailForm() {
     setLoading(true);
 
     try {
-      await sendEmail({
+       const res = await sendEmail({
         recipientType,
         selectedUsers: formData.selectedUsers.map(
           (user) => user.value,
@@ -75,7 +75,7 @@ export function SendEmailForm() {
         message: formData.message,
       });
 
-      toast.success('Email sent successfully.');
+      toast.success(res.message);
 
       setFormData({
         selectedUsers: [],
