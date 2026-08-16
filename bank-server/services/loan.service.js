@@ -148,7 +148,7 @@ export const applyForLoan = async (userId, loanData) => {
 // Get loans
 export const getAllLoans = async () => {
     const loans = await Loan.find()
-    .populate('owner', 'firstName lastName')
+    .populate('account', 'accountName')
     .sort({createdAt: -1})
 
     return loans
@@ -156,7 +156,7 @@ export const getAllLoans = async () => {
 
 export const getLoan = async (loanId) => {
     const loan = await Loan.findById({loanId})
-    .populate('owner', 'firstName lastName')
+    .populate('account', 'accountName')
     .sort({createdAt: -1})
 
     if (!loan) {
