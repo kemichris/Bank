@@ -56,8 +56,6 @@ export const updateLoanStatus = async (
   res,
   next,
 ) => {
-  console.log('BODY:', req.body);
-  console.log('PARAMS:', req.params);
 
   try {
     const { loanId } = req.params;

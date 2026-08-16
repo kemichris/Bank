@@ -150,14 +150,6 @@ export const updateLoanStatus = async (loanId, data, adminId) => {
     throw new ApiError(400, "Status is required.");
   }
 
-  if (
-    approvedAmount === undefined ||
-    approvedAmount === null ||
-    approvedAmount === ""
-  ) {
-    throw new ApiError(400, "Approved amount is required.");
-  }
-
   const loan = await Loan.findById(loanId);
 
   if (!loan) {
