@@ -2,6 +2,8 @@ import Loan from '../models/loan.model.js';
 import Account from "../models/account.model.js";
 import ApiError from "../utils/apiError.utils.js";
 
+
+// apply for loans 
 export const applyForLoan = async (userId, loanData) => {
     const {
         requestedAmount,
@@ -142,3 +144,24 @@ export const applyForLoan = async (userId, loanData) => {
         createdAt: loan.createdAt
     };
 };
+
+// Get loans
+export const getAllLoans = async () => {
+    const loans = await Loan.find()
+    .populate('owner', 'firstName lastName')
+    .sort({createdAt: -1})
+
+    return loans
+}
+
+export const getLoan = async (loanId) => {
+    const loan = await Loan.findById({loanId})
+    .populate('owner', 'firstName lastName')
+    .sort({createdAt: -1})
+
+    if (!loan) {
+        throw new ApiError(404, "Loan application  not found.");
+    }
+
+    return loan
+}

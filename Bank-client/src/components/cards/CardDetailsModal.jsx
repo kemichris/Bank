@@ -16,6 +16,7 @@ export function CardDetailsModal({ isOpen, card, onClose, reload }) {
 
   const isBlocked = card.status === "blocked";
   const isCanceled = card.status === "cancelled";
+  const isPending = card.status === "pending";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
@@ -51,7 +52,7 @@ export function CardDetailsModal({ isOpen, card, onClose, reload }) {
         <div className="mt-8 flex gap-3">
           <button
             type="button"
-            disabled={loading || isCanceled || isBlocked}
+            disabled={loading || isCanceled || isBlocked || isPending}
             onClick={() => {
               setModalMessage("Are you sure you want to block this card?");
 
@@ -71,7 +72,7 @@ export function CardDetailsModal({ isOpen, card, onClose, reload }) {
 
           <button
             type="button"
-            disabled={loading || isCanceled || !isBlocked}
+            disabled={loading || isCanceled || !isBlocked || isPending}
             onClick={() => {
               setModalMessage("Are you sure you want to unblock this card?");
 
@@ -91,7 +92,7 @@ export function CardDetailsModal({ isOpen, card, onClose, reload }) {
 
           <button
             type="button"
-            disabled={loading || isCanceled}
+            disabled={loading || isCanceled || isPending}
             onClick={() => {
               setModalMessage(
                 "Are you sure you want to cancel this card? This action cannot be undone.",

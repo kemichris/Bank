@@ -9,6 +9,7 @@ import { PaymentSetting } from "../pages/admin/PaymentSetting";
 import { AddPaymentMethod } from "../pages/admin/AddPaymentMethod";
 import { EditPaymentMethod } from "../pages/admin/EditPaymentMethod";
 import { CardsService } from "../pages/admin/CardsService";
+import { LoanManagment } from "../pages/admin/LoanManagement";
 
 export const adminRoutes = [
   {
@@ -49,6 +50,10 @@ export const adminRoutes = [
       {
         path: "/admin/settings/payment/edit/:id",
         element: <EditPaymentMethod /> ,
+      },
+      {
+        path: "/admin/loans",
+        element: <LoanManagment /> ,
       },
     ],
   },

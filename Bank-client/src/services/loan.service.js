@@ -4,3 +4,14 @@ export const loanApplication = async formData => {
     const {data} = await api.post('/loan/apply', formData)
     return data
 }
+
+export const getLoans = async ()=> {
+    const {data} = await api.get('/loan')
+    return data
+}
+
+export const getLoan = async ({loanId})=> {
+    const {data} = await api.get(`/loan/${loanId}`)
+    
+    return data
+}

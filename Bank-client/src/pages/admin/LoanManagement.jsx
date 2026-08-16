@@ -1,27 +1,29 @@
 import { useEffect, useState } from "react";
 
-import { FaCreditCard } from "react-icons/fa";
+import { FaHandHoldingDollar } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa";
 
 import { UserPageHeader } from "../../components/ui/UserPageHeader";
+import { LoanManagementTable } from "../../components/loan/LoanManagementTable";
+
+import { getLoans } from "../../services/loan.service";
 
 import { PageLoader } from "../../components/common/PageLoader";
 
-import { getCards } from "../../services/card.service";
-import { CardsTable } from "../../components/cards/CardsTable";
 
 
 
-export function CardsService() {
-  const [cards, setCards] = useState([]);
+
+export function LoanManagment() {
+  const [loans, setLoans] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const loadCards = async () => {
+  const loadLoans = async () => {
     try {
-      const res = await getCards();
+      const res = await getLoans();
       console.log(res.data);
 
-      setCards(res.data);
+      setLoans(res.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -32,7 +34,7 @@ export function CardsService() {
   useEffect(() => {
 
 
-    loadCards();
+    loadLoans();
     
   }, []);
   if (loading) {
@@ -41,18 +43,19 @@ export function CardsService() {
 
   return (
     <>
-      <title>Columbia Merchant | Manage Cards</title>
+      <title>Columbia Merchant | Loan Management</title>
 
       <UserPageHeader
-        cardHeader="Card Services"
-        headerDetail="Manage all card services"
-        headerIcon={<FaCreditCard />}
+        cardHeader="Loan Management"
+        headerDetail="View and review all requested loan application"
+        headerIcon={<FaHandHoldingDollar />}
         to="/admin"
         linkIcon={<FaArrowLeft />}
         linkText="Dashboard"
       />
 
-      <CardsTable cards={cards} reload={loadCards} />
+      <LoanManagementTable loans={loans} reload={loadLoans} />
+
     </>
   );
 }
