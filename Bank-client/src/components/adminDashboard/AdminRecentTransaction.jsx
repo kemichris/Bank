@@ -8,10 +8,10 @@ export function AdminRecentTransaction({transactions}) {
             <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-text">Recent Transactions</h3>
                 <div className="flex items-center gap-2">
-                    <Link to="/admin/deposits" className="text-sm font-medium text-primary hover:underline">
+                    <Link to="/admin/transactions/credits" className="text-sm font-medium text-primary hover:underline">
                     All credits
                 </Link>
-                <Link to="/dashboard/withdrawals" className="text-sm font-medium text-primary hover:underline">
+                <Link to="/admin/transactions/credits" className="text-sm font-medium text-primary hover:underline">
                     All debits
                 </Link>
 
