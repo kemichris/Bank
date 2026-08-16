@@ -25,6 +25,13 @@ router.get(
     loanController.getLoan
 );
 
+router.patch(
+  '/:loanId/status',
+  protect,
+  authorize('admin'),
+  loanController.updateLoanStatus
+);
+
 
 
 export default router

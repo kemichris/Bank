@@ -165,3 +165,139 @@ export const getLoan = async (loanId) => {
 
     return loan
 }
+
+// update loan status
+export const updateLoanStatus = async (
+  loanId,
+  data,
+  adminId,
+) => {
+  const {
+    status,
+    approvedAmount,
+    interestRate,
+    rejectionReason,
+  } = data;
+
+  const loan = await Loan.findById(loanId);
+
+  if (!loan) {
+    throw new ApiError(404, 'Loan not found.');
+  }
+
+  const statusOptions = {
+    pending: [
+      'active',
+      'rejected',
+      'cancelled',
+    ],
+
+    active: [
+      'completed',
+      'defaulted',
+      'cancelled',
+    ],
+
+    rejected: [],
+
+    completed: [],
+
+    defaulted: [],
+
+    cancelled: [],
+  };
+
+  const allowedStatuses =
+    statusOptions[loan.status] || [];
+
+  if (!allowedStatuses.includes(status)) {
+    throw new ApiError(
+      400,
+      `Loan cannot be changed from ${loan.status} to ${status}.`,
+    );
+  }
+
+  if (status === 'active') {
+    if (!approvedAmount) {
+      throw new ApiError(
+        400,
+        'Approved amount is required.',
+      );
+    }
+
+    if (
+      interestRate === undefined ||
+      interestRate === null
+    ) {
+      throw new ApiError(
+        400,
+        'Interest rate is required.',
+      );
+    }
+
+    const interest =
+      approvedAmount *
+      (interestRate / 100);
+
+    const totalRepayment =
+      approvedAmount + interest;
+
+    const dueDate = new Date();
+
+    if (loan.termUnit === 'days') {
+      dueDate.setDate(
+        dueDate.getDate() + loan.term,
+      );
+    }
+
+    if (loan.termUnit === 'months') {
+      dueDate.setMonth(
+        dueDate.getMonth() + loan.term,
+      );
+    }
+
+    if (loan.termUnit === 'years') {
+      dueDate.setFullYear(
+        dueDate.getFullYear() + loan.term,
+      );
+    }
+
+    loan.approvedAmount =
+      Number(approvedAmount);
+
+    loan.interestRate =
+      Number(interestRate);
+
+    loan.totalRepayment =
+      totalRepayment;
+
+    loan.remainingBalance =
+      totalRepayment;
+
+    loan.disbursedAt = new Date();
+
+    loan.dueDate = dueDate;
+  }
+
+  if (status === 'rejected') {
+    if (!rejectionReason?.trim()) {
+      throw new ApiError(
+        400,
+        'Rejection reason is required.',
+      );
+    }
+
+    loan.rejectionReason =
+      rejectionReason;
+  }
+
+  loan.reviewedBy = adminId;
+
+  loan.reviewedAt = new Date();
+
+  loan.status = status;
+
+  await loan.save();
+
+  return loan;
+};

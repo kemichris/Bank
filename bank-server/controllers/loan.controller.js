@@ -49,3 +49,30 @@ export const getLoan = async (req, res, next) => {
         next(error);
     }
 };
+
+// update loan status
+export const updateLoanStatus = async (
+  req,
+  res,
+  next,
+) => {
+  try {
+    const { loanId } = req.params;
+
+    const loan =
+      await loanService.updateLoanStatus(
+        loanId,
+        req.body,
+        req.user._id,
+      );
+
+    return res.status(200).json({
+      success: true,
+      message:
+        'Loan updated successfully.',
+      data: loan,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
