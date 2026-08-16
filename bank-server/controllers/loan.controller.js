@@ -78,7 +78,7 @@ export const updateLoanStatus = async (
   }
 };
 
-// delete card
+// delete loans
 export const deleteLoan = async (req, res, next) => {
   try {
     const { loanId } = req.params;

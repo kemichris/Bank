@@ -1,6 +1,6 @@
 import express from 'express'
 import {protect, authorize} from '../middlewares/auth.middleware.js';
-import { submitTaxRefundRequest } from '../controllers/taxRefund.js';
+import { submitTaxRefundRequest, getAllTaxRefunds, deleteTaxRefund } from '../controllers/taxRefund.js';
 
 const router = express.Router()
 
@@ -10,5 +10,20 @@ router.post(
     authorize('user'),
     submitTaxRefundRequest
 );
+
+router.get(
+    '/',
+    protect,
+    authorize('admin'),
+    getAllTaxRefunds
+);
+
+router.delete(
+    '/:id',
+    protect,
+    authorize('admin'),
+    deleteTaxRefund
+);
+
 
 export default router

@@ -10,6 +10,7 @@ import { AddPaymentMethod } from "../pages/admin/AddPaymentMethod";
 import { EditPaymentMethod } from "../pages/admin/EditPaymentMethod";
 import { CardsService } from "../pages/admin/CardsService";
 import { LoanManagment } from "../pages/admin/LoanManagement";
+import { TaxRefund } from "../pages/admin/TaxRefund";
 
 export const adminRoutes = [
   {
@@ -54,6 +55,10 @@ export const adminRoutes = [
       {
         path: "/admin/loans",
         element: <LoanManagment /> ,
+      },
+      {
+        path: "/admin/tax-refund",
+        element: <TaxRefund /> ,
       },
     ],
   },

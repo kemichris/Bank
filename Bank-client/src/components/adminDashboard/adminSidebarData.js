@@ -59,7 +59,7 @@ export const adminSidebarData = [
       {
         name: 'Tax Refund',
         icon: FaFileInvoice,
-        path: '/dashboard/tax-refund'
+        path: '/admin/tax-refund'
       },
       // {
       //   name: 'Grants',

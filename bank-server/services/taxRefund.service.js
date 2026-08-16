@@ -95,3 +95,24 @@ export const submitTaxRefundRequest = async (userId, refundData) => {
         createdAt: refundRequest.createdAt
     };
 };
+
+// Get Tax refunds
+export const getAllTaxRefunds = async () => {
+  const taxRefunds = await TaxRefund.find()
+    .populate("owner", "firstName lastName email")
+    .sort({ createdAt: -1 });
+
+  return taxRefunds;
+};
+
+export const deleteTaxRefund = async (taxRefundId) => {
+  const taxRefund = await TaxRefund.findById(taxRefundId);
+
+  if (!taxRefund) {
+    throw new ApiError(404, "Tax refund not found.");
+  }
+
+  await TaxRefund.findByIdAndDelete(taxRefundId);
+
+  return true;
+};
