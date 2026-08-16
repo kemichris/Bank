@@ -3,10 +3,9 @@ import {
   FaChartLine,
   FaCreditCard,
   FaUserAlt,
-  // FaUniversity,
-  // FaFileInvoice,
-  // FaHeadset,
-  // FaEnvelope
+  FaUniversity,
+  FaFileInvoice,
+  FaEnvelope
 } from 'react-icons/fa';
 
 import { LuSettings2 } from "react-icons/lu";
@@ -49,26 +48,26 @@ export const adminSidebarData = [
 
   },
 
-  // {
-  //   title: 'SERVICES',
-  //   links: [
-  //     {
-  //       name: 'Loans',
-  //       icon: FaUniversity,
-  //       path: '/dashboard/loan'
-  //     },
-  //     {
-  //       name: 'Tax Refund',
-  //       icon: FaFileInvoice,
-  //       path: '/dashboard/tax-refund'
-  //     },
-  //     // {
-  //     //   name: 'Grants',
-  //     //   icon: FaHandHoldingUsd,
-  //     //   path: '/dashboard/grants'
-  //     // }
-  //   ]
-  // },
+  {
+    title: 'SERVICES',
+    links: [
+      {
+        name: 'Loan Management',
+        icon: FaUniversity,
+        path: '/admin/loans'
+      },
+      {
+        name: 'Tax Refund',
+        icon: FaFileInvoice,
+        path: '/dashboard/tax-refund'
+      },
+      // {
+      //   name: 'Grants',
+      //   icon: FaHandHoldingUsd,
+      //   path: '/dashboard/grants'
+      // }
+    ]
+  },
   {
     title: 'SETTING',
     links: [
@@ -80,14 +79,14 @@ export const adminSidebarData = [
     ]
   },
 
-  // {
-  //   title: 'Email',
-  //   links: [
-  //     {
-  //       name: 'Send Mail',
-  //       icon: FaEnvelope,
-  //       path: '/admin/email'
-  //     }
-  //   ]
-  // }
+  {
+    title: 'Email',
+    links: [
+      {
+        name: 'Send Mail',
+        icon: FaEnvelope,
+        path: '/admin/email'
+      }
+    ]
+  }
 ];
