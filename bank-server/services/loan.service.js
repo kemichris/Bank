@@ -1,202 +1,161 @@
-import Loan from '../models/loan.model.js';
+import Loan from "../models/loan.model.js";
 import Account from "../models/account.model.js";
 import ApiError from "../utils/apiError.utils.js";
 
-
-// apply for loans 
+// apply for loans
 export const applyForLoan = async (userId, loanData) => {
-    const {
-        requestedAmount,
-        term,
-        creditFacility,
-        purpose,
-        monthlyNetIncome
-    } = loanData;
+  const { requestedAmount, term, creditFacility, purpose, monthlyNetIncome } =
+    loanData;
 
-    // -----------------------------------------
-    // 1. Validate loan amount
-    // -----------------------------------------
+  // -----------------------------------------
+  // 1. Validate loan amount
+  // -----------------------------------------
 
-    if (
-        typeof requestedAmount !== 'number' ||
-        !Number.isFinite(requestedAmount) ||
-        requestedAmount <= 0
-    ) {
-        throw new ApiError(
-            400,
-            'Please provide a valid loan amount.'
-        );
-    }
+  if (
+    typeof requestedAmount !== "number" ||
+    !Number.isFinite(requestedAmount) ||
+    requestedAmount <= 0
+  ) {
+    throw new ApiError(400, "Please provide a valid loan amount.");
+  }
 
-    // -----------------------------------------
-    // 2. Validate duration
-    // -----------------------------------------
+  // -----------------------------------------
+  // 2. Validate duration
+  // -----------------------------------------
 
-    const allowedDurations = [6, 12, 24, 36, 48, 60];
+  const allowedDurations = [6, 12, 24, 36, 48, 60];
 
-    if (!allowedDurations.includes(term)) {
-        throw new ApiError(
-            400,
-            'Invalid loan duration.'
-        );
-    }
+  if (!allowedDurations.includes(term)) {
+    throw new ApiError(400, "Invalid loan duration.");
+  }
 
-    // -----------------------------------------
-    // 3. Validate credit facility
-    // -----------------------------------------
+  // -----------------------------------------
+  // 3. Validate credit facility
+  // -----------------------------------------
 
-    if (!creditFacility?.trim()) {
-        throw new ApiError(
-            400,
-            'Credit facility is required.'
-        );
-    }
+  if (!creditFacility?.trim()) {
+    throw new ApiError(400, "Credit facility is required.");
+  }
 
-    // -----------------------------------------
-    // 4. Validate purpose
-    // -----------------------------------------
+  // -----------------------------------------
+  // 4. Validate purpose
+  // -----------------------------------------
 
-    if (!purpose?.trim()) {
-        throw new ApiError(
-            400,
-            'Loan purpose is required.'
-        );
-    }
+  if (!purpose?.trim()) {
+    throw new ApiError(400, "Loan purpose is required.");
+  }
 
-    // -----------------------------------------
-    // 5. Validate monthly income
-    // -----------------------------------------
+  // -----------------------------------------
+  // 5. Validate monthly income
+  // -----------------------------------------
 
-    if (
-        typeof monthlyNetIncome !== 'number' ||
-        !Number.isFinite(monthlyNetIncome) ||
-        monthlyNetIncome < 0
-    ) {
-        throw new ApiError(
-            400,
-            'Please provide a valid monthly net income.'
-        );
-    }
+  if (
+    typeof monthlyNetIncome !== "number" ||
+    !Number.isFinite(monthlyNetIncome) ||
+    monthlyNetIncome < 0
+  ) {
+    throw new ApiError(400, "Please provide a valid monthly net income.");
+  }
 
-    // -----------------------------------------
-    // 6. Find user's account
-    // -----------------------------------------
+  // -----------------------------------------
+  // 6. Find user's account
+  // -----------------------------------------
 
-    const account = await Account.findOne({
-        owner: userId,
-        status: 'active'
-    });
+  const account = await Account.findOne({
+    owner: userId,
+    status: "active",
+  });
 
-    if (!account) {
-        throw new ApiError(
-            404,
-            'Active account not found.'
-        );
-    }
+  if (!account) {
+    throw new ApiError(404, "Active account not found.");
+  }
 
-    // -----------------------------------------
-    // 7. Check existing loan applications
-    // -----------------------------------------
+  // -----------------------------------------
+  // 7. Check existing loan applications
+  // -----------------------------------------
 
-    const existingLoan = await Loan.findOne({
-        owner: userId,
-        status: {
-            $in: ['pending', 'approved', 'active']
-        }
-    });
+  const existingLoan = await Loan.findOne({
+    owner: userId,
+    status: {
+      $in: ["pending", "approved", "active"],
+    },
+  });
 
-    if (existingLoan) {
-        throw new ApiError(
-            400,
-            'You already have an active loan application or loan.'
-        );
-    }
+  if (existingLoan) {
+    throw new ApiError(
+      400,
+      "You already have an active loan application or loan.",
+    );
+  }
 
-    // -----------------------------------------
-    // 8. Create loan application
-    // -----------------------------------------
+  // -----------------------------------------
+  // 8. Create loan application
+  // -----------------------------------------
 
-    const loan = await Loan.create({
-        owner: userId,
-        account: account._id,
+  const loan = await Loan.create({
+    owner: userId,
+    account: account._id,
 
-        requestedAmount,
-        term,
-        creditFacility,
-        purpose: purpose.trim(),
-        monthlyNetIncome,
+    requestedAmount,
+    term,
+    creditFacility,
+    purpose: purpose.trim(),
+    monthlyNetIncome,
 
-        status: 'pending'
-    });
+    status: "pending",
+  });
 
-    // -----------------------------------------
-    // 9. Return application details
-    // -----------------------------------------
+  // -----------------------------------------
+  // 9. Return application details
+  // -----------------------------------------
 
-    return {
-        loanId: loan._id,
-        requestedAmount: loan.requestedAmount,
-        term: loan.term,
-        creditFacility: loan.creditFacility,
-        purpose: loan.purpose,
-        monthlyNetIncome: loan.monthlyNetIncome,
-        status: loan.status,
-        createdAt: loan.createdAt
-    };
+  return {
+    loanId: loan._id,
+    requestedAmount: loan.requestedAmount,
+    term: loan.term,
+    creditFacility: loan.creditFacility,
+    purpose: loan.purpose,
+    monthlyNetIncome: loan.monthlyNetIncome,
+    status: loan.status,
+    createdAt: loan.createdAt,
+  };
 };
 
 // Get loans
 export const getAllLoans = async () => {
-    const loans = await Loan.find()
-    .populate('owner', 'firstName lastName')
-    .sort({createdAt: -1})
+  const loans = await Loan.find()
+    .populate("owner", "firstName lastName")
+    .sort({ createdAt: -1 });
 
-    return loans
-}
+  return loans;
+};
 
 export const getLoan = async (loanId) => {
-    const loan = await Loan.findById({loanId})
-    .populate('owner', 'firstName lastName')
-    .sort({createdAt: -1})
+  const loan = await Loan.findById({ loanId })
+    .populate("owner", "firstName lastName")
+    .sort({ createdAt: -1 });
 
-    if (!loan) {
-        throw new ApiError(404, "Loan application  not found.");
-    }
+  if (!loan) {
+    throw new ApiError(404, "Loan application  not found.");
+  }
 
-    return loan
-}
+  return loan;
+};
 
 // update loan status
-export const updateLoanStatus = async (
-  loanId,
-  data,
-  adminId,
-) => {
-  const {
-    status,
-    approvedAmount,
-    interestRate,
-    rejectionReason,
-  } = data;
+export const updateLoanStatus = async (loanId, data, adminId) => {
+  const { status, approvedAmount, interestRate, rejectionReason } = data;
 
   const loan = await Loan.findById(loanId);
 
   if (!loan) {
-    throw new ApiError(404, 'Loan not found.');
+    throw new ApiError(404, "Loan not found.");
   }
 
   const statusOptions = {
-    pending: [
-      'active',
-      'rejected',
-      'cancelled',
-    ],
+    pending: ["active", "rejected", "cancelled"],
 
-    active: [
-      'completed',
-      'defaulted',
-      'cancelled',
-    ],
+    active: ["completed", "defaulted", "cancelled"],
 
     rejected: [],
 
@@ -207,8 +166,7 @@ export const updateLoanStatus = async (
     cancelled: [],
   };
 
-  const allowedStatuses =
-    statusOptions[loan.status] || [];
+  const allowedStatuses = statusOptions[loan.status] || [];
 
   if (!allowedStatuses.includes(status)) {
     throw new ApiError(
@@ -217,78 +175,84 @@ export const updateLoanStatus = async (
     );
   }
 
-  if (status === 'active') {
+  // Activate loan
+  if (status === "active") {
     if (!approvedAmount) {
-      throw new ApiError(
-        400,
-        'Approved amount is required.',
-      );
+      throw new ApiError(400, "Approved amount is required.");
     }
 
     if (
       interestRate === undefined ||
-      interestRate === null
+      interestRate === null ||
+      interestRate === ""
     ) {
-      throw new ApiError(
-        400,
-        'Interest rate is required.',
-      );
+      throw new ApiError(400, "Interest rate is required.");
     }
 
-    const interest =
-      approvedAmount *
-      (interestRate / 100);
+    const approved = Number(approvedAmount);
 
-    const totalRepayment =
-      approvedAmount + interest;
+    const rate = Number(interestRate);
+
+    if (Number.isNaN(approved)) {
+      throw new ApiError(400, "Invalid approved amount.");
+    }
+
+    if (Number.isNaN(rate)) {
+      throw new ApiError(400, "Invalid interest rate.");
+    }
+
+    const interest = approved * (rate / 100);
+
+    const totalRepayment = approved + interest;
 
     const dueDate = new Date();
 
-    if (loan.termUnit === 'days') {
-      dueDate.setDate(
-        dueDate.getDate() + loan.term,
-      );
+    if (loan.termUnit === "days") {
+      dueDate.setDate(dueDate.getDate() + loan.term);
     }
 
-    if (loan.termUnit === 'months') {
-      dueDate.setMonth(
-        dueDate.getMonth() + loan.term,
-      );
+    if (loan.termUnit === "months") {
+      dueDate.setMonth(dueDate.getMonth() + loan.term);
     }
 
-    if (loan.termUnit === 'years') {
-      dueDate.setFullYear(
-        dueDate.getFullYear() + loan.term,
-      );
+    if (loan.termUnit === "years") {
+      dueDate.setFullYear(dueDate.getFullYear() + loan.term);
     }
 
-    loan.approvedAmount =
-      Number(approvedAmount);
+    loan.approvedAmount = approved;
 
-    loan.interestRate =
-      Number(interestRate);
+    loan.interestRate = rate;
 
-    loan.totalRepayment =
-      totalRepayment;
+    const totalRepayment = Number((approved + interest).toFixed(2));
 
-    loan.remainingBalance =
-      totalRepayment;
+    loan.remainingBalance = totalRepayment;
 
     loan.disbursedAt = new Date();
 
     loan.dueDate = dueDate;
+
+    loan.rejectionReason = "";
   }
 
-  if (status === 'rejected') {
+  // Reject loan
+  if (status === "rejected") {
     if (!rejectionReason?.trim()) {
-      throw new ApiError(
-        400,
-        'Rejection reason is required.',
-      );
+      throw new ApiError(400, "Rejection reason is required.");
     }
 
-    loan.rejectionReason =
-      rejectionReason;
+    loan.rejectionReason = rejectionReason.trim();
+
+    loan.approvedAmount = null;
+
+    loan.interestRate = 0;
+
+    loan.totalRepayment = null;
+
+    loan.remainingBalance = null;
+
+    loan.disbursedAt = null;
+
+    loan.dueDate = null;
   }
 
   loan.reviewedBy = adminId;
@@ -300,4 +264,17 @@ export const updateLoanStatus = async (
   await loan.save();
 
   return loan;
+};
+
+// Delete loan
+export const deleteLoan = async (loanId) => {
+  const loan = await Card.findById(loanId);
+
+  if (!loan) {
+    throw new ApiError(404, "loan not found.");
+  }
+
+  await loan.findByIdAndDelete(cardId);
+
+  return true;
 };

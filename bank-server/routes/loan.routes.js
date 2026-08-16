@@ -32,6 +32,8 @@ router.patch(
   loanController.updateLoanStatus
 );
 
+// delete Loan
+router.delete('/:loanId', protect, authorize('admin'), loanController.deleteLoan);
 
 
 export default router

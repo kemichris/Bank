@@ -76,3 +76,14 @@ export const updateLoanStatus = async (
     next(error);
   }
 };
+
+// delete card
+export const deleteLoan = async (req, res, next) => {
+  try {
+    const { loanId } = req.params;
+    await loanServices.deleteLoan(loanId);
+    return res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
