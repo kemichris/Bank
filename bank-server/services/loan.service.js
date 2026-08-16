@@ -286,7 +286,7 @@ export const deleteLoan = async (loanId) => {
     throw new ApiError(404, "loan not found.");
   }
 
-  await loan.findByIdAndDelete(cardId);
+  await loan.findByIdAndDelete(loanId);
 
   return true;
 };
