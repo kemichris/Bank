@@ -17,9 +17,15 @@ export const getLoan = async ({ loanId }) => {
 };
 
 // update loan status
-// update loan status
 export const loanStatusUpdate = async ({ loanId, ...payload }) => {
   const { data } = await api.patch(`/loan/${loanId}/status`, payload);
 
   return data;
 };
+
+
+// delete loan 
+export const deleteLoan = async (loanId) => {
+    const {data} = await api.delete(`/loan/${loanId}`)
+    return data
+}
