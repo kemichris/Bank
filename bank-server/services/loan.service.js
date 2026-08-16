@@ -142,9 +142,21 @@ export const getLoan = async (loanId) => {
   return loan;
 };
 
-// update loan status
+// Update loan status
 export const updateLoanStatus = async (loanId, data, adminId) => {
   const { status, approvedAmount, interestRate, rejectionReason } = data;
+
+  if (!status) {
+    throw new ApiError(400, "Status is required.");
+  }
+
+  if (
+    approvedAmount === undefined ||
+    approvedAmount === null ||
+    approvedAmount === ""
+  ) {
+    throw new ApiError(400, "Approved amount is required.");
+  }
 
   const loan = await Loan.findById(loanId);
 
@@ -203,7 +215,7 @@ export const updateLoanStatus = async (loanId, data, adminId) => {
 
     const interest = approved * (rate / 100);
 
-    const totalRepayment = approved + interest;
+    const totalRepayment = Number((approved + interest).toFixed(2));
 
     const dueDate = new Date();
 
@@ -223,7 +235,7 @@ export const updateLoanStatus = async (loanId, data, adminId) => {
 
     loan.interestRate = rate;
 
-    const totalRepayment = Number((approved + interest).toFixed(2));
+    loan.totalRepayment = totalRepayment;
 
     loan.remainingBalance = totalRepayment;
 
