@@ -49,7 +49,7 @@ export function TaxRefundTable({ taxRefunds, reload }) {
             {row.owner.firstName} {row.owner.lastName}
           </span>
 
-          <span className="text-sm text-text-muted">{row.email}</span>
+          <span className="text-sm text-text-muted">{row.owner.email}</span>
         </div>
       ),
     },
