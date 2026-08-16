@@ -280,7 +280,7 @@ export const updateLoanStatus = async (loanId, data, adminId) => {
 
 // Delete loan
 export const deleteLoan = async (loanId) => {
-  const loan = await Card.findById(loanId);
+  const loan = await Loan.findById(loanId);
 
   if (!loan) {
     throw new ApiError(404, "loan not found.");
