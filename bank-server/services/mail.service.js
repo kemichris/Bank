@@ -625,6 +625,7 @@ export const sendEmail = async (data) => {
   }
 
   const emails = users.map((user) => user.email);
+  console.log(emails);
 
   const html = `
     <div>
@@ -641,7 +642,7 @@ export const sendEmail = async (data) => {
   `;
 
   await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL,
+    from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
     to: emails,
     subject: title,
     html,
