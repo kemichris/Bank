@@ -60,7 +60,7 @@ export const updateLoanStatus = async (
     const { loanId } = req.params;
 
     const loan =
-      await loanService.updateLoanStatus(
+      await loanServices.updateLoanStatus(
         loanId,
         req.body,
         req.user._id,
