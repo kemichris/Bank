@@ -130,4 +130,12 @@ router.post(
   adminInternationalTransfer,
 );
 
+// Send email 
+router.post(
+  '/email/send',
+  protect,
+  authorize('admin'),
+  adminController.sendEmail,
+);
+
 export default router;

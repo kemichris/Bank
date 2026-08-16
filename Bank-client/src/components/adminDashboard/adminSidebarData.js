@@ -80,7 +80,7 @@ export const adminSidebarData = [
   },
 
   {
-    title: 'Email',
+    title: 'Email Sevices',
     links: [
       {
         name: 'Send Mail',

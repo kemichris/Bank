@@ -1,4 +1,5 @@
 import * as adminService from "../services/admin.service.js";
+import { sendEmail } from "../services/mail.service.js";
 
 // get admin dashboard data
 export const getAdminDashboard = async (req, res, next) => {
@@ -222,6 +223,22 @@ export const creditDebitUser = async (req, res, next) => {
         transaction.direction === "credit"
           ? "Account credited succesfully"
           : "Account debited succesffuly",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Send user email
+
+export const sendEmail = async (req, res, next) => {
+  try {
+    const result = await sendEmail(req.body);
+
+    return res.status(200).json({
+      success: true,
+      message: "Email sent successfully.",
+      data: result,
     });
   } catch (error) {
     next(error);

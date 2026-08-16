@@ -11,6 +11,7 @@ import { EditPaymentMethod } from "../pages/admin/EditPaymentMethod";
 import { CardsService } from "../pages/admin/CardsService";
 import { LoanManagment } from "../pages/admin/LoanManagement";
 import { TaxRefund } from "../pages/admin/TaxRefund";
+import { SendEmail } from "../pages/admin/SendEmail";
 
 export const adminRoutes = [
   {
@@ -60,6 +61,10 @@ export const adminRoutes = [
         path: "/admin/tax-refund",
         element: <TaxRefund /> ,
       },
+      {
+        path: "/admin/email",
+        element: <SendEmail /> ,
+      }
     ],
   },
 ];

@@ -1,16 +1,16 @@
-import { Resend } from 'resend';
-import ApiError from '../utils/apiError.utils.js';
-
+import { Resend } from "resend";
+import ApiError from "../utils/apiError.utils.js";
+import User from "../models/user.model.js";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Send OTP for email verification
 export const sendOtpEmail = async (email, name, otp) => {
-    try {
-        const { data, error } = await resend.emails.send({
-            from: `"Columbia Merchant" <${process.env.MAIL_FROM}>`,
-            to: [email],
-            subject: 'Email Verification Code',
-            html: `
+  try {
+    const { data, error } = await resend.emails.send({
+      from: `"Columbia Merchant" <${process.env.MAIL_FROM}>`,
+      to: [email],
+      subject: "Email Verification Code",
+      html: `
                 <div style="font-family: Arial;">
                     <h2>Hello ${name}</h2>
 
@@ -20,41 +20,33 @@ export const sendOtpEmail = async (email, name, otp) => {
 
                     <p>This code expires in 10 minutes.</p>
                 </div>
-            `
-        });
+            `,
+    });
 
-        if (error) {
-            console.error('❌ Resend error:', error);
-            throw new ApiError(500, 'Failed to send verification email.');
-        }
-
-        console.log('✅ Verification email sent:', data);
-
-        return data;
-
-    } catch (error) {
-        console.error('❌ Email failed:', error);
-
-        if (error instanceof ApiError) {
-            throw error;
-        }
-
-        throw new ApiError(
-            500,
-            'Failed to send verification email.'
-        );
+    if (error) {
+      console.error("❌ Resend error:", error);
+      throw new ApiError(500, "Failed to send verification email.");
     }
+
+    console.log("✅ Verification email sent:", data);
+
+    return data;
+  } catch (error) {
+    console.error("❌ Email failed:", error);
+
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(500, "Failed to send verification email.");
+  }
 };
 
 // Send password reset mail
-export const sendPasswordResetMail = async (
-    email,
-    fullName,
-    resetCode
-) => {
-    const subject = 'Password Reset Code';
+export const sendPasswordResetMail = async (email, fullName, resetCode) => {
+  const subject = "Password Reset Code";
 
-    const html = `
+  const html = `
         <div style="
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -123,22 +115,19 @@ export const sendPasswordResetMail = async (
         </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
-        to: email,
-        subject,
-        html
-    });
+  const { data, error } = await resend.emails.send({
+    from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+    to: email,
+    subject,
+    html,
+  });
 
-    if (error) {
-        throw new Error(
-            `Failed to send password reset email: ${error.message}`
-        );
-    }
+  if (error) {
+    throw new Error(`Failed to send password reset email: ${error.message}`);
+  }
 
-    return data;
+  return data;
 };
-
 
 // Send Wire Transfer pending mail
 export const wireTransferPendingMail = async (
@@ -149,8 +138,7 @@ export const wireTransferPendingMail = async (
 ) => {
   const transferCharge = amount * 0.01875;
 
-  const subject =
-    'Wire Transfer Pending Approval';
+  const subject = "Wire Transfer Pending Approval";
 
   const html = `
     <div style="
@@ -222,18 +210,15 @@ export const wireTransferPendingMail = async (
     </div>
   `;
 
-  const { data, error } =
-    await resend.emails.send({
-      from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
-      to: email,
-      subject,
-      html,
-    });
+  const { data, error } = await resend.emails.send({
+    from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+    to: email,
+    subject,
+    html,
+  });
 
   if (error) {
-    throw new Error(
-      `Failed to send wire transfer email: ${error.message}`,
-    );
+    throw new Error(`Failed to send wire transfer email: ${error.message}`);
   }
 
   return data;
@@ -241,15 +226,15 @@ export const wireTransferPendingMail = async (
 
 // local transfer sent mail
 export const localTransferSentMail = async (
-    email,
-    fullName,
-    amount,
-    recipient,
-    reference
+  email,
+  fullName,
+  amount,
+  recipient,
+  reference,
 ) => {
-    const subject = 'Transfer Successful';
+  const subject = "Transfer Successful";
 
-    const html = `
+  const html = `
         <div style="
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -318,34 +303,32 @@ export const localTransferSentMail = async (
         </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
-        to: email,
-        subject,
-        html
-    });
+  const { data, error } = await resend.emails.send({
+    from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+    to: email,
+    subject,
+    html,
+  });
 
-    if (error) {
-        throw new Error(
-            `Failed to send transfer email: ${error.message}`
-        );
-    }
+  if (error) {
+    throw new Error(`Failed to send transfer email: ${error.message}`);
+  }
 
-    return data;
+  return data;
 };
 
-// local transfer receive mail 
+// local transfer receive mail
 export const localTransferReceivedMail = async (
-    email,
-    fullName,
-    amount,
-    sender,
-    reference,
-    description
+  email,
+  fullName,
+  amount,
+  sender,
+  reference,
+  description,
 ) => {
-    const subject = 'Transfer Received';
+  const subject = "Transfer Received";
 
-    const html = `
+  const html = `
         <div style="
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -391,14 +374,14 @@ export const localTransferReceivedMail = async (
                 </p>
 
                 ${
-                    description
-                        ? `
+                  description
+                    ? `
                             <p style="margin: 5px 0;">
                                 <strong>Description:</strong>
                                 ${description}
                             </p>
                         `
-                        : ''
+                    : ""
                 }
 
             </div>
@@ -428,39 +411,32 @@ export const localTransferReceivedMail = async (
         </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
-        to: email,
-        subject,
-        html
-    });
+  const { data, error } = await resend.emails.send({
+    from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+    to: email,
+    subject,
+    html,
+  });
 
-    if (error) {
-        throw new Error(
-            `Failed to send transfer email: ${error.message}`
-        );
-    }
+  if (error) {
+    throw new Error(`Failed to send transfer email: ${error.message}`);
+  }
 
-    return data;
+  return data;
 };
 
-// Loan application mail 
+// Loan application mail
 // export const loanApplicationMail =  async (
 
 // )=> {
 
 // }
 
-
-
 // Tax refund mail
-export const taxRefundRequestReceivedMail = async (
-    email,
-    fullName
-) => {
-    const subject = 'Tax Refund Request Received';
+export const taxRefundRequestReceivedMail = async (email, fullName) => {
+  const subject = "Tax Refund Request Received";
 
-    const html = `
+  const html = `
         <div style="
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -519,33 +495,30 @@ export const taxRefundRequestReceivedMail = async (
         </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
-        to: email,
-        subject,
-        html
-    });
+  const { data, error } = await resend.emails.send({
+    from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+    to: email,
+    subject,
+    html,
+  });
 
-    if (error) {
-        throw new Error(
-            `Failed to send tax refund email: ${error.message}`
-        );
-    }
+  if (error) {
+    throw new Error(`Failed to send tax refund email: ${error.message}`);
+  }
 
-    return data;
+  return data;
 };
 
-
-// support ticked received mail 
+// support ticked received mail
 // Send support ticket received mail
 export const supportTicketReceivedMail = async (
-    email,
-    fullName,
-    ticketTitle
+  email,
+  fullName,
+  ticketTitle,
 ) => {
-    const subject = 'Support Ticket Received';
+  const subject = "Support Ticket Received";
 
-    const html = `
+  const html = `
         <div style="
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -608,18 +581,73 @@ export const supportTicketReceivedMail = async (
         </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-        from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
-        to: email,
-        subject,
-        html
-    });
+  const { data, error } = await resend.emails.send({
+    from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+    to: email,
+    subject,
+    html,
+  });
 
-    if (error) {
-        throw new Error(
-            `Failed to send support ticket email: ${error.message}`
-        );
+  if (error) {
+    throw new Error(`Failed to send support ticket email: ${error.message}`);
+  }
+
+  return data;
+};
+
+// Send email
+export const sendEmail = async (data) => {
+  const { recipientType, selectedUsers, greeting, title, message } = data;
+
+  let users = [];
+
+  if (recipientType === "all") {
+    users = await User.find({}, "email firstName lastName");
+  }
+
+  if (recipientType === "selected") {
+    if (!selectedUsers || !selectedUsers.length) {
+      throw new ApiError(400, "Please select at least one user.");
     }
 
-    return data;
+    users = await User.find(
+      {
+        _id: {
+          $in: selectedUsers,
+        },
+      },
+      "email firstName lastName",
+    );
+  }
+
+  if (!users.length) {
+    throw new ApiError(404, "No users found.");
+  }
+
+  const emails = users.map((user) => user.email);
+
+  const html = `
+    <div>
+      <p>${greeting} ${title},</p>
+
+      <p>${message.replace(/\n/g, "<br>")}</p>
+
+      <br>
+
+      <p>Best regards,</p>
+
+      <p>Neon Bank</p>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: process.env.RESEND_FROM_EMAIL,
+    to: emails,
+    subject: title,
+    html,
+  });
+
+  return {
+    recipients: emails.length,
+  };
 };
