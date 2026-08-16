@@ -637,7 +637,7 @@ export const sendEmail = async (data) => {
 
       <p>Best regards,</p>
 
-      <p>Neon Bank</p>
+      <p>Global Merchant Bank.</p>
     </div>
   `;
 
