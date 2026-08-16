@@ -1,5 +1,5 @@
 import * as adminService from "../services/admin.service.js";
-import { sendEmail } from "../services/mail.service.js";
+import * as emailService from "../services/mail.service.js";
 
 // get admin dashboard data
 export const getAdminDashboard = async (req, res, next) => {
@@ -233,7 +233,7 @@ export const creditDebitUser = async (req, res, next) => {
 
 export const sendEmail = async (req, res, next) => {
   try {
-    const result = await sendEmail(req.body);
+    const result = await emailService.sendEmail(req.body);
 
     return res.status(200).json({
       success: true,
