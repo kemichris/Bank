@@ -13,6 +13,7 @@ import { LoanManagment } from "../pages/admin/LoanManagement";
 import { TaxRefund } from "../pages/admin/TaxRefund";
 import { SendEmail } from "../pages/admin/SendEmail";
 import { TransferChargeSetting } from "../pages/admin/TransferChargeSetting";
+import { ChangePassword } from "../pages/admin/ChangePassword";
 
 export const adminRoutes = [
   {
@@ -63,8 +64,12 @@ export const adminRoutes = [
         element: <EditPaymentMethod /> ,
       },
       {
-        path: "/admin/settings/transfer-charge/",
+        path: "/admin/settings/transfer-charge",
         element: <TransferChargeSetting /> ,
+      },
+      {
+        path: "/admin/settings/password",
+        element: <ChangePassword /> ,
       },
       {
         path: "/admin/email",

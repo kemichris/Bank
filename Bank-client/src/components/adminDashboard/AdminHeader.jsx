@@ -6,7 +6,7 @@ import {
   HiOutlineBars3,
   HiOutlineXMark,
   // HiOutlineUser,
-  // HiOutlineQuestionMarkCircle,
+  HiOutlineQuestionMarkCircle,
   HiOutlineArrowRightOnRectangle,
 } from "react-icons/hi2";
 
@@ -223,11 +223,11 @@ export function AdminHeader({
                 </button> */}
 
                 {/* Help */}
-                {/* <button
+                <button
                   type="button"
                   onClick={() => {
                     setProfileOpen(false);
-                    navigate("/admin/change-password");
+                    navigate("/admin/settings/password");
                   }}
                   className="
                                         flex
@@ -258,7 +258,7 @@ export function AdminHeader({
                   </span>
 
                   <span className="font-medium">Change Password</span>
-                </button> */}
+                </button>
               </div>
 
               {/* Sign out */}
