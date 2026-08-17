@@ -6,9 +6,6 @@ import { verifyAccessToken } from '../utils/jwt.utils.js';
 
 // Authentication middleware
 export const protect = async (req, res, next) => {
-    console.log('Allowed roles:', roles);
-
-    console.log('User role:', req.user.role);
     try {
         const authHeader = req.headers.authorization;
 
@@ -25,6 +22,9 @@ export const protect = async (req, res, next) => {
         if (!user) {
             throw new ApiError(401, 'User not found.');
         }
+
+        console.log('Role document:', user.role);
+console.log('Role name:', user.role?.name);
 
         req.user = user;
 
