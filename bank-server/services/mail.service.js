@@ -135,6 +135,7 @@ export const wireTransferPendingMail = async (
   fullName,
   amount,
   transferCharge,
+  tranferChargePercent,
   recipient,
 ) => {
 //   const transferCharge = amount * 0.025;

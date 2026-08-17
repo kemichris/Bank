@@ -493,6 +493,7 @@ export const internationalTransfer = async (
         `${sender.firstName} ${sender.lastName}`,
         amount,
         charge,
+        transferChargePercentage,
         beneficiaryAccountName,
       );
     }
