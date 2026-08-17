@@ -1,39 +1,90 @@
-import express from 'express'
-import {protect, authorize} from '../middlewares/auth.middleware.js';
+import express from 'express';
+import { protect, authorize } from '../middlewares/auth.middleware.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import { cardRequestSchema } from '../validators/card.validator.js';
 import * as cardController from '../controllers/card.controller.js';
-import User from '../models/user.model.js';
 
-
-const router = express.Router()
+const router = express.Router();
 
 // Card request
-router.post('/request', protect, authorize('user'), validate(cardRequestSchema), cardController.cardRequest);
+router.post(
+  '/request',
+  protect,
+  authorize('user'),
+  validate(cardRequestSchema),
+  cardController.cardRequest,
+);
+
+// Get active card
+router.get(
+  '/overview',
+  protect,
+  authorize('user'),
+  cardController.getCardOverview,
+);
 
 // Get cards
-router.get('/', protect, authorize('admin'), cardController.getCards);
-router.get('/:cardId', protect, authorize('admin'), cardController.getCard);
+router.get(
+  '/',
+  protect,
+  authorize('admin'),
+  cardController.getCards,
+);
 
-// approve card request
-router.patch('/approve/:id', protect, authorize('admin', 'manager', 'superadmin'), cardController.approveCardRequest);
+// Get a single card
+router.get(
+  '/:cardId',
+  protect,
+  authorize('admin'),
+  cardController.getCard,
+);
 
-// reject card request
-router.patch('/reject/:id', protect, authorize('admin', 'manager', 'superadmin'), cardController.rejectCardRequest);
+// Approve card request
+router.patch(
+  '/approve/:id',
+  protect,
+  authorize('admin', 'manager', 'superadmin'),
+  cardController.approveCardRequest,
+);
 
-// block card
-router.patch('/block/:id', protect, authorize('user', 'admin', 'manager', 'superadmin'), cardController.blockCard);
+// Reject card request
+router.patch(
+  '/reject/:id',
+  protect,
+  authorize('admin', 'manager', 'superadmin'),
+  cardController.rejectCardRequest,
+);
 
-// block card
-router.patch('/unblock/:id', protect, authorize('user', 'admin', 'manager', 'superadmin'), cardController.unblockCard);
+// Block card
+router.patch(
+  '/block/:id',
+  protect,
+  authorize('user', 'admin', 'manager', 'superadmin'),
+  cardController.blockCard,
+);
 
-// cancel card
-router.patch('/cancel/:id', protect, authorize('user', 'admin', 'manager', 'superadmin'), cardController.cancelCard);
+// Unblock card
+router.patch(
+  '/unblock/:id',
+  protect,
+  authorize('user', 'admin', 'manager', 'superadmin'),
+  cardController.unblockCard,
+);
 
-// Get active card 
-router.get('/overview', protect, cardController.getCardOverview )
+// Cancel card
+router.patch(
+  '/cancel/:id',
+  protect,
+  authorize('user', 'admin', 'manager', 'superadmin'),
+  cardController.cancelCard,
+);
 
-// delete card
-router.delete('/:id', protect, authorize('admin'), cardController.deleteCard);
+// Delete card
+router.delete(
+  '/:id',
+  protect,
+  authorize('admin'),
+  cardController.deleteCard,
+);
 
 export default router;

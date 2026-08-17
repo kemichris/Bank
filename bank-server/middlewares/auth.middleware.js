@@ -23,9 +23,6 @@ export const protect = async (req, res, next) => {
             throw new ApiError(401, 'User not found.');
         }
 
-        console.log('Role document:', user.role);
-console.log('Role name:', user.role?.name);
-
         req.user = user;
 
         next();
