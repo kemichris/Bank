@@ -4,6 +4,7 @@ import Account from "../models/account.model.js";
 import Transaction from "../models/transaction.model.js";
 import User from "../models/user.model.js";
 import PaymentMethod from "../models/paymentMethod.model.js";
+import TransferSetting from "../models/transferSetting.model.js";
 import ApiError from "../utils/apiError.utils.js";
 import { generateTransactionReference } from "../utils/transaction.utils.js";
 import { uploadImage, deleteImage } from "../utils/cloudinary.utils.js";
@@ -395,6 +396,14 @@ export const internationalTransfer = async (
       throw new ApiError(400, "Sender account is not active.");
     }
 
+    const settings = await TransferSetting.findOne().session(session);
+    const transferChargePercentage = settings
+      ? settings.internationalTransferCharge
+      : 0;
+    const charge = Number(
+      (amount * (transferChargePercentage / 100)).toFixed(2),
+    );
+
     // -----------------------------------------
     // 7. Ensure sufficient balance
     // -----------------------------------------
@@ -425,6 +434,8 @@ export const internationalTransfer = async (
       ownerAccount: senderAccount._id,
 
       amount,
+
+      transferCharge: charge,
 
       type: "international_transfer",
 
@@ -481,6 +492,7 @@ export const internationalTransfer = async (
         sender.email,
         `${sender.firstName} ${sender.lastName}`,
         amount,
+        charge,
         beneficiaryAccountName,
       );
     }
@@ -495,6 +507,10 @@ export const internationalTransfer = async (
       reference: transaction.reference,
 
       amount: transaction.amount,
+
+      transferCharge: transaction.transferCharge,
+
+      transferChargePercentage,
 
       currency: senderAccount.currency,
 
@@ -626,25 +642,13 @@ export const getTransactionHistory = async (userId) => {
 // Get Credit transactions for admin
 export const creditTransactions = async () => {
   const transactions = await Transaction.find({
-    direction: 'credit',
+    direction: "credit",
   })
     .sort({ createdAt: -1 })
-    .populate(
-      'owner',
-      'firstName lastName email',
-    )
-    .populate(
-      'ownerAccount',
-      'accountNumber',
-    )
-    .populate(
-      'counterParty',
-      'firstName lastName',
-    )
-    .populate(
-      'counterPartyAccount',
-      'accountNumber',
-    )
+    .populate("owner", "firstName lastName email")
+    .populate("ownerAccount", "accountNumber")
+    .populate("counterParty", "firstName lastName")
+    .populate("counterPartyAccount", "accountNumber")
     .lean();
 
   return transactions;
@@ -653,25 +657,13 @@ export const creditTransactions = async () => {
 // Get Debit transactions for admin
 export const debitTransactions = async () => {
   const transactions = await Transaction.find({
-    direction: 'debit',
+    direction: "debit",
   })
     .sort({ createdAt: -1 })
-    .populate(
-      'owner',
-      'firstName lastName email',
-    )
-    .populate(
-      'ownerAccount',
-      'accountNumber',
-    )
-    .populate(
-      'counterParty',
-      'firstName lastName',
-    )
-    .populate(
-      'counterPartyAccount',
-      'accountNumber',
-    )
+    .populate("owner", "firstName lastName email")
+    .populate("ownerAccount", "accountNumber")
+    .populate("counterParty", "firstName lastName")
+    .populate("counterPartyAccount", "accountNumber")
     .lean();
 
   return transactions;
