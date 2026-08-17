@@ -21,7 +21,7 @@ router.use('/tax', taxRefundRoutes);
 router.use('/support', supportRoutes);
 router.use('/admin', adminRoutes)
 router.use('/payment-method', paymentmethodRoutes)
-router.use('/transfer-settings', paymentmethodRoutes)
+router.use('/transfer-settings', transferSettingRoutes)
 
 
 
