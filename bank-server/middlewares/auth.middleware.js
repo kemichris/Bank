@@ -6,6 +6,9 @@ import { verifyAccessToken } from '../utils/jwt.utils.js';
 
 // Authentication middleware
 export const protect = async (req, res, next) => {
+    console.log('Allowed roles:', roles);
+
+    console.log('User role:', req.user.role);
     try {
         const authHeader = req.headers.authorization;
 
