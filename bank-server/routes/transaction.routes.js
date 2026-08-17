@@ -31,8 +31,7 @@ router.post(
   transferFunds,
 );
 
-// confirm transfer recipient
-router.get("/recipient", protect, authorize("user"), getTransferRecipient);
+
 
 // international transfer
 router.post(
@@ -51,6 +50,9 @@ router.post(
   validate(depositSchema),
   depositFunds,
 );
+
+// confirm transfer recipient
+router.get("/recipient", protect, authorize("user"), getTransferRecipient);
 
 // Get transaction history
 router.get("/history", protect, authorize("user"), getTransactionHistory);

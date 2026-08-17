@@ -8,6 +8,7 @@ import taxRefundRoutes from './taxRefund.routes.js'
 import supportRoutes from './support.routes.js'
 import adminRoutes from './admin.routes.js'
 import paymentmethodRoutes from './paymentMethod.routes.js'
+import transferSettingRoutes from './transferSetting.routes.js'
 
 const router = express.Router();
 
@@ -20,6 +21,7 @@ router.use('/tax', taxRefundRoutes);
 router.use('/support', supportRoutes);
 router.use('/admin', adminRoutes)
 router.use('/payment-method', paymentmethodRoutes)
+router.use('/transfer-settings', paymentmethodRoutes)
 
 
 
