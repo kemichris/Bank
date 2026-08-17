@@ -226,6 +226,111 @@ export const wireTransferPendingMail = async (
   return data;
 };
 
+// Wire transfer approved mail
+export const wireTransferApprovedMail = async (
+  email,
+  fullName,
+  amount,
+  transferCharge,
+  transferChargePercent,
+  recipient,
+) => {
+  const subject =
+    'Wire Transfer Approved';
+
+  const html = `
+    <div style="
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+    ">
+
+      <p>
+        Hi ${fullName},
+      </p>
+
+      <p>
+        Your wire transfer request has been
+        approved and is now being processed.
+      </p>
+
+      <div style="
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 20px 0;
+      ">
+
+        <p style="margin: 0 0 10px 0;">
+          <strong>Transfer Amount:</strong>
+          $${Number(amount).toFixed(2)}
+        </p>
+
+        <p style="margin: 0 0 10px 0;">
+          <strong>Transfer Charge (${transferChargePercent}%):</strong>
+          $${Number(transferCharge).toFixed(2)}
+        </p>
+
+        <p style="margin: 0 0 10px 0;">
+          <strong>Recipient:</strong>
+          ${recipient}
+        </p>
+
+        <p style="margin: 0;">
+          <strong>Status:</strong>
+          Approved
+        </p>
+
+      </div>
+
+      <p>
+        Your transfer is currently being
+        processed. Funds will be delivered
+        according to standard international
+        banking procedures.
+      </p>
+
+      <p>
+        Thank you for choosing
+        <strong>Global Merchant Bank</strong>.
+      </p>
+
+      <hr style="
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 25px 0;
+      ">
+
+      <p style="
+        font-size: 12px;
+        color: #777;
+      ">
+        This is an automated email.
+        Please do not reply to this message.
+      </p>
+
+    </div>
+  `;
+
+  const { data, error } =
+    await resend.emails.send({
+      from: `Global Merchant Bank <${process.env.MAIL_FROM}>`,
+      to: email,
+      subject,
+      html,
+    });
+
+  if (error) {
+    throw new Error(
+      `Failed to send approval email: ${error.message}`,
+    );
+  }
+
+  return data;
+};
+
 // local transfer sent mail
 export const localTransferSentMail = async (
   email,

@@ -72,6 +72,11 @@ const transactionSchema = new mongoose.Schema(
       default: 0,
     },
 
+    transferChargePercentage: {
+      type: Number,
+      default: 0
+    },
+
     reference: {
       type: String,
       required: true,

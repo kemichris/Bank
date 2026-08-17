@@ -11,6 +11,7 @@ import { uploadImage, deleteImage } from "../utils/cloudinary.utils.js";
 import { comparePassword } from "../utils/password.utils.js";
 import {
   wireTransferPendingMail,
+  wireTransferApprovedMail,
   localTransferSentMail,
   localTransferReceivedMail,
 } from "./mail.service.js";
@@ -436,6 +437,7 @@ export const internationalTransfer = async (
       amount,
 
       transferCharge: charge,
+      transferChargePercentage,
 
       type: "international_transfer",
 
@@ -684,6 +686,14 @@ export const confirmTransaction = async (transactionId) => {
       throw new ApiError(404, "Transaction not found.");
     }
 
+    const sender = await User.findById(transaction.owner)
+      .select("firstName lastName email")
+      .session(session);
+
+    if (!sender) {
+      throw new ApiError(404, "User not found.");
+    }
+
     if (transaction.status !== "pending") {
       throw new ApiError(400, "Only pending transactions can be confirmed.");
     }
@@ -712,6 +722,16 @@ export const confirmTransaction = async (transactionId) => {
 
     await session.commitTransaction();
 
+    if (transaction.type === "international_transfer") {
+      await wireTransferApprovedMail(
+        sender.email,
+        `${sender.firstName} ${sender.lastName}`,
+        transaction.amount,
+        transaction.transferCharge,
+        transaction.transferChargePercentage,
+        transaction.internationalDetails?.beneficiaryAccountName,
+      );
+    }
     return transaction;
   } catch (error) {
     if (session.inTransaction()) {
