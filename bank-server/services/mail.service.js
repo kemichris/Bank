@@ -136,7 +136,7 @@ export const wireTransferPendingMail = async (
   amount,
   recipient,
 ) => {
-  const transferCharge = amount * 0.01875;
+  const transferCharge = amount * 0.025;
 
   const subject = "Wire Transfer Pending Approval";
 
@@ -172,7 +172,7 @@ export const wireTransferPendingMail = async (
         </p>
 
         <p style="margin: 0 0 10px 0;">
-          <strong>Transfer Charge (1.875%):</strong>
+          <strong>Transfer Charge (2.5%):</strong>
           $${transferCharge.toFixed(2)}
         </p>
 
