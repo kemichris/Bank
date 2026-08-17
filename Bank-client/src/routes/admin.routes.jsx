@@ -12,6 +12,7 @@ import { CardsService } from "../pages/admin/CardsService";
 import { LoanManagment } from "../pages/admin/LoanManagement";
 import { TaxRefund } from "../pages/admin/TaxRefund";
 import { SendEmail } from "../pages/admin/SendEmail";
+import { TransferChargeSetting } from "../pages/admin/TransferChargeSetting";
 
 export const adminRoutes = [
   {
@@ -42,6 +43,14 @@ export const adminRoutes = [
         element: <ManageDebits />,
       },
       {
+        path: "/admin/loans",
+        element: <LoanManagment /> ,
+      },
+      {
+        path: "/admin/tax-refund",
+        element: <TaxRefund /> ,
+      },
+      {
         path: "/admin/settings/payment",
         element: <PaymentSetting />,
       },
@@ -54,12 +63,8 @@ export const adminRoutes = [
         element: <EditPaymentMethod /> ,
       },
       {
-        path: "/admin/loans",
-        element: <LoanManagment /> ,
-      },
-      {
-        path: "/admin/tax-refund",
-        element: <TaxRefund /> ,
+        path: "/admin/settings/transfer-charge/",
+        element: <TransferChargeSetting /> ,
       },
       {
         path: "/admin/email",

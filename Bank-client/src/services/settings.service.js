@@ -1,34 +1,32 @@
-import api from '../utils/axios';
+import api from "../utils/axios";
 
 export const profileData = async () => {
-    const { data } = await api.get('/user/profile');
-    return data;
+  const { data } = await api.get("/user/profile");
+  return data;
 };
 
-export const changePassword = async passwordData => {
-    const { data } = await api.put(
-        '/user/change-password',
-        passwordData
-    );
+export const changePassword = async (passwordData) => {
+  const { data } = await api.put("/user/change-password", passwordData);
 
-    return data;
+  return data;
 };
 
-export const changePin = async pinData => {
-    const { data } = await api.put(
-        '/user/change-pin',
-        pinData
-    );
+export const changePin = async (pinData) => {
+  const { data } = await api.put("/user/change-pin", pinData);
 
-    return data;
+  return data;
 };
 
 // upate profile photo
-export const profileImgUpdate = async formData => {
-    const { data } = await api.put(
-        '/user/profile-image',
-        formData
-    );
+export const profileImgUpdate = async (formData) => {
+  const { data } = await api.put("/user/profile-image", formData);
 
-    return data;
+  return data;
+};
+
+// transfer charge setting
+export const updateTransferCharge = async (charge) => {
+  const {data } = await api.patch("/transfer-settings/charge", charge);
+
+  return data;
 };

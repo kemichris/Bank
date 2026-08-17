@@ -5,7 +5,8 @@ import {
   FaUserAlt,
   FaUniversity,
   FaFileInvoice,
-  FaEnvelope
+  FaEnvelope,
+  FaMoneyBill
 } from 'react-icons/fa';
 
 import { LuSettings2 } from "react-icons/lu";
@@ -75,6 +76,11 @@ export const adminSidebarData = [
         name: 'Payment Settings',
         icon: LuSettings2,
         path: '/admin/settings/payment'
+      },
+      {
+        name: 'Transfer Charge',
+        icon: FaMoneyBill,
+        path: '/admin/settings/transfer-charge'
       }
     ]
   },
