@@ -31,7 +31,7 @@ router.patch('/unblock/:id', protect, authorize('user', 'admin', 'manager', 'sup
 router.patch('/cancel/:id', protect, authorize('user', 'admin', 'manager', 'superadmin'), cardController.cancelCard);
 
 // Get active card 
-router.get('/overview', protect, authorize('user'), cardController.getCardOverview )
+router.get('/overview', protect, cardController.getCardOverview )
 
 // delete card
 router.delete('/:id', protect, authorize('admin'), cardController.deleteCard);
