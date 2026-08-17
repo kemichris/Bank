@@ -20,7 +20,7 @@ export const updateTransferCharge = async (internationalTransferCharge) => {
       internationalTransferCharge: charge,
     },
     {
-      new: true,
+      returnDocument: 'after',
       upsert: true,
     },
   );
